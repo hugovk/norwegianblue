@@ -3,13 +3,13 @@ repos:
     rev: v2.14.0
     hooks:
       - id: pyupgrade
-        args: ["--py36-plus"]
+        args: ["--py39-plus"]
 
   - repo: https://github.com/psf/black
     rev: 21.5b0
     hooks:
       - id: black
-        args: ["--target-version", "py36"]
+        args: ["--target-version", "py39"]
         # override until resolved: https://github.com/psf/black/issues/402
         files: \.pyi?$
         types: []
@@ -42,6 +42,7 @@ repos:
     rev: v1.17.0
     hooks:
       - id: setup-cfg-fmt
+        args: [--min-py3-version=3.9]
 
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v2.2.1

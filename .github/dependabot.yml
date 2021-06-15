@@ -9,10 +9,6 @@ updates:
     labels:
       - "changelog: skip"
       - dependencies
-    ignore:
-      - dependency-name: respx
-        versions:
-          - 0.17.0
   - package-ecosystem: github-actions
     directory: "/"
     schedule:

@@ -1,301 +1,114 @@
-# pypistats
+# norwegianblue
 
-[![PyPI version](https://img.shields.io/pypi/v/pypistats.svg?logo=pypi&logoColor=FFE873)](https://pypi.org/project/pypistats/)
-[![Supported Python versions](https://img.shields.io/pypi/pyversions/pypistats.svg?logo=python&logoColor=FFE873)](https://pypi.org/project/pypistats/)
-[![PyPI downloads](https://img.shields.io/pypi/dm/pypistats.svg)](https://pypistats.org/packages/pypistats)
-[![Azure Pipelines status](https://dev.azure.com/hugovk/hugovk/_apis/build/status/hugovk.pypistats?branchName=master)](https://dev.azure.com/hugovk/hugovk/_build?definitionId=1)
-[![GitHub Actions status](https://github.com/hugovk/pypistats/workflows/Test/badge.svg)](https://github.com/hugovk/pypistats/actions)
-[![codecov](https://codecov.io/gh/hugovk/pypistats/branch/master/graph/badge.svg)](https://codecov.io/gh/hugovk/pypistats)
-[![GitHub](https://img.shields.io/github/license/hugovk/pypistats.svg)](LICENSE.txt)
-[![DOI](https://zenodo.org/badge/149862343.svg)](https://zenodo.org/badge/latestdoi/149862343)
-[![Code style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![PyPI version](https://img.shields.io/pypi/v/norwegianblue.svg?logo=pypi&logoColor=FFE873)](https://pypi.org/project/norwegianblue/)
+[![Supported Python versions](https://img.shields.io/pypi/pyversions/norwegianblue.svg?logo=python&logoColor=FFE873)](https://pypi.org/project/norwegianblue/)
+[![PyPI downloads](https://img.shields.io/pypi/dm/norwegianblue.svg)](https://pypistats.org/packages/norwegianblue)
+[![Test](https://github.com/hugovk/norwegianblue/actions/workflows/test.yml/badge.svg)](https://github.com/hugovk/norwegianblue/actions)
+[![codecov](https://codecov.io/gh/hugovk/norwegianblue/branch/main/graph/badge.svg)](https://codecov.io/gh/hugovk/norwegianblue)
+[![GitHub](https://img.shields.io/github/license/hugovk/norwegianblue.svg)](LICENSE.txt)
+[![Code style: Black](https://img.shields.io/badge/code%20style-Black-000000.svg)](https://github.com/psf/black)
 
-Python 3.6+ interface to [PyPI Stats API](https://pypistats.org/api) to get aggregate
-download statistics on Python packages on the Python Package Index without having to
-execute queries directly against Google BigQuery.
-
-Data is available for the [last 180 days](https://pypistats.org/about#data). (For longer
-time periods, [pypinfo](https://github.com/ofek/pypinfo) can help, you'll need an API
-key and get free quota.)
+Python 3.9+ interface to [endoflife.date](https://endoflife.date/docs/api/) to show
+end-of-life dates for tools and technologies.
 
 ## Installation
 
 ### From PyPI
 
 ```bash
-pip install --upgrade pypistats
+python -m pip install --upgrade norwegianblue
 ```
 
 ### From source
 
 ```bash
-git clone https://github.com/hugovk/pypistats
-cd pypistats
+git clone https://github.com/hugovk/norwegianblue
+cd norwegianblue
 pip install .
 ```
 
 ## Example command-line use
 
-Run `pypistats` with a subcommand (corresponding to
-[PyPI Stats endpoints](https://pypistats.org/api/#endpoints)), then options for that
-subcommand.
+Run `norwegianblue` or `eol`, they do the same thing.
 
 Top-level help:
 
 ```console
-$ pypistats --help
-usage: pypistats [-h] [-V] {recent,overall,python_major,python_minor,system} ...
+usage: norwegianblue [-h] [-t TOOL] [-f {html,json,markdown,rst,tsv}] [-c {yes,no}] [-v] [-V]
+
+CLI to show end-of-life dates for tools and technologies.
 
 positional arguments:
-  {recent,overall,python_major,python_minor,system}
+  tool                  Tool to check (default: python)
 
 optional arguments:
   -h, --help            show this help message and exit
+  -f {html,json,markdown,rst,tsv}, --format {html,json,markdown,rst,tsv}
+                        The format of output (default: markdown)
+  -c {yes,no}, --color {yes,no}
+                        color terminal output (default: yes)
+  -v, --verbose         Print debug messages to stderr (default: False)
   -V, --version         show program's version number and exit
 ```
 
-Help for a subcommand:
+Show end-of-life dates:
 
 ```console
-$ pypistats recent --help
-usage: pypistats recent [-h] [-p {day,week,month}] [-f {html,json,markdown,rst,tsv}] [-j] [-v] package
-
-Retrieve the aggregate download quantities for the last day/week/month
-
-positional arguments:
-  package
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -p {day,week,month}, --period {day,week,month}
-  -f {html,json,markdown,rst,tsv}, --format {html,json,markdown,rst,tsv}
-                        The format of output (default: markdown)
-  -j, --json            Shortcut for "-f json" (default: False)
-  -v, --verbose         Print debug messages to stderr (default: False)
-```
-
-Get recent downloads:
-
-```console
-$ pypistats recent pillow
-| last_day  | last_month | last_week |
-| --------: | ---------: | --------: |
-| 1,083,451 | 30,750,398 | 7,088,038 |
-```
-
-Help for another subcommand:
-
-```console
-$ pypistats python_minor --help
-usage: pypistats python_minor [-h] [-V VERSION]
-                              [-f {html,json,markdown,rst,tsv}] [-j]
-                              [-sd yyyy-mm[-dd]|name] [-ed yyyy-mm[-dd]|name]
-                              [-m yyyy-mm|name] [-l] [-t] [-d] [--monthly]
-                              [-v]
-                              package
-
-Retrieve the aggregate daily download time series by Python minor version
-number
-
-positional arguments:
-  package
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -V VERSION, --version VERSION
-                        eg. 2.7 or 3.6 (default: None)
-  -f {html,json,markdown,rst,tsv}, --format {html,json,markdown,rst,tsv}
-                        The format of output (default: markdown)
-  -j, --json            Shortcut for "-f json" (default: False)
-  -sd yyyy-mm[-dd]|name, --start-date yyyy-mm[-dd]|name
-                        Start date (default: None)
-  -ed yyyy-mm[-dd]|name, --end-date yyyy-mm[-dd]|name
-                        End date (default: None)
-  -m yyyy-mm|name, --month yyyy-mm|name
-                        Shortcut for -sd & -ed for a single month (default:
-                        None)
-  -l, --last-month      Shortcut for -sd & -ed for last month (default: False)
-  -t, --this-month      Shortcut for -sd for this month (default: False)
-  -d, --daily           Show daily downloads (default: False)
-  --monthly             Show monthly downloads (default: False)
-  -v, --verbose         Print debug messages to stderr (default: False)
-```
-
-Get version downloads:
-
-```console
-$ pypistats python_minor pillow --last-month
-| category | percent | downloads  |
-| -------- | ------: | ---------: |
-| 3.7      |  35.93% | 11,002,680 |
-| 3.6      |  33.00% | 10,107,822 |
-| 3.8      |  15.04% |  4,605,236 |
-| 3.9      |   5.03% |  1,540,571 |
-| 3.5      |   4.73% |  1,449,591 |
-| null     |   3.39% |  1,037,124 |
-| 2.7      |   2.84% |    870,677 |
-| 3.4      |   0.03% |     10,055 |
-| 3.10     |   0.01% |      2,863 |
-| 2.6      |   0.00% |         58 |
-| 3.3      |   0.00% |         44 |
-| 3.2      |   0.00% |         39 |
-| Total    |         | 30,626,760 |
-
-Date range: 2021-04-01 - 2021-04-30
+$ norwegianblue
+| cycle | latest |  release   |    eol     |                                 link                                 |
+| ----- | ------ | ---------- | ---------- | -------------------------------------------------------------------- |
+| 3.9   | 3.9.5  | 2020-10-05 | 2025-10-05 | https://www.python.org/downloads/release/python-395/                 |
+| 3.8   | 3.8.10 | 2019-10-14 | 2024-10-14 | https://www.python.org/downloads/release/python-3810/                |
+| 3.7   | 3.7.10 | 2018-06-27 | 2023-06-27 | https://www.python.org/downloads/release/python-3710/                |
+| 3.6   | 3.6.13 | 2016-12-23 | 2021-12-23 | https://www.python.org/downloads/release/python-3613/                |
+| 3.5   | 3.5.10 | 2015-09-30 | 2020-09-13 | https://www.python.org/downloads/release/python-3510/                |
+| 3.4   | 3.4.10 | 2014-03-16 | 2019-03-18 | https://www.python.org/downloads/release/python-3410/                |
+| 3.3   | 3.3.7  | 2012-09-29 | 2017-09-29 | https://www.python.org/downloads/release/python-337/                 |
+| 2.7   | 2.7.18 | 2010-07-03 | 2020-01-01 | https://github.com/python/cpython/blob/2.7/Misc/NEWS.d/2.7.18rc1.rst |
 ```
 
 The table is Markdown, ready for pasting in GitHub issues and PRs:
 
-| category | percent |  downloads |
-| -------- | ------: | ---------: |
-| 3.7      |  35.93% | 11,002,680 |
-| 3.6      |  33.00% | 10,107,822 |
-| 3.8      |  15.04% |  4,605,236 |
-| 3.9      |   5.03% |  1,540,571 |
-| 3.5      |   4.73% |  1,449,591 |
-| null     |   3.39% |  1,037,124 |
-| 2.7      |   2.84% |    870,677 |
-| 3.4      |   0.03% |     10,055 |
-| 3.10     |   0.01% |      2,863 |
-| 2.6      |   0.00% |         58 |
-| 3.3      |   0.00% |         44 |
-| 3.2      |   0.00% |         39 |
-| Total    |         | 30,626,760 |
+| cycle | latest | release    | eol        | link                                                                 |
+| ----- | ------ | ---------- | ---------- | -------------------------------------------------------------------- |
+| 3.9   | 3.9.5  | 2020-10-05 | 2025-10-05 | https://www.python.org/downloads/release/python-395/                 |
+| 3.8   | 3.8.10 | 2019-10-14 | 2024-10-14 | https://www.python.org/downloads/release/python-3810/                |
+| 3.7   | 3.7.10 | 2018-06-27 | 2023-06-27 | https://www.python.org/downloads/release/python-3710/                |
+| 3.6   | 3.6.13 | 2016-12-23 | 2021-12-23 | https://www.python.org/downloads/release/python-3613/                |
+| 3.5   | 3.5.10 | 2015-09-30 | 2020-09-13 | https://www.python.org/downloads/release/python-3510/                |
+| 3.4   | 3.4.10 | 2014-03-16 | 2019-03-18 | https://www.python.org/downloads/release/python-3410/                |
+| 3.3   | 3.3.7  | 2012-09-29 | 2017-09-29 | https://www.python.org/downloads/release/python-337/                 |
+| 2.7   | 2.7.18 | 2010-07-03 | 2020-01-01 | https://github.com/python/cpython/blob/2.7/Misc/NEWS.d/2.7.18rc1.rst |
 
-These are equivalent (in May 2019):
+With options:
 
-```sh
-pypistats python_major pip --last-month
-pypistats python_major pip --month april
-pypistats python_major pip --month apr
-pypistats python_major pip --month 2019-04
-```
+```console
+$ eol ubuntu --format rst
+.. table::
 
-And:
-
-```sh
-pypistats python_major pip --start-date december --end-date january
-pypistats python_major pip --start-date dec      --end-date jan
-pypistats python_major pip --start-date 2018-12  --end-date 2019-01
+    ===========  =========  ============  ============  ============  ================  =====================================================
+       cycle      latest      release       support         eol        cycleShortHand                           link
+    ===========  =========  ============  ============  ============  ================  =====================================================
+     21.04 LTS      21.04    2021-04-22    2022-01-01    2022-01-01    HirsuteHippo      https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/
+     20.10 LTS      20.10    2020-10-22    2021-07-07    2021-07-07    GroovyGorilla     https://wiki.ubuntu.com/GroovyGorilla/ReleaseNotes/
+     20.04 LTS    20.04.2    2020-04-23    2022-10-01    2025-04-02    FocalFossa
+     19.10          19.10    2019-10-17    2020-07-06    2020-07-06
+     18.04 LTS    18.04.5    2018-04-26    2020-09-30    2023-04-02    BionicBeaver
+     16.04 LTS    16.04.7    2016-04-21    2018-10-01    2021-04-02    XenialXerus
+     14.04 LTS    14.04.6    2014-04-17    2016-09-30    2019-04-02    TrustyTahr
+    ===========  =========  ============  ============  ============  ================  =====================================================
 ```
 
 ## Example programmatic use
 
 Return values are from the JSON responses documented in the API:
-https://pypistats.org/api/
+https://endoflife.date/docs/api/
 
 ```python
-import pypistats
-from pprint import pprint
+import norwegianblue
 
 # Call the API
-print(pypistats.recent("pillow"))
-print(pypistats.recent("pillow", "day", format="markdown"))
-print(pypistats.recent("pillow", "week", format="rst"))
-print(pypistats.recent("pillow", "month", format="html"))
-pprint(pypistats.recent("pillow", "week", format="json"))
-print(pypistats.recent("pillow", "day"))
-
-print(pypistats.overall("pillow"))
-print(pypistats.overall("pillow", mirrors=True, format="markdown"))
-print(pypistats.overall("pillow", mirrors=False, format="rst"))
-print(pypistats.overall("pillow", mirrors=True, format="html"))
-pprint(pypistats.overall("pillow", mirrors=False, format="json"))
-
-print(pypistats.python_major("pillow"))
-print(pypistats.python_major("pillow", version=2, format="markdown"))
-print(pypistats.python_major("pillow", version=3, format="rst"))
-print(pypistats.python_major("pillow", version="2", format="html"))
-pprint(pypistats.python_major("pillow", version="3", format="json"))
-
-print(pypistats.python_minor("pillow"))
-print(pypistats.python_minor("pillow", version=2.7, format="markdown"))
-print(pypistats.python_minor("pillow", version="2.7", format="rst"))
-print(pypistats.python_minor("pillow", version=3.7, format="html"))
-pprint(pypistats.python_minor("pillow", version="3.7", format="json"))
-
-print(pypistats.system("pillow"))
-print(pypistats.system("pillow", os="darwin", format="markdown"))
-print(pypistats.system("pillow", os="linux", format="rst"))
-print(pypistats.system("pillow", os="darwin", format="html"))
-pprint(pypistats.system("pillow", os="linux", format="json"))
+print(norwegianblue.norwegianblue())
+print(norwegianblue.norwegianblue(tool="ubuntu"))
+print(norwegianblue.norwegianblue(format="json"))
 ```
-
-### NumPy and pandas
-
-To use with either NumPy or pandas, make sure they are first installed, or:
-
-```bash
-pip install --upgrade "pypistats[numpy]"
-pip install --upgrade "pypistats[pandas]"
-pip install --upgrade "pypistats[numpy,pandas]"
-```
-
-Return data in a NumPy array for further processing:
-
-```python
-import pypistats
-numpy_array = pypistats.overall("pyvista", total=True, format="numpy")
-print(type(numpy_array))
-# <class 'numpy.ndarray'>
-print(numpy_array)
-# [['with_mirrors' '2019-09-20' '2.23%' 1204]
-#  ['without_mirrors' '2019-09-20' '2.08%' 1122]
-#  ['with_mirrors' '2019-09-19' '0.92%' 496]
-#  ...
-#  ['with_mirrors' '2019-10-26' '0.02%' 13]
-#  ['without_mirrors' '2019-10-26' '0.02%' 12]
-#  ['Total' None None 54041]]
-```
-
-Or in a pandas DataFrame:
-
-```python
-import pypistats
-pandas_dataframe = pypistats.overall("pyvista", total=True, format="pandas")
-print(type(pandas_dataframe))
-# <class 'pandas.core.frame.DataFrame'>
-print(pandas_dataframe)
-#             category        date percent  downloads
-# 0       with_mirrors  2019-09-20   2.23%       1204
-# 1    without_mirrors  2019-09-20   2.08%       1122
-# 2       with_mirrors  2019-09-19   0.92%        496
-# 3       with_mirrors  2019-08-22   0.90%        489
-# 4    without_mirrors  2019-09-19   0.86%        466
-# ..               ...         ...     ...        ...
-# 354  without_mirrors  2019-11-03   0.03%         15
-# 355  without_mirrors  2019-11-16   0.03%         15
-# 356     with_mirrors  2019-10-26   0.02%         13
-# 357  without_mirrors  2019-10-26   0.02%         12
-# 358            Total        None    None      54041
-#
-# [359 rows x 4 columns]
-```
-
-For example, create charts with pandas:
-
-```python
-# Show overall downloads over time, excluding mirrors
-import pypistats
-data = pypistats.overall("pillow", total=True, format="pandas")
-data = data.groupby("category").get_group("without_mirrors").sort_values("date")
-
-chart = data.plot(x="date", y="downloads", figsize=(10, 2))
-chart.figure.show()
-chart.figure.savefig("overall.png")  # alternatively
-```
-
-![overall.png](example/overall.png)
-
-```python
-# Show Python 3 downloads over time
-import pypistats
-data = pypistats.python_major("pillow", total=True, format="pandas")
-data = data.groupby("category").get_group(3).sort_values("date")
-
-chart = data.plot(x="date", y="downloads", figsize=(10, 2))
-chart.figure.show()
-chart.figure.savefig("python3.png")  # alternatively
-```
-
-![python3.png](example/python3.png)

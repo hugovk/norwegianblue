@@ -3,14 +3,14 @@ name: Deploy
 on:
   push:
     branches:
-      - master
+      - main
   release:
     types:
       - published
 
 jobs:
   build:
-    if: github.repository == 'hugovk/pypistats'
+    if: github.repository == 'hugovk/norwegianblue'
     runs-on: ubuntu-20.04
 
     steps:

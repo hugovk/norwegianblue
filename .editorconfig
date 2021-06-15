@@ -13,7 +13,7 @@ indent_size = 4
 indent_style = space
 trim_trailing_whitespace = true
 
-[expected_tabulated.py]
+[expected_output.py]
 trim_trailing_whitespace = false
 
 # Two-space indentation
