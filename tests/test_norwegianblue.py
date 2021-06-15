@@ -198,3 +198,23 @@ class TestNorwegianBlue:
 
         # Assert
         assert output == expected
+
+    def test__colourify_boolean_eol(self):
+        # Arrange
+        data = [
+            {"cycle": "1.15", "release": "2020-08-11", "eol": False},
+            {"cycle": "1.14", "release": "2020-02-25", "eol": True},
+        ]
+        expected = [
+            # green
+            {"cycle": "1.15", "release": "2020-08-11", "eol": "\x1b[32mFalse\x1b[0m"},
+            # red
+            {"cycle": "1.14", "release": "2020-02-25", "eol": "\x1b[31mTrue\x1b[0m"},
+        ]
+
+        # Act
+        output = norwegianblue._colourify(data)
+        print(output)
+
+        # Assert
+        assert output == expected

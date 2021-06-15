@@ -166,6 +166,14 @@ def _colourify(data: list[dict]) -> list[dict]:
         for property_ in ("support", "eol"):
             if property_ not in cycle:
                 continue
+
+            if isinstance(cycle[property_], bool):
+                if property_ == "eol" and cycle["eol"]:
+                    cycle["eol"] = colored(cycle["eol"], "red")
+                else:
+                    cycle["eol"] = colored(cycle["eol"], "green")
+                continue
+
             date_str = cycle[property_]
             # Convert "2020-01-01" string to datetime
             date_datetime = dt.datetime.strptime(date_str, "%Y-%m-%d")
