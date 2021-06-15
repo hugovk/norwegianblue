@@ -163,18 +163,26 @@ def _colourify(data: list[dict]) -> list[dict]:
     six_months_from_now = now + relativedelta(months=+6)
 
     for cycle in data:
-        for property in ("support", "eol"):
-            if property not in cycle:
+        for property_ in ("support", "eol"):
+            if property_ not in cycle:
                 continue
-            date_str = cycle[property]
+
+            if isinstance(cycle[property_], bool):
+                if property_ == "eol" and cycle["eol"]:
+                    cycle["eol"] = colored(cycle["eol"], "red")
+                else:
+                    cycle["eol"] = colored(cycle["eol"], "green")
+                continue
+
+            date_str = cycle[property_]
             # Convert "2020-01-01" string to datetime
             date_datetime = dt.datetime.strptime(date_str, "%Y-%m-%d")
             if date_datetime < now:
-                cycle[property] = colored(date_str, "red")
+                cycle[property_] = colored(date_str, "red")
             elif date_datetime < six_months_from_now:
-                cycle[property] = colored(date_str, "yellow")
+                cycle[property_] = colored(date_str, "yellow")
             else:
-                cycle[property] = colored(date_str, "green")
+                cycle[property_] = colored(date_str, "green")
     return data
 
 
