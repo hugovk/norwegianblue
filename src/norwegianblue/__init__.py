@@ -163,17 +163,20 @@ def _colourify(data: list[dict]) -> list[dict]:
     six_months_from_now = now + relativedelta(months=+6)
 
     for cycle in data:
-        for property_ in ("support", "eol"):
+        for property_ in ("support", "eol", "discontinued"):
             if property_ not in cycle:
                 continue
 
+            # Handle Boolean
             if isinstance(cycle[property_], bool):
-                if property_ == "eol" and cycle["eol"]:
-                    cycle["eol"] = colored(cycle["eol"], "red")
-                else:
-                    cycle["eol"] = colored(cycle["eol"], "green")
+                if property_ == "support":
+                    colour = "green" if cycle["support"] else "red"
+                else:  # "eol" and "discontinued"
+                    colour = "red" if cycle[property_] else "green"
+                cycle[property_] = colored(cycle[property_], colour)
                 continue
 
+            # Handle date
             date_str = cycle[property_]
             # Convert "2020-01-01" string to datetime
             date_datetime = dt.datetime.strptime(date_str, "%Y-%m-%d")
@@ -204,7 +207,7 @@ def _tabulate(data: list[dict], format: str = "markdown") -> str:
     writer.value_matrix = data
 
     # Put headers in preferred order, with the rest at the end
-    preferred_order = ["cycle", "latest", "release", "support", "eol"]
+    preferred_order = ["cycle", "latest", "release", "support", "discontinued", "eol"]
     new_headers = []
     for preferred in preferred_order:
         if preferred in headers:

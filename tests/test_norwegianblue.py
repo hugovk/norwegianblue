@@ -199,6 +199,49 @@ class TestNorwegianBlue:
         # Assert
         assert output == expected
 
+    def test__colourify_boolean_support(self):
+        # Arrange
+        data = [
+            {
+                "cycle": "5.x",
+                "eol": False,
+                "support": True,
+            },
+            {
+                "cycle": "4.x",
+                "eol": "2022-11-01",
+                "support": False,
+            },
+            {
+                "cycle": "3.x",
+                "eol": "2019-07-24",
+                "support": False,
+            },
+        ]
+        expected = [
+            {
+                "cycle": "5.x",
+                "eol": "\x1b[32mFalse\x1b[0m",  # green
+                "support": "\x1b[32mTrue\x1b[0m",  # green
+            },
+            {
+                "cycle": "4.x",
+                "eol": "\x1b[32m2022-11-01\x1b[0m",  # green
+                "support": "\x1b[31mFalse\x1b[0m",  # red
+            },
+            {
+                "cycle": "3.x",
+                "eol": "\x1b[31m2019-07-24\x1b[0m",  # red
+                "support": "\x1b[31mFalse\x1b[0m",  # red
+            },
+        ]
+
+        # Act
+        output = norwegianblue._colourify(data)
+
+        # Assert
+        assert output == expected
+
     def test__colourify_boolean_eol(self):
         # Arrange
         data = [
@@ -210,6 +253,80 @@ class TestNorwegianBlue:
             {"cycle": "1.15", "release": "2020-08-11", "eol": "\x1b[32mFalse\x1b[0m"},
             # red
             {"cycle": "1.14", "release": "2020-02-25", "eol": "\x1b[31mTrue\x1b[0m"},
+        ]
+
+        # Act
+        output = norwegianblue._colourify(data)
+
+        # Assert
+        assert output == expected
+
+    def test__colourify_boolean_discontinued(self):
+        # Arrange
+        data = [
+            {
+                "cycle": "iPhone 5C",
+                "discontinued": "2025-09-09",
+                "eol": True,
+            },
+            {
+                "cycle": "iPhone 5S",
+                "discontinued": "2016-03-21",
+                "eol": True,
+            },
+            {
+                "cycle": "iPhone 6S / 6S Plus",
+                "discontinued": "2018-09-12",
+                "eol": False,
+            },
+            {
+                "cycle": "iPhone XR",
+                "discontinued": False,
+                "eol": False,
+            },
+            {
+                "cycle": "iPhone 11 Pro / 11 Pro Max",
+                "discontinued": "2020-10-13",
+                "eol": False,
+            },
+            {
+                "cycle": "iPhone 12 Mini / 12 Pro Max",
+                "discontinued": True,
+                "eol": False,
+            },
+        ]
+
+        expected = [
+            {
+                "cycle": "iPhone 5C",
+                "discontinued": "\x1b[32m2025-09-09\x1b[0m",  # green
+                "eol": "\x1b[31mTrue\x1b[0m",  # red
+            },
+            {
+                "cycle": "iPhone 5S",
+                "discontinued": "\x1b[31m2016-03-21\x1b[0m",  # red
+                "eol": "\x1b[31mTrue\x1b[0m",  # red
+            },
+            {
+                "cycle": "iPhone 6S / 6S Plus",
+                "discontinued": "\x1b[31m2018-09-12\x1b[0m",  # red
+                "eol": "\x1b[32mFalse\x1b[0m",  # green
+            },
+            {
+                "cycle": "iPhone XR",
+                "discontinued": "\x1b[32mFalse\x1b[0m",  # red
+                "eol": "\x1b[32mFalse\x1b[0m",  # green
+            },
+            {
+                "cycle": "iPhone 11 Pro / 11 Pro Max",
+                "discontinued": "\x1b[31m2020-10-13\x1b[0m",  # red
+                "eol": "\x1b[32mFalse\x1b[0m",  # green
+            },
+            {
+                "cycle": "iPhone 12 Mini / 12 Pro Max",
+                "discontinued": "\x1b[31mTrue\x1b[0m",  # red
+                "eol": "\x1b[32mFalse\x1b[0m",  # green
+            },
         ]
 
         # Act
