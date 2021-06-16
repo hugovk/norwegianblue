@@ -199,6 +199,49 @@ class TestNorwegianBlue:
         # Assert
         assert output == expected
 
+    def test__colourify_boolean_support(self):
+        # Arrange
+        data = [
+            {
+                "cycle": "5.x",
+                "eol": False,
+                "support": True,
+            },
+            {
+                "cycle": "4.x",
+                "eol": "2022-11-01",
+                "support": False,
+            },
+            {
+                "cycle": "3.x",
+                "eol": "2019-07-24",
+                "support": False,
+            },
+        ]
+        expected = [
+            {
+                "cycle": "5.x",
+                "eol": "\x1b[32mFalse\x1b[0m",  # green
+                "support": "\x1b[32mTrue\x1b[0m",  # green
+            },
+            {
+                "cycle": "4.x",
+                "eol": "\x1b[32m2022-11-01\x1b[0m",  # green
+                "support": "\x1b[31mFalse\x1b[0m",  # red
+            },
+            {
+                "cycle": "3.x",
+                "eol": "\x1b[31m2019-07-24\x1b[0m",  # red
+                "support": "\x1b[31mFalse\x1b[0m",  # red
+            },
+        ]
+
+        # Act
+        output = norwegianblue._colourify(data)
+
+        # Assert
+        assert output == expected
+
     def test__colourify_boolean_eol(self):
         # Arrange
         data = [
@@ -214,7 +257,6 @@ class TestNorwegianBlue:
 
         # Act
         output = norwegianblue._colourify(data)
-        print(output)
 
         # Assert
         assert output == expected

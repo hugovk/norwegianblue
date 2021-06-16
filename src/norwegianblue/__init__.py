@@ -168,10 +168,11 @@ def _colourify(data: list[dict]) -> list[dict]:
                 continue
 
             if isinstance(cycle[property_], bool):
-                if property_ == "eol" and cycle["eol"]:
-                    cycle["eol"] = colored(cycle["eol"], "red")
-                else:
-                    cycle["eol"] = colored(cycle["eol"], "green")
+                if property_ == "support":
+                    colour = "green" if cycle["support"] else "red"
+                else:  # "eol"
+                    colour = "red" if cycle["eol"] else "green"
+                cycle[property_] = colored(cycle[property_], colour)
                 continue
 
             date_str = cycle[property_]
