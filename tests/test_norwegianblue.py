@@ -260,3 +260,78 @@ class TestNorwegianBlue:
 
         # Assert
         assert output == expected
+
+    def test__colourify_boolean_discontinued(self):
+        # Arrange
+        data = [
+            {
+                "cycle": "iPhone 5C",
+                "discontinued": "2025-09-09",
+                "eol": True,
+            },
+            {
+                "cycle": "iPhone 5S",
+                "discontinued": "2016-03-21",
+                "eol": True,
+            },
+            {
+                "cycle": "iPhone 6S / 6S Plus",
+                "discontinued": "2018-09-12",
+                "eol": False,
+            },
+            {
+                "cycle": "iPhone XR",
+                "discontinued": False,
+                "eol": False,
+            },
+            {
+                "cycle": "iPhone 11 Pro / 11 Pro Max",
+                "discontinued": "2020-10-13",
+                "eol": False,
+            },
+            {
+                "cycle": "iPhone 12 Mini / 12 Pro Max",
+                "discontinued": True,
+                "eol": False,
+            },
+        ]
+
+        expected = [
+            {
+                "cycle": "iPhone 5C",
+                "discontinued": "\x1b[32m2025-09-09\x1b[0m",  # green
+                "eol": "\x1b[31mTrue\x1b[0m",  # red
+            },
+            {
+                "cycle": "iPhone 5S",
+                "discontinued": "\x1b[31m2016-03-21\x1b[0m",  # red
+                "eol": "\x1b[31mTrue\x1b[0m",  # red
+            },
+            {
+                "cycle": "iPhone 6S / 6S Plus",
+                "discontinued": "\x1b[31m2018-09-12\x1b[0m",  # red
+                "eol": "\x1b[32mFalse\x1b[0m",  # green
+            },
+            {
+                "cycle": "iPhone XR",
+                "discontinued": "\x1b[32mFalse\x1b[0m",  # red
+                "eol": "\x1b[32mFalse\x1b[0m",  # green
+            },
+            {
+                "cycle": "iPhone 11 Pro / 11 Pro Max",
+                "discontinued": "\x1b[31m2020-10-13\x1b[0m",  # red
+                "eol": "\x1b[32mFalse\x1b[0m",  # green
+            },
+            {
+                "cycle": "iPhone 12 Mini / 12 Pro Max",
+                "discontinued": "\x1b[31mTrue\x1b[0m",  # red
+                "eol": "\x1b[32mFalse\x1b[0m",  # green
+            },
+        ]
+
+        # Act
+        output = norwegianblue._colourify(data)
+        print(output)
+
+        # Assert
+        assert output == expected
