@@ -206,10 +206,14 @@ def _tabulate(data: list[dict], format: str = "markdown") -> str:
     headers = sorted(set().union(*(d.keys() for d in data)))
     writer.value_matrix = data
 
+    # Skip some headers, only used internally at https://endoflife.date
+    for header in ("cycleShortHand", "latestShortHand"):
+        if header in headers:
+            headers.remove(header)
+
     # Put headers in preferred order, with the rest at the end
-    preferred_order = ["cycle", "latest", "release", "support", "discontinued", "eol"]
     new_headers = []
-    for preferred in preferred_order:
+    for preferred in ("cycle", "latest", "release", "support", "discontinued", "eol"):
         if preferred in headers:
             new_headers.append(preferred)
             headers.remove(preferred)
