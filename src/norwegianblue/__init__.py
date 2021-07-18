@@ -162,6 +162,11 @@ def _colourify(data: list[dict]) -> list[dict]:
     yellow: will pass in six months
     green: will pass after six months
     """
+    if os.name == "nt":
+        from colorama import init
+
+        init()
+
     now = dt.datetime.utcnow()
     six_months_from_now = now + relativedelta(months=+6)
 
