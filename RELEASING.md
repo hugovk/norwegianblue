@@ -1,12 +1,12 @@
 # Release Checklist
 
 - [ ] Get `main` to the appropriate code release state.
-      [GitHub Actions](https://github.com/hugovk/pypistats/actions) should be running
-      cleanly for all merges to `main`.
-      [![GitHub Actions status](https://github.com/hugovk/pypistats/workflows/Test/badge.svg)](https://github.com/hugovk/pypistats/actions)
+      [GitHub Actions](https://github.com/hugovk/norwegianblue/actions) should be
+      running cleanly for all merges to `main`.
+      [![GitHub Actions status](https://github.com/hugovk/norwegianblue/workflows/Test/badge.svg)](https://github.com/hugovk/norwegianblue/actions)
 
 - [ ] Edit release draft, adjust text if needed:
-      https://github.com/hugovk/pypistats/releases
+      https://github.com/hugovk/norwegianblue/releases
 
 - [ ] Check next tag is correct, amend if needed
 
