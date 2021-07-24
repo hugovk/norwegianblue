@@ -80,6 +80,16 @@ SAMPLE_RESPONSE_JSON = """
 ]
 """
 
+SAMPLE_RESPONSE_ALL_JSON = """
+[
+    "alpine",
+    "amazon-linux",
+    "android",
+    "bootstrap",
+    "centos"
+]
+"""
+
 
 def stub__cache_filename(*args):
     return Path("/this/does/not/exist")
@@ -332,6 +342,20 @@ class TestNorwegianBlue:
         # Act
         output = norwegianblue._colourify(data)
         print(output)
+
+        # Assert
+        assert output == expected
+
+    @respx.mock
+    def test_all_tools(self):
+        # Arrange
+        mocked_url = "https://endoflife.date/api/all.json"
+        mocked_response = SAMPLE_RESPONSE_ALL_JSON
+        expected = """alpine\namazon-linux\nandroid\nbootstrap\ncentos"""
+
+        # Act
+        respx.get(mocked_url).respond(content=mocked_response)
+        output = norwegianblue.norwegianblue(tool="all")
 
         # Assert
         assert output == expected

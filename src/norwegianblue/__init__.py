@@ -123,6 +123,10 @@ def norwegianblue(
         return json.dumps(res)
 
     data: list[dict] = list(res)
+
+    if tool == "all":
+        return "\n".join(data)
+
     data = _ltsify(data)
     if color != "no" and format != "html" and _can_do_colour():
         data = _colourify(data)

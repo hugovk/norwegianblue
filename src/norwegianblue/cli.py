@@ -11,7 +11,12 @@ def main():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-    parser.add_argument("tool", nargs="?", default="python", help="Tool to check")
+    parser.add_argument(
+        "tool",
+        nargs="?",
+        default="all",
+        help="Tool to check, or 'all' to list all available",
+    )
     parser.add_argument(
         "-f",
         "--format",
