@@ -90,7 +90,7 @@ atexit.register(_clear_cache)
 
 
 def norwegianblue(
-    tool: str = "python",
+    tool: str = "all",
     format: str = "markdown",
     color: str = "yes",
     verbose: bool = False,

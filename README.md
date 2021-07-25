@@ -34,33 +34,48 @@ Run `norwegianblue` or `eol`, they do the same thing.
 Top-level help:
 
 ```console
-usage: norwegianblue [-h] [-t TOOL] [-f {html,json,markdown,rst,tsv}] [-c {yes,no}] [-v] [-V]
+$ eol --help
+usage: eol [-h] [-f {html,json,markdown,rst,tsv}] [-c {yes,no,auto}] [-v] [-V] [tool]
 
 CLI to show end-of-life dates for tools and technologies.
 
 positional arguments:
-  tool                  Tool to check (default: python)
+  tool                  Tool to check, or 'all' to list all available (default: all)
 
 optional arguments:
   -h, --help            show this help message and exit
   -f {html,json,markdown,rst,tsv}, --format {html,json,markdown,rst,tsv}
                         The format of output (default: markdown)
-  -c {yes,no}, --color {yes,no}
-                        color terminal output (default: yes)
+  -c {yes,no,auto}, --color {yes,no,auto}
+                        color terminal output (default: auto)
   -v, --verbose         Print debug messages to stderr (default: False)
   -V, --version         show program's version number and exit
+```
+
+List all available tools and technologies with end-of-life dates:
+
+```console
+$ # eol all
+$ # or:
+$ eol
+alpine
+amazon-linux
+android
+bootstrap
+centos
+...
 ```
 
 Show end-of-life dates:
 
 ```console
-$ norwegianblue
+$ norwegianblue python
 | cycle | latest |  release   |    eol     |                                 link                                 |
 | ----- | ------ | ---------- | ---------- | -------------------------------------------------------------------- |
-| 3.9   | 3.9.5  | 2020-10-05 | 2025-10-05 | https://www.python.org/downloads/release/python-395/                 |
-| 3.8   | 3.8.10 | 2019-10-14 | 2024-10-14 | https://www.python.org/downloads/release/python-3810/                |
-| 3.7   | 3.7.10 | 2018-06-27 | 2023-06-27 | https://www.python.org/downloads/release/python-3710/                |
-| 3.6   | 3.6.13 | 2016-12-23 | 2021-12-23 | https://www.python.org/downloads/release/python-3613/                |
+| 3.9   | 3.9.6  | 2020-10-05 | 2025-10-05 | https://www.python.org/downloads/release/python-396/                 |
+| 3.8   | 3.8.11 | 2019-10-14 | 2024-10-14 | https://www.python.org/downloads/release/python-3811/                |
+| 3.7   | 3.7.11 | 2018-06-27 | 2023-06-27 | https://www.python.org/downloads/release/python-3711/                |
+| 3.6   | 3.6.14 | 2016-12-23 | 2021-12-23 | https://www.python.org/downloads/release/python-3614/                |
 | 3.5   | 3.5.10 | 2015-09-30 | 2020-09-13 | https://www.python.org/downloads/release/python-3510/                |
 | 3.4   | 3.4.10 | 2014-03-16 | 2019-03-18 | https://www.python.org/downloads/release/python-3410/                |
 | 3.3   | 3.3.7  | 2012-09-29 | 2017-09-29 | https://www.python.org/downloads/release/python-337/                 |
@@ -71,10 +86,10 @@ The table is Markdown, ready for pasting in GitHub issues and PRs:
 
 | cycle | latest | release    | eol        | link                                                                 |
 | ----- | ------ | ---------- | ---------- | -------------------------------------------------------------------- |
-| 3.9   | 3.9.5  | 2020-10-05 | 2025-10-05 | https://www.python.org/downloads/release/python-395/                 |
-| 3.8   | 3.8.10 | 2019-10-14 | 2024-10-14 | https://www.python.org/downloads/release/python-3810/                |
-| 3.7   | 3.7.10 | 2018-06-27 | 2023-06-27 | https://www.python.org/downloads/release/python-3710/                |
-| 3.6   | 3.6.13 | 2016-12-23 | 2021-12-23 | https://www.python.org/downloads/release/python-3613/                |
+| 3.9   | 3.9.6  | 2020-10-05 | 2025-10-05 | https://www.python.org/downloads/release/python-396/                 |
+| 3.8   | 3.8.11 | 2019-10-14 | 2024-10-14 | https://www.python.org/downloads/release/python-3811/                |
+| 3.7   | 3.7.11 | 2018-06-27 | 2023-06-27 | https://www.python.org/downloads/release/python-3711/                |
+| 3.6   | 3.6.14 | 2016-12-23 | 2021-12-23 | https://www.python.org/downloads/release/python-3614/                |
 | 3.5   | 3.5.10 | 2015-09-30 | 2020-09-13 | https://www.python.org/downloads/release/python-3510/                |
 | 3.4   | 3.4.10 | 2014-03-16 | 2019-03-18 | https://www.python.org/downloads/release/python-3410/                |
 | 3.3   | 3.3.7  | 2012-09-29 | 2017-09-29 | https://www.python.org/downloads/release/python-337/                 |
