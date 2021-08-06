@@ -90,13 +90,13 @@ atexit.register(_clear_cache)
 
 
 def norwegianblue(
-    tool: str = "all",
+    product: str = "all",
     format: str = "markdown",
     color: str = "yes",
     verbose: bool = False,
 ):
     """Call the API and return result"""
-    url = BASE_URL + tool.lower() + ".json"
+    url = BASE_URL + product.lower() + ".json"
     cache_file = _cache_filename(url)
     _print_verbose(verbose, "API URL:", url)
     _print_verbose(verbose, "Cache file:", cache_file)
@@ -124,7 +124,7 @@ def norwegianblue(
 
     data: list[dict] = list(res)
 
-    if tool == "all":
+    if product == "all":
         return "\n".join(data)
 
     data = _ltsify(data)
