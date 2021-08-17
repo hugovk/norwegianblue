@@ -9,7 +9,7 @@
 [![Code style: Black](https://img.shields.io/badge/code%20style-Black-000000.svg)](https://github.com/psf/black)
 
 Python 3.9+ interface to [endoflife.date](https://endoflife.date/docs/api/) to show
-end-of-life dates for tools and technologies.
+end-of-life dates for a number of products.
 
 ## Installation
 
@@ -35,12 +35,14 @@ Top-level help:
 
 ```console
 $ eol --help
-usage: eol [-h] [-f {html,json,markdown,rst,tsv}] [-c {yes,no,auto}] [-v] [-V] [tool]
+usage: eol [-h] [-f {html,json,markdown,rst,tsv}] [-c {yes,no,auto}] [-v] [-V]
+           [product]
 
-CLI to show end-of-life dates for tools and technologies.
+CLI to show end-of-life dates for a number of products.
 
 positional arguments:
-  tool                  Tool to check, or 'all' to list all available (default: all)
+  product               Product to check, or 'all' to list all available
+                        (default: all)
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -52,7 +54,7 @@ optional arguments:
   -V, --version         show program's version number and exit
 ```
 
-List all available tools and technologies with end-of-life dates:
+List all available products with end-of-life dates:
 
 ```console
 $ # eol all
@@ -124,6 +126,6 @@ import norwegianblue
 
 # Call the API
 print(norwegianblue.norwegianblue())
-print(norwegianblue.norwegianblue(tool="ubuntu"))
+print(norwegianblue.norwegianblue(product="ubuntu"))
 print(norwegianblue.norwegianblue(format="json"))
 ```

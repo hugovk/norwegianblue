@@ -129,7 +129,7 @@ class TestNorwegianBlue:
 
         # Act
         respx.get(mocked_url).respond(content=mocked_response)
-        output = norwegianblue.norwegianblue(tool="ubuntu", format=test_format)
+        output = norwegianblue.norwegianblue(product="ubuntu", format=test_format)
 
         # Assert
         assert output.strip() == expected.strip()
@@ -142,7 +142,7 @@ class TestNorwegianBlue:
 
         # Act
         respx.get(mocked_url).respond(content=mocked_response)
-        output = norwegianblue.norwegianblue(tool="ubuntu", format="json")
+        output = norwegianblue.norwegianblue(product="ubuntu", format="json")
 
         # Assert
         assert json.loads(output) == json.loads(SAMPLE_RESPONSE_JSON)
@@ -347,7 +347,7 @@ class TestNorwegianBlue:
         assert output == expected
 
     @respx.mock
-    def test_all_tools(self):
+    def test_all_products(self):
         # Arrange
         mocked_url = "https://endoflife.date/api/all.json"
         mocked_response = SAMPLE_RESPONSE_ALL_JSON
@@ -355,7 +355,7 @@ class TestNorwegianBlue:
 
         # Act
         respx.get(mocked_url).respond(content=mocked_response)
-        output = norwegianblue.norwegianblue(tool="all")
+        output = norwegianblue.norwegianblue(product="all")
 
         # Assert
         assert output == expected

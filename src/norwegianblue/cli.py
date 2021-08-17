@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CLI to show end-of-life dates for tools and technologies.
+CLI to show end-of-life dates for a number of products.
 """
 import argparse
 
@@ -12,10 +12,10 @@ def main():
         description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     parser.add_argument(
-        "tool",
+        "product",
         nargs="?",
         default="all",
-        help="Tool to check, or 'all' to list all available",
+        help="Product to check, or 'all' to list all available",
     )
     parser.add_argument(
         "-f",
@@ -43,7 +43,10 @@ def main():
     args = parser.parse_args()
     print(
         norwegianblue.norwegianblue(
-            tool=args.tool, format=args.format, color=args.color, verbose=args.verbose
+            product=args.product,
+            format=args.format,
+            color=args.color,
+            verbose=args.verbose,
         )
     )
 
