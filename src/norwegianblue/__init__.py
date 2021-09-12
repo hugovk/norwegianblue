@@ -30,6 +30,7 @@ __version__ = pkg_resources.get_distribution(__name__).version
 BASE_URL = "https://endoflife.date/api/"
 CACHE_DIR = Path(user_cache_dir("norwegianblue"))
 USER_AGENT = f"norwegianblue/{__version__}"
+ERROR_404_TEXT = "Product not found, run 'eol all' for list"
 
 
 def _print_verbose(verbose, *args, **kwargs):
@@ -110,9 +111,12 @@ def norwegianblue(
         # No cache, or couldn't load cache
         r = httpx.get(url, headers={"User-Agent": USER_AGENT})
 
+        _print_verbose(verbose, "HTTP status code:", r.status_code)
+        if r.status_code == 404:
+            return ERROR_404_TEXT
+
         # Raise if we made a bad request
         # (4XX client error or 5XX server error response)
-        _print_verbose(verbose, "HTTP status code:", r.status_code)
         r.raise_for_status()
 
         res = r.json()

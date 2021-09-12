@@ -359,3 +359,15 @@ class TestNorwegianBlue:
 
         # Assert
         assert output == expected
+
+    @respx.mock
+    def test_404(self):
+        # Arrange
+        mocked_url = "https://endoflife.date/api/this-product-not-found.json"
+
+        # Act
+        respx.get(mocked_url).respond(status_code=404)
+        output = norwegianblue.norwegianblue(product="this-product-not-found")
+
+        # Assert
+        assert output.strip() == norwegianblue.ERROR_404_TEXT
