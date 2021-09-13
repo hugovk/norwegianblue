@@ -3,6 +3,7 @@
 CLI to show end-of-life dates for a number of products.
 """
 import argparse
+import sys
 
 import norwegianblue
 
@@ -41,14 +42,15 @@ def main():
         version=f"%(prog)s {norwegianblue.__version__}",
     )
     args = parser.parse_args()
-    print(
-        norwegianblue.norwegianblue(
-            product=args.product,
-            format=args.format,
-            color=args.color,
-            verbose=args.verbose,
-        )
+    output = norwegianblue.norwegianblue(
+        product=args.product,
+        format=args.format,
+        color=args.color,
+        verbose=args.verbose,
     )
+    if output == norwegianblue.ERROR_404_TEXT:
+        sys.exit(output)
+    print(output)
 
 
 if __name__ == "__main__":
