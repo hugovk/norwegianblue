@@ -2,7 +2,9 @@
 Unit tests for norwegianblue
 """
 import json
+import os
 from pathlib import Path
+from unittest import mock
 
 import pytest
 import respx
@@ -10,7 +12,13 @@ from freezegun import freeze_time
 
 import norwegianblue
 
-from .data.expected_output import EXPECTED_HTML, EXPECTED_MD, EXPECTED_RST, EXPECTED_TSV
+from .data.expected_output import (
+    EXPECTED_HTML,
+    EXPECTED_MD,
+    EXPECTED_MD_COLOUR,
+    EXPECTED_RST,
+    EXPECTED_TSV,
+)
 
 SAMPLE_RESPONSE_JSON = """
 [
@@ -130,6 +138,36 @@ class TestNorwegianBlue:
         # Act
         respx.get(mocked_url).respond(content=mocked_response)
         output = norwegianblue.norwegianblue(product="ubuntu", format=test_format)
+
+        # Assert
+        assert output.strip() == expected.strip()
+
+    @mock.patch.dict(os.environ, {"NO_COLOR": "TRUE"})
+    @respx.mock
+    def test_norwegianblue_no_color(self):
+        # Arrange
+        mocked_url = "https://endoflife.date/api/ubuntu.json"
+        mocked_response = SAMPLE_RESPONSE_JSON
+        expected = EXPECTED_MD
+
+        # Act
+        respx.get(mocked_url).respond(content=mocked_response)
+        output = norwegianblue.norwegianblue(product="ubuntu")
+
+        # Assert
+        assert output.strip() == expected.strip()
+
+    @mock.patch.dict(os.environ, {"FORCE_COLOR": "TRUE"})
+    @respx.mock
+    def test_norwegianblue_force_color(self):
+        # Arrange
+        mocked_url = "https://endoflife.date/api/ubuntu.json"
+        mocked_response = SAMPLE_RESPONSE_JSON
+        expected = EXPECTED_MD_COLOUR
+
+        # Act
+        respx.get(mocked_url).respond(content=mocked_response)
+        output = norwegianblue.norwegianblue(product="ubuntu")
 
         # Assert
         assert output.strip() == expected.strip()
@@ -345,6 +383,14 @@ class TestNorwegianBlue:
 
         # Assert
         assert output == expected
+
+    @mock.patch.dict(os.environ, {"NO_COLOR": "TRUE"})
+    def test_no_color(self):
+        assert norwegianblue._can_do_colour() is False
+
+    @mock.patch.dict(os.environ, {"FORCE_COLOR": "TRUE"})
+    def test_force_color(self):
+        assert norwegianblue._can_do_colour() is True
 
     @respx.mock
     def test_all_products(self):
