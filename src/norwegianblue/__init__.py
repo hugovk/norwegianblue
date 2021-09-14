@@ -12,8 +12,8 @@ from pathlib import Path
 
 import httpx
 import pkg_resources
-from appdirs import user_cache_dir
 from dateutil.relativedelta import relativedelta
+from platformdirs import user_cache_dir
 from pytablewriter import (
     HtmlTableWriter,
     MarkdownTableWriter,
