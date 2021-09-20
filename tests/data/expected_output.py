@@ -98,7 +98,7 @@ EXPECTED_MD_COLOUR = """
 
 
 EXPECTED_RST = """
-.. table:: 
+.. table::
 
     ===========  =========  ============  ============  ============  =====================================================
        cycle      latest      release       support         eol                               link                         

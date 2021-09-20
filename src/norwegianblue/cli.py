@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CLI to show end-of-life dates for a number of products.
+CLI to show end-of-life dates for a number of products, from https://endoflife.date
 """
 import argparse
 import sys

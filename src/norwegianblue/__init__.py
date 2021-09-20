@@ -99,8 +99,9 @@ def norwegianblue(
     """Call the API and return result"""
     url = BASE_URL + product.lower() + ".json"
     cache_file = _cache_filename(url)
-    _print_verbose(verbose, "API URL:", url)
-    _print_verbose(verbose, "Cache file:", cache_file)
+    _print_verbose(verbose, f"Human URL:\thttps://endoflife.date/{product.lower()}")
+    _print_verbose(verbose, f"API URL:\t{url}")
+    _print_verbose(verbose, f"Cache file:\t{cache_file}")
 
     res = {}
     if cache_file.is_file():
@@ -136,6 +137,7 @@ def norwegianblue(
         data = _colourify(data)
 
     output = _tabulate(data, format)
+    _print_verbose(verbose, "")
     return output
 
 
