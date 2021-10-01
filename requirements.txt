@@ -1,7 +1,7 @@
 # Only for testing pinned versions on the CI
 freezegun==1.1.0
 httpx==1.0.0b0
-platformdirs==2.3.0
+platformdirs==2.4.0
 pytablewriter[html]==0.63.0
 pytest==6.2.5
 pytest-cov==2.12.1
