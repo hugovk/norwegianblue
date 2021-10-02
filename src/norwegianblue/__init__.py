@@ -14,14 +14,6 @@ import httpx
 import pkg_resources
 from dateutil.relativedelta import relativedelta
 from platformdirs import user_cache_dir
-from pytablewriter import (
-    HtmlTableWriter,
-    MarkdownTableWriter,
-    RstSimpleTableWriter,
-    String,
-    TsvTableWriter,
-)
-from pytablewriter.style import Align, Style
 from slugify import slugify
 from termcolor import colored
 
@@ -202,19 +194,7 @@ def _colourify(data: list[dict]) -> list[dict]:
 def _tabulate(data: list[dict], format: str = "markdown") -> str:
     """Return data in specified format"""
 
-    format_writers = {
-        "html": HtmlTableWriter,
-        "markdown": MarkdownTableWriter,
-        "rst": RstSimpleTableWriter,
-        "tsv": TsvTableWriter,
-    }
-
-    writer = format_writers[format]()
-    if format != "html":
-        writer.margin = 1
-
     headers = sorted(set().union(*(d.keys() for d in data)))
-    writer.value_matrix = data
 
     # Skip some headers, only used internally at https://endoflife.date
     for header in ("cycleShortHand", "latestShortHand"):
@@ -229,7 +209,46 @@ def _tabulate(data: list[dict], format: str = "markdown") -> str:
             headers.remove(preferred)
     headers = new_headers + headers
 
+    if format == "markdown":
+        return _prettytable(headers, data)
+    else:
+        return _pytablewriter(headers, data, format)
+
+
+def _prettytable(headers: list[str], data: list[dict]) -> str:
+    from prettytable import MARKDOWN, PrettyTable
+
+    x = PrettyTable()
+    x.set_style(MARKDOWN)
+
+    for header in headers:
+        col_data = [row[header] if header in row else "" for row in data]
+        x.add_column(header, col_data)
+        if header in ("cycle", "latest", "link"):
+            x.align = "l"
+
+    return x.get_string()
+
+
+def _pytablewriter(headers: list[str], data: list[dict], format: str) -> str:
+    from pytablewriter import (
+        HtmlTableWriter,
+        RstSimpleTableWriter,
+        String,
+        TsvTableWriter,
+    )
+    from pytablewriter.style import Align, Style
+
+    format_writers = {
+        "html": HtmlTableWriter,
+        "rst": RstSimpleTableWriter,
+        "tsv": TsvTableWriter,
+    }
+    writer = format_writers[format]()
+    if format != "html":
+        writer.margin = 1
     writer.headers = headers
+    writer.value_matrix = data
 
     # Custom alignment and format
     column_styles = []
