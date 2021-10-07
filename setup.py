@@ -8,5 +8,8 @@ def local_scheme(version):
 
 
 setup(
-    use_scm_version={"local_scheme": local_scheme},
+    use_scm_version={
+        "local_scheme": local_scheme,
+        "write_to": "src/norwegianblue/_version.py",
+    },
 )
