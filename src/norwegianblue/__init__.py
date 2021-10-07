@@ -11,13 +11,12 @@ import sys
 from pathlib import Path
 
 import httpx
-import pkg_resources
 from dateutil.relativedelta import relativedelta
 from platformdirs import user_cache_dir
 from slugify import slugify
 from termcolor import colored
 
-__version__ = pkg_resources.get_distribution(__name__).version
+from ._version import version as __version__
 
 BASE_URL = "https://endoflife.date/api/"
 CACHE_DIR = Path(user_cache_dir("norwegianblue"))
