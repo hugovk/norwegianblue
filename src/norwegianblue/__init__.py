@@ -9,6 +9,7 @@ import json
 import os
 import sys
 from pathlib import Path
+from typing import Dict, List  # noqa: F401
 
 import httpx
 from dateutil.relativedelta import relativedelta
