@@ -3,13 +3,14 @@
 Python interface to endoflife.date API
 https://endoflife.date/docs/api/
 """
+from __future__ import annotations
+
 import atexit
 import datetime as dt
 import json
 import os
 import sys
 from pathlib import Path
-from typing import Dict, List  # noqa: F401
 
 import httpx
 from dateutil.relativedelta import relativedelta
