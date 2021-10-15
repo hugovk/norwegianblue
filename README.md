@@ -8,7 +8,7 @@
 [![GitHub](https://img.shields.io/github/license/hugovk/norwegianblue.svg)](LICENSE.txt)
 [![Code style: Black](https://img.shields.io/badge/code%20style-Black-000000.svg)](https://github.com/psf/black)
 
-Python 3.9+ interface to [endoflife.date](https://endoflife.date/docs/api/) to show
+Python 3.7+ interface to [endoflife.date](https://endoflife.date/docs/api/) to show
 end-of-life dates for a number of products.
 
 ## Installation
