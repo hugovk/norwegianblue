@@ -67,15 +67,20 @@ class TestNorwegianBlueCache:
         # Assert
         assert new_data == data
 
+    @freeze_time("2021-10-25")
     def test__clear_cache(self):
         # Arrange
         # Create old cache file
-        cache_file = norwegianblue.CACHE_DIR / "2018-11-26-old-cache-file.json"
-        norwegianblue._save_cache(cache_file, data={})
-        assert cache_file.exists()
+        cache_file_old = norwegianblue.CACHE_DIR / "2021-10-24-old-cache-file.json"
+        cache_file_new = norwegianblue.CACHE_DIR / "2021-10-25-new-cache-file.json"
+        norwegianblue._save_cache(cache_file_old, data={})
+        norwegianblue._save_cache(cache_file_new, data={})
+        assert cache_file_new.exists()
+        assert cache_file_old.exists()
 
         # Act
         norwegianblue._clear_cache()
 
         # Assert
-        assert not cache_file.exists()
+        assert not cache_file_old.exists()
+        assert cache_file_new.exists()

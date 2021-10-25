@@ -74,9 +74,9 @@ def _save_cache(cache_file, data):
 def _clear_cache():
     """Delete old cache files, run as last task"""
     cache_files = CACHE_DIR.glob("**/*.json")
-    this_month = dt.datetime.utcnow().strftime("%Y-%m")
+    today = dt.datetime.utcnow().strftime("%Y-%m-%d")
     for cache_file in cache_files:
-        if not cache_file.name.startswith(this_month):
+        if not cache_file.name.startswith(today):
             cache_file.unlink()
 
 
