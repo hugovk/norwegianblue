@@ -33,6 +33,9 @@ def main():
         help="color terminal output",
     )
     parser.add_argument(
+        "--clear-cache", action="store_true", help="Clear cache before running"
+    )
+    parser.add_argument(
         "-v", "--verbose", action="store_true", help="Print debug messages to stderr"
     )
     parser.add_argument(
@@ -47,6 +50,7 @@ def main():
         format=args.format,
         color=args.color,
         verbose=args.verbose,
+        clear_cache=args.clear_cache,
     )
     if output == norwegianblue.ERROR_404_TEXT:
         sys.exit(output)

@@ -71,12 +71,19 @@ def _save_cache(cache_file, data):
         pass
 
 
+def _clear_cache_now():
+    """Delete all cache files now"""
+    cache_files = CACHE_DIR.glob("**/*.json")
+    for cache_file in cache_files:
+        cache_file.unlink()
+
+
 def _clear_cache():
     """Delete old cache files, run as last task"""
     cache_files = CACHE_DIR.glob("**/*.json")
-    this_month = dt.datetime.utcnow().strftime("%Y-%m")
+    today = dt.datetime.utcnow().strftime("%Y-%m-%d")
     for cache_file in cache_files:
-        if not cache_file.name.startswith(this_month):
+        if not cache_file.name.startswith(today):
             cache_file.unlink()
 
 
@@ -88,8 +95,11 @@ def norwegianblue(
     format: str = "markdown",
     color: str = "yes",
     verbose: bool = False,
+    clear_cache: bool = False,
 ) -> str:
     """Call the API and return result"""
+    if clear_cache:
+        _clear_cache_now()
     if product == "norwegianblue":
         from ._data import prefix, res
     else:
