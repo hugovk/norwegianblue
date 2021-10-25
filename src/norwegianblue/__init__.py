@@ -88,18 +88,21 @@ def norwegianblue(
     format: str = "markdown",
     color: str = "yes",
     verbose: bool = False,
-):
+) -> str:
     """Call the API and return result"""
-    url = BASE_URL + product.lower() + ".json"
-    cache_file = _cache_filename(url)
-    _print_verbose(verbose, f"Human URL:\thttps://endoflife.date/{product.lower()}")
-    _print_verbose(verbose, f"API URL:\t{url}")
-    _print_verbose(verbose, f"Cache file:\t{cache_file}")
+    if product == "norwegianblue":
+        from ._data import prefix, res
+    else:
+        url = BASE_URL + product.lower() + ".json"
+        cache_file = _cache_filename(url)
+        _print_verbose(verbose, f"Human URL:\thttps://endoflife.date/{product.lower()}")
+        _print_verbose(verbose, f"API URL:\t{url}")
+        _print_verbose(verbose, f"Cache file:\t{cache_file}")
 
-    res = {}
-    if cache_file.is_file():
-        _print_verbose(verbose, "Cache file exists")
-        res = _load_cache(cache_file)
+        res = {}
+        if cache_file.is_file():
+            _print_verbose(verbose, "Cache file exists")
+            res = _load_cache(cache_file)
 
     if res == {}:
         # No cache, or couldn't load cache
@@ -131,6 +134,10 @@ def norwegianblue(
 
     output = _tabulate(data, format)
     _print_verbose(verbose, "")
+
+    if product == "norwegianblue":
+        return prefix + output
+
     return output
 
 

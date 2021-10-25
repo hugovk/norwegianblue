@@ -417,3 +417,11 @@ class TestNorwegianBlue:
 
         # Assert
         assert output.strip() == norwegianblue.ERROR_404_TEXT
+
+    def test_norwegianblue_norwegianblue(self):
+        # Act
+        output = norwegianblue.norwegianblue(product="norwegianblue")
+
+        # Assert
+        print(output)
+        assert "Norwegian Blue" in output
