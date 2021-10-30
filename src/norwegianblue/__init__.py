@@ -12,7 +12,6 @@ import os
 import sys
 from pathlib import Path
 
-import httpx
 from dateutil.relativedelta import relativedelta
 from platformdirs import user_cache_dir
 from slugify import slugify
@@ -116,6 +115,8 @@ def norwegianblue(
 
     if res == {}:
         # No cache, or couldn't load cache
+        import httpx
+
         r = httpx.get(url, headers={"User-Agent": USER_AGENT})
 
         _print_verbose(verbose, "HTTP status code:", r.status_code)
