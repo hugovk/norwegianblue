@@ -72,8 +72,8 @@ EXPECTED_HTML = """
 """
 
 EXPECTED_MD = """
-| cycle     | latest  | release    | support    | eol        | link                                                |
-|-----------|---------|------------|------------|------------|-----------------------------------------------------|
+| cycle     | latest  |  release   |  support   |    eol     | link                                                |
+|:----------|:--------|:----------:|:----------:|:----------:|:----------------------------------------------------|
 | 21.04 LTS | 21.04   | 2021-04-22 | 2022-01-01 | 2022-01-01 | https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/  |
 | 20.10 LTS | 20.10   | 2020-10-22 | 2021-07-07 | 2021-07-07 | https://wiki.ubuntu.com/GroovyGorilla/ReleaseNotes/ |
 | 20.04 LTS | 20.04.2 | 2020-04-23 | 2022-10-01 | 2025-04-02 |                                                     |
@@ -85,8 +85,8 @@ EXPECTED_MD = """
 
 
 EXPECTED_MD_COLOUR = """
-| cycle     | latest  | release    | support    | eol        | link                                                |
-|-----------|---------|------------|------------|------------|-----------------------------------------------------|
+| cycle     | latest  |  release   |  support   |    eol     | link                                                |
+|:----------|:--------|:----------:|:----------:|:----------:|:----------------------------------------------------|
 | 21.04 LTS | 21.04   | 2021-04-22 | \x1b[33m2022-01-01\x1b[0m | \x1b[33m2022-01-01\x1b[0m | https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/  |
 | 20.10 LTS | 20.10   | 2020-10-22 | \x1b[31m2021-07-07\x1b[0m | \x1b[31m2021-07-07\x1b[0m | https://wiki.ubuntu.com/GroovyGorilla/ReleaseNotes/ |
 | 20.04 LTS | 20.04.2 | 2020-04-23 | \x1b[32m2022-10-01\x1b[0m | \x1b[32m2025-04-02\x1b[0m |                                                     |
