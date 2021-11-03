@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
 """
 CLI to show end-of-life dates for a number of products, from https://endoflife.date
+
+For example:
+
+* `eol python` to see Python EOLs
+* `eol ubuntu` to see Ubuntu EOLs
+* `eol all` to list all available products
+
+Something missing? Please contribute! https://endoflife.date/contribute
 """
 import argparse
 import sys
@@ -8,10 +16,15 @@ import sys
 import norwegianblue
 
 
+class Formatter(
+    argparse.ArgumentDefaultsHelpFormatter,
+    argparse.RawDescriptionHelpFormatter,
+):
+    pass
+
+
 def main():
-    parser = argparse.ArgumentParser(
-        description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter
-    )
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=Formatter)
     parser.add_argument(
         "product",
         nargs="?",
