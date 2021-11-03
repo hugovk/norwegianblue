@@ -156,7 +156,8 @@ def _ltsify(data: list[dict]) -> list[dict]:
     """If a cycle is LTS, append LTS to the cycle version and remove the LTS column"""
     for cycle in data:
         if "lts" in cycle:
-            cycle["cycle"] = f"{cycle['cycle']} LTS"
+            if cycle["lts"]:
+                cycle["cycle"] = f"{cycle['cycle']} LTS"
             cycle.pop("lts")
     return data
 

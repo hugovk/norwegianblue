@@ -12,7 +12,7 @@ EXPECTED_HTML = """
     </thead>
     <tbody>
         <tr>
-            <td align="left">21.04 LTS</td>
+            <td align="left">21.04</td>
             <td align="left">21.04</td>
             <td align="left">2021-04-22</td>
             <td align="left">2022-01-01</td>
@@ -20,7 +20,7 @@ EXPECTED_HTML = """
             <td align="left">https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/</td>
         </tr>
         <tr>
-            <td align="left">20.10 LTS</td>
+            <td align="left">20.10</td>
             <td align="left">20.10</td>
             <td align="left">2020-10-22</td>
             <td align="left">2021-07-07</td>
@@ -74,8 +74,8 @@ EXPECTED_HTML = """
 EXPECTED_MD = """
 | cycle     | latest  |  release   |  support   |    eol     | link                                                |
 |:----------|:--------|:----------:|:----------:|:----------:|:----------------------------------------------------|
-| 21.04 LTS | 21.04   | 2021-04-22 | 2022-01-01 | 2022-01-01 | https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/  |
-| 20.10 LTS | 20.10   | 2020-10-22 | 2021-07-07 | 2021-07-07 | https://wiki.ubuntu.com/GroovyGorilla/ReleaseNotes/ |
+| 21.04     | 21.04   | 2021-04-22 | 2022-01-01 | 2022-01-01 | https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/  |
+| 20.10     | 20.10   | 2020-10-22 | 2021-07-07 | 2021-07-07 | https://wiki.ubuntu.com/GroovyGorilla/ReleaseNotes/ |
 | 20.04 LTS | 20.04.2 | 2020-04-23 | 2022-10-01 | 2025-04-02 |                                                     |
 | 19.10     | 19.10   | 2019-10-17 | 2020-07-06 | 2020-07-06 |                                                     |
 | 18.04 LTS | 18.04.5 | 2018-04-26 | 2020-09-30 | 2023-04-02 |                                                     |
@@ -87,8 +87,8 @@ EXPECTED_MD = """
 EXPECTED_MD_COLOUR = """
 | cycle     | latest  |  release   |  support   |    eol     | link                                                |
 |:----------|:--------|:----------:|:----------:|:----------:|:----------------------------------------------------|
-| 21.04 LTS | 21.04   | 2021-04-22 | \x1b[33m2022-01-01\x1b[0m | \x1b[33m2022-01-01\x1b[0m | https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/  |
-| 20.10 LTS | 20.10   | 2020-10-22 | \x1b[31m2021-07-07\x1b[0m | \x1b[31m2021-07-07\x1b[0m | https://wiki.ubuntu.com/GroovyGorilla/ReleaseNotes/ |
+| 21.04     | 21.04   | 2021-04-22 | \x1b[33m2022-01-01\x1b[0m | \x1b[33m2022-01-01\x1b[0m | https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/  |
+| 20.10     | 20.10   | 2020-10-22 | \x1b[31m2021-07-07\x1b[0m | \x1b[31m2021-07-07\x1b[0m | https://wiki.ubuntu.com/GroovyGorilla/ReleaseNotes/ |
 | 20.04 LTS | 20.04.2 | 2020-04-23 | \x1b[32m2022-10-01\x1b[0m | \x1b[32m2025-04-02\x1b[0m |                                                     |
 | 19.10     | 19.10   | 2019-10-17 | \x1b[31m2020-07-06\x1b[0m | \x1b[31m2020-07-06\x1b[0m |                                                     |
 | 18.04 LTS | 18.04.5 | 2018-04-26 | \x1b[31m2020-09-30\x1b[0m | \x1b[32m2023-04-02\x1b[0m |                                                     |
@@ -103,8 +103,8 @@ EXPECTED_RST = """
     ===========  =========  ============  ============  ============  =====================================================
        cycle      latest      release       support         eol                               link                         
     ===========  =========  ============  ============  ============  =====================================================
-     21.04 LTS    21.04      2021-04-22    2022-01-01    2022-01-01    https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/  
-     20.10 LTS    20.10      2020-10-22    2021-07-07    2021-07-07    https://wiki.ubuntu.com/GroovyGorilla/ReleaseNotes/ 
+     21.04        21.04      2021-04-22    2022-01-01    2022-01-01    https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/  
+     20.10        20.10      2020-10-22    2021-07-07    2021-07-07    https://wiki.ubuntu.com/GroovyGorilla/ReleaseNotes/ 
      20.04 LTS    20.04.2    2020-04-23    2022-10-01    2025-04-02                                                        
      19.10        19.10      2019-10-17    2020-07-06    2020-07-06                                                        
      18.04 LTS    18.04.5    2018-04-26    2020-09-30    2023-04-02                                                        
@@ -115,8 +115,8 @@ EXPECTED_RST = """
 
 EXPECTED_TSV = """
 "cycle"	"latest"	"release"	"support"	"eol"	"link"
-"21.04 LTS"	"21.04"	"2021-04-22"	"2022-01-01"	"2022-01-01"	"https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/"
-"20.10 LTS"	"20.10"	"2020-10-22"	"2021-07-07"	"2021-07-07"	"https://wiki.ubuntu.com/GroovyGorilla/ReleaseNotes/"
+"21.04"	"21.04"	"2021-04-22"	"2022-01-01"	"2022-01-01"	"https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/"
+"20.10"	"20.10"	"2020-10-22"	"2021-07-07"	"2021-07-07"	"https://wiki.ubuntu.com/GroovyGorilla/ReleaseNotes/"
 "20.04 LTS"	"20.04.2"	"2020-04-23"	"2022-10-01"	"2025-04-02"	
 "19.10"	"19.10"	"2019-10-17"	"2020-07-06"	"2020-07-06"	
 "18.04 LTS"	"18.04.5"	"2018-04-26"	"2020-09-30"	"2023-04-02"	
