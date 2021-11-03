@@ -425,3 +425,24 @@ class TestNorwegianBlue:
         # Assert
         print(output)
         assert "Norwegian Blue" in output
+
+    def test__ltsify(self):
+        # Arrange
+        data = [
+            {"cycle": "5.3", "eol": "2022-01-01", "lts": False},
+            {"cycle": "4.4", "eol": "2023-11-21", "lts": True},
+            {"cycle": "4.3", "eol": "2020-07-01", "lts": False},
+            {"cycle": "3.4", "eol": "2021-11-01", "lts": True},
+        ]
+        expected = [
+            {"cycle": "5.3", "eol": "2022-01-01"},
+            {"cycle": "4.4 LTS", "eol": "2023-11-21"},
+            {"cycle": "4.3", "eol": "2020-07-01"},
+            {"cycle": "3.4 LTS", "eol": "2021-11-01"},
+        ]
+
+        # Act
+        output = norwegianblue._ltsify(data)
+
+        # Assert
+        assert output == expected
