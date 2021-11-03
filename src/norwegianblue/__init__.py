@@ -244,7 +244,7 @@ def _prettytable(headers: list[str], data: list[dict]) -> str:
         col_data = [row[header] if header in row else "" for row in data]
         x.add_column(header, col_data)
         if header in ("cycle", "latest", "link"):
-            x.align = "l"
+            x.align[header] = "l"
 
     return x.get_string()
 
@@ -263,9 +263,11 @@ def _pytablewriter(headers: list[str], data: list[dict], format: str) -> str:
         "rst": RstSimpleTableWriter,
         "tsv": TsvTableWriter,
     }
+
     writer = format_writers[format]()
     if format != "html":
         writer.margin = 1
+
     writer.headers = headers
     writer.value_matrix = data
 
