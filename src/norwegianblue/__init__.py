@@ -117,7 +117,7 @@ def norwegianblue(
         # No cache, or couldn't load cache
         import httpx
 
-        r = httpx.get(url, headers={"User-Agent": USER_AGENT})
+        r = httpx.get(url, follow_redirects=True, headers={"User-Agent": USER_AGENT})
 
         _print_verbose(verbose, "HTTP status code:", r.status_code)
         if r.status_code == 404:
