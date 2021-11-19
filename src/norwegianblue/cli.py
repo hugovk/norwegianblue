@@ -43,7 +43,7 @@ def main():
         "--color",
         default="auto",
         choices=("yes", "no", "auto"),
-        help="color terminal output",
+        help="Color terminal output",
     )
     parser.add_argument(
         "--clear-cache", action="store_true", help="Clear cache before running"
@@ -55,7 +55,8 @@ def main():
         "-V",
         "--version",
         action="version",
-        version=f"%(prog)s {norwegianblue.__version__}",
+        version=f"%(prog)s {norwegianblue.__version__} "
+        f"(Python {sys.version_info.major}.{sys.version_info.minor})",
     )
     args = parser.parse_args()
     output = norwegianblue.norwegianblue(
