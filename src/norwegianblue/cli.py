@@ -16,6 +16,7 @@ from __future__ import annotations
 import argparse
 import atexit
 import logging
+import platform
 import sys
 
 import norwegianblue
@@ -70,7 +71,8 @@ def main() -> None:
         "-V",
         "--version",
         action="version",
-        version=f"%(prog)s {norwegianblue.__version__}",
+        version=f"%(prog)s {norwegianblue.__version__} "
+        f"(Python {platform.python_version()})",
     )
     args = parser.parse_args()
 
