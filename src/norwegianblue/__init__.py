@@ -106,6 +106,11 @@ def norwegianblue(
         cache_file = _cache_filename(url)
         _print_verbose(verbose, f"Human URL:\thttps://endoflife.date/{product.lower()}")
         _print_verbose(verbose, f"API URL:\t{url}")
+        _print_verbose(
+            verbose,
+            "Source URL:\thttps://github.com/endoflife-date/endoflife.date/"
+            f"blob/master/products/{product.lower()}.md",
+        )
         _print_verbose(verbose, f"Cache file:\t{cache_file}")
 
         res = {}
