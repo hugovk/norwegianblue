@@ -8,6 +8,8 @@
 [![GitHub](https://img.shields.io/github/license/hugovk/norwegianblue.svg)](LICENSE.txt)
 [![Code style: Black](https://img.shields.io/badge/code%20style-Black-000000.svg)](https://github.com/psf/black)
 
+<p align="center"><img src="https://raw.githubusercontent.com/hugovk/norwegianblue/main/img/eol-python.png" width="319" height="197"></p>
+
 Python interface to [endoflife.date](https://endoflife.date/docs/api/) to show
 end-of-life dates for a number of products.
 
@@ -178,3 +180,7 @@ print(norwegianblue.norwegianblue())
 print(norwegianblue.norwegianblue(product="ubuntu"))
 print(norwegianblue.norwegianblue(format="json"))
 ```
+
+## Why "Norwegian Blue"?
+
+[The Norwegian Blue has reached end-of-life.](https://youtu.be/vnciwwsvNcc)
