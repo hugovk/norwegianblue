@@ -45,6 +45,7 @@ def main():
         choices=("yes", "no", "auto"),
         help="color terminal output",
     )
+    parser.add_argument("--chart", action="store_true", help="Chart the EOLs")
     parser.add_argument(
         "--clear-cache", action="store_true", help="Clear cache before running"
     )
@@ -64,6 +65,7 @@ def main():
         color=args.color,
         verbose=args.verbose,
         clear_cache=args.clear_cache,
+        chart=args.chart,
     )
     if output == norwegianblue.ERROR_404_TEXT:
         sys.exit(output)

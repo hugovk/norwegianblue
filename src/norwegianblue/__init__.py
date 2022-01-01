@@ -10,6 +10,8 @@ import datetime as dt
 import json
 import os
 import sys
+import time
+from functools import cache
 from pathlib import Path
 
 from dateutil.relativedelta import relativedelta
@@ -95,6 +97,7 @@ def norwegianblue(
     color: str = "yes",
     verbose: bool = False,
     clear_cache: bool = False,
+    chart: bool = False,
 ) -> str:
     """Call the API and return result"""
     if clear_cache:
@@ -145,6 +148,12 @@ def norwegianblue(
         return "\n".join(data)
 
     data = _ltsify(data)
+
+    if chart:
+        # TODO return
+        _chart(data)
+        # return ""# TEMP
+
     if color != "no" and format != "html" and _can_do_colour():
         data = _colourify(data)
 
@@ -186,9 +195,6 @@ def _colourify(data: list[dict]) -> list[dict]:
     yellow: will pass in six months
     green: will pass after six months
     """
-    now = dt.datetime.utcnow()
-    six_months_from_now = now + relativedelta(months=+6)
-
     for cycle in data:
         for property_ in ("support", "eol", "discontinued"):
             if property_ not in cycle:
@@ -205,14 +211,8 @@ def _colourify(data: list[dict]) -> list[dict]:
 
             # Handle date
             date_str = cycle[property_]
-            # Convert "2020-01-01" string to datetime
-            date_datetime = dt.datetime.strptime(date_str, "%Y-%m-%d")
-            if date_datetime < now:
-                cycle[property_] = colored(date_str, "red")
-            elif date_datetime < six_months_from_now:
-                cycle[property_] = colored(date_str, "yellow")
-            else:
-                cycle[property_] = colored(date_str, "green")
+            colour = _eol_date_to_colour(date_str)
+            cycle[property_] = colored(date_str, colour)
     return data
 
 
@@ -294,3 +294,68 @@ def _pytablewriter(headers: list[str], data: list[dict], format: str) -> str:
         writer.type_hints = type_hints
 
     return writer.dumps()
+
+
+@cache
+def _eol_date_to_colour(date_str: str) -> str:
+    """Return a colour for EOL dates compared to now"""
+    now = dt.datetime.utcnow()
+    six_months_from_now = now + relativedelta(months=+6)
+
+    # Convert "2020-01-01" string to datetime
+    date_datetime = dt.datetime.strptime(date_str, "%Y-%m-%d")
+    if date_datetime < now:
+        return "red"
+    elif date_datetime < six_months_from_now:
+        return "yellow"
+    else:
+        return "green"
+
+
+def _chart(data):
+    earliest = "9999-99-99"
+    latest = "0000-00-00"
+    for cycle in data:
+        if cycle["release"] < earliest:
+            earliest = cycle["release"]
+        if cycle["eol"] > latest:
+            latest = cycle["eol"]
+
+    def date_to_number(date_string):
+        """Rough and ready converter: 2021-10-04 -> 2021 + 10/12 -> 2021.833"""
+        t = time.mktime(time.strptime(date_string, "%Y-%m-%d"))
+        return int(t)
+
+    earliest_int = date_to_number(earliest)
+    latest_int = date_to_number(latest)
+
+    longest_name_length = max(len(cycle["cycle"]) for cycle in data)
+    space_for_bars = 80 - 1 - longest_name_length
+    seconds_per_block = (latest_int - earliest_int) // space_for_bars
+
+    # Add now
+    now = int(time.time())
+    now_offset = " " * (longest_name_length + 1)
+    now_offset += " " * ((now - earliest_int) // seconds_per_block)
+    print(f"{now_offset}{colored('v', 'green')}")
+
+    for cycle in data:
+        release = date_to_number(cycle["release"])
+        eol = date_to_number(cycle["eol"])
+        a = (release - earliest_int) // seconds_per_block
+        c = (latest_int - eol) // seconds_per_block
+        # Avoid rounding, ensure a nice even 80 chars
+        b = space_for_bars - a - c
+
+        name = cycle["cycle"]
+        colour = _eol_date_to_colour(cycle["eol"])
+        out = colored(name.rjust(longest_name_length), colour) + " "
+        out += " " * a
+        out += colored("▓" * b, colour)
+        out += " " * c
+        print(out)
+
+    # Add now
+    print(f"{now_offset}{colored('^', 'green')}")
+
+    # return layout
