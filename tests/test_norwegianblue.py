@@ -157,6 +157,7 @@ class TestNorwegianBlue:
         # Assert
         assert output.strip() == expected.strip()
 
+    @freeze_time("2021-09-13")
     @mock.patch.dict(os.environ, {"FORCE_COLOR": "TRUE"})
     @respx.mock
     def test_norwegianblue_force_color(self):
