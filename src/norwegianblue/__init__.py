@@ -11,6 +11,7 @@ import json
 import os
 import sys
 import time
+import warnings
 from functools import cache
 from pathlib import Path
 
@@ -149,16 +150,15 @@ def norwegianblue(
 
     data = _ltsify(data)
 
-    if chart:
-        # TODO return
-        _chart(data)
-        # return ""# TEMP
+    chart_output = _chart(data) + "\n" if chart else ""
 
     if color != "no" and format != "html" and _can_do_colour():
         data = _colourify(data)
 
     output = _tabulate(data, format)
     _print_verbose(verbose, "")
+
+    output = chart_output + output
 
     if product == "norwegianblue":
         return prefix + output
@@ -312,22 +312,30 @@ def _eol_date_to_colour(date_str: str) -> str:
         return "green"
 
 
-def _chart(data):
+def _chart(data: list[dict]) -> str:
+    output = []
     earliest = "9999-99-99"
     latest = "0000-00-00"
     for cycle in data:
-        if cycle["release"] < earliest:
-            earliest = cycle["release"]
-        if cycle["eol"] > latest:
-            latest = cycle["eol"]
+        try:
+            if cycle["release"] < earliest:
+                earliest = cycle["release"]
+        except KeyError:
+            warnings.warn("Data has no release dates, cannot make chart")
+            return ""
+        try:
+            if cycle["eol"] > latest:
+                latest = cycle["eol"]
+        except TypeError:
+            warnings.warn("Data has no EOL dates, cannot make chart")
+            return ""
 
-    def date_to_number(date_string):
-        """Rough and ready converter: 2021-10-04 -> 2021 + 10/12 -> 2021.833"""
+    def date_to_seconds(date_string):
         t = time.mktime(time.strptime(date_string, "%Y-%m-%d"))
         return int(t)
 
-    earliest_int = date_to_number(earliest)
-    latest_int = date_to_number(latest)
+    earliest_int = date_to_seconds(earliest)
+    latest_int = date_to_seconds(latest)
 
     longest_name_length = max(len(cycle["cycle"]) for cycle in data)
     space_for_bars = 80 - 1 - longest_name_length
@@ -337,25 +345,29 @@ def _chart(data):
     now = int(time.time())
     now_offset = " " * (longest_name_length + 1)
     now_offset += " " * ((now - earliest_int) // seconds_per_block)
-    print(f"{now_offset}{colored('v', 'green')}")
+    output.append(f"{now_offset}{colored('v', 'green')}")
 
     for cycle in data:
-        release = date_to_number(cycle["release"])
-        eol = date_to_number(cycle["eol"])
+        release = date_to_seconds(cycle["release"])
+        eol = date_to_seconds(cycle["eol"])
         a = (release - earliest_int) // seconds_per_block
         c = (latest_int - eol) // seconds_per_block
         # Avoid rounding, ensure a nice even 80 chars
         b = space_for_bars - a - c
 
         name = cycle["cycle"]
-        colour = _eol_date_to_colour(cycle["eol"])
-        out = colored(name.rjust(longest_name_length), colour) + " "
+        out = name.ljust(longest_name_length) + " "
         out += " " * a
-        out += colored("▓" * b, colour)
+        out += "▓" * b
         out += " " * c
-        print(out)
+
+        index = len(now_offset)
+        out = out[:index] + "|" + out[index + 1 :]
+
+        colour = _eol_date_to_colour(cycle["eol"])
+        output.append(colored(out, colour))
 
     # Add now
-    print(f"{now_offset}{colored('^', 'green')}")
+    output.append(f"{now_offset}{colored('^', 'green')}")
 
-    # return layout
+    return "\n".join(output) + "\n"
