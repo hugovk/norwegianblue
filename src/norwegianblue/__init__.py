@@ -12,7 +12,7 @@ import os
 import sys
 import time
 import warnings
-from functools import cache
+from functools import lru_cache
 from pathlib import Path
 
 from dateutil.relativedelta import relativedelta
@@ -296,7 +296,7 @@ def _pytablewriter(headers: list[str], data: list[dict], format: str) -> str:
     return writer.dumps()
 
 
-@cache
+@lru_cache(maxsize=None)
 def _eol_date_to_colour(date_str: str) -> str:
     """Return a colour for EOL dates compared to now"""
     now = dt.datetime.utcnow()

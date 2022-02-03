@@ -42,7 +42,7 @@ run("eol --help")
 
 ```console
 $ eol --help
-usage: eol [-h] [-f {html,json,markdown,rst,tsv}] [-c {yes,no,auto}]
+usage: eol [-h] [-f {html,json,markdown,rst,tsv}] [-c {yes,no,auto}] [--chart]
            [--clear-cache] [-v] [-V]
            [product]
 
@@ -66,6 +66,7 @@ options:
                         The format of output (default: markdown)
   -c {yes,no,auto}, --color {yes,no,auto}
                         color terminal output (default: auto)
+  --chart               Chart the EOLs (default: False)
   --clear-cache         Clear cache before running (default: False)
   -v, --verbose         Print debug messages to stderr (default: False)
   -V, --version         show program's version number and exit
@@ -126,7 +127,7 @@ run("norwegianblue python", with_console=False)
 ]]] -->
 
 | cycle | latest |  release   |    eol     |
-| :---- | :----- | :--------: | :--------: |
+|:------|:-------|:----------:|:----------:|
 | 3.10  | 3.10.2 | 2021-10-04 | 2026-10-04 |
 | 3.9   | 3.9.10 | 2020-10-05 | 2025-10-05 |
 | 3.8   | 3.8.12 | 2019-10-14 | 2024-10-14 |
@@ -150,14 +151,14 @@ $ eol nodejs --format rst
 .. table::
 
     ========  ==========  ============  ============  ============
-     cycle      latest      release       support         eol
+     cycle      latest      release       support         eol     
     ========  ==========  ============  ============  ============
-     17        17.6.0      2021-10-19    2022-04-01    2022-06-01
-     16 LTS    16.14.0     2021-04-20    2022-10-18    2024-04-30
-     15        15.14.0     2020-10-20    2021-04-01    2021-06-01
-     14 LTS    14.19.0     2020-04-21    2021-10-19    2023-04-30
-     12 LTS    12.22.10    2019-04-23    2020-10-20    2022-04-30
-     10 LTS    10.24.1     2018-04-24    2020-05-19    2021-04-30
+     17        17.6.0      2021-10-19    2022-04-01    2022-06-01 
+     16 LTS    16.14.0     2021-04-20    2022-10-18    2024-04-30 
+     15        15.14.0     2020-10-20    2021-04-01    2021-06-01 
+     14 LTS    14.19.0     2020-04-21    2021-10-19    2023-04-30 
+     12 LTS    12.22.10    2019-04-23    2020-10-20    2022-04-30 
+     10 LTS    10.24.1     2018-04-24    2020-05-19    2021-04-30 
     ========  ==========  ============  ============  ============
 ```
 

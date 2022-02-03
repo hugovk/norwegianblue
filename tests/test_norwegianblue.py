@@ -114,6 +114,8 @@ class TestNorwegianBlue:
         self.original__save_cache = norwegianblue._save_cache
         norwegianblue._cache_filename = stub__cache_filename
         norwegianblue._save_cache = stub__save_cache
+        # Clear lru_cache
+        norwegianblue._eol_date_to_colour.cache_clear()
 
     def teardown_method(self):
         # Unstub caching
@@ -447,3 +449,73 @@ class TestNorwegianBlue:
 
         # Assert
         assert output == expected
+
+    def test__chart(self):
+        # Arrange
+        data = [
+            {
+                "cycle": "SUSE Linux Enterprise Server 15",
+                "release": "2018-07-15",
+                "eol": "2031-07-31",
+            },
+            {
+                "cycle": "SUSE Linux Enterprise Server 12",
+                "release": "2014-10-27",
+                "eol": "2027-10-31",
+            },
+            {
+                "cycle": "SUSE Linux Enterprise Server 11",
+                "release": "2009-03-23",
+                "eol": "2022-03-31",
+            },
+            {
+                "cycle": "SUSE Linux Enterprise Server 10",
+                "release": "2006-07-17",
+                "eol": "2016-07-31",
+            },
+        ]
+        expected = """\
+                                                             \x1b[32mv\x1b[0m
+\x1b[32mSUSE Linux Enterprise Server 15                       ▓▓▓▓▓▓▓|▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓\x1b[0m
+\x1b[32mSUSE Linux Enterprise Server 12                ▓▓▓▓▓▓▓▓▓▓▓▓▓▓|▓▓▓▓▓▓▓▓▓▓▓       \x1b[0m
+\x1b[33mSUSE Linux Enterprise Server 11      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓|▓                 \x1b[0m
+\x1b[31mSUSE Linux Enterprise Server 10 ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓         |                  \x1b[0m
+                                                             \x1b[32m^\x1b[0m
+"""  # noqa: E501
+
+        # Act
+        output = norwegianblue._chart(data)
+
+        # Assert
+        assert output == expected
+
+    @pytest.mark.parametrize(
+        "test_data",
+        [
+            # "Data has no release dates, cannot make chart"
+            [
+                {
+                    "cycle": "4.0",
+                    "support": "2022-08-01",
+                    "eol": "2023-04-01",
+                    "latest": "4.0",
+                }
+            ],
+            # "Data has no EOL dates, cannot make chart"
+            [
+                {
+                    "cycle": "2.4",
+                    "release": "2012-02-21",
+                    "eol": False,
+                    "latest": "2.4.52",
+                },
+            ],
+        ],
+    )
+    def test__chart_warning(self, test_data):
+        # Act
+        with pytest.warns(UserWarning):
+            output = norwegianblue._chart(test_data)
+
+        # Assert
+        assert output == ""
