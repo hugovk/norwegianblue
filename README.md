@@ -81,7 +81,6 @@ $ # or:
 ```
 
 <!-- [[[cog
-from scripts.run_command import run
 run("eol", line_limit=5)
 ]]] -->
 
@@ -100,7 +99,6 @@ angular
 Show end-of-life dates:
 
 <!-- [[[cog
-from scripts.run_command import run
 run("norwegianblue python")
 ]]] -->
 
@@ -124,7 +122,6 @@ $ norwegianblue python
 The table is Markdown, ready for pasting in GitHub issues and PRs:
 
 <!-- [[[cog
-from scripts.run_command import run
 run("norwegianblue python", with_console=False)
 ]]] -->
 
@@ -145,7 +142,6 @@ run("norwegianblue python", with_console=False)
 With options:
 
 <!-- [[[cog
-from scripts.run_command import run
 run("eol nodejs --format rst")
 ]]] -->
 
