@@ -9,6 +9,7 @@ import atexit
 import datetime as dt
 import json
 import os
+import shutil
 import sys
 import time
 import warnings
@@ -321,16 +322,16 @@ def _chart(data: list[dict]) -> str:
             if cycle["release"] < earliest:
                 earliest = cycle["release"]
         except KeyError:
-            warnings.warn("Data has no release dates, cannot make chart")
+            warnings.warn("Data missing release dates, cannot make chart")
             return ""
         try:
             if cycle["eol"] > latest:
                 latest = cycle["eol"]
         except TypeError:
-            warnings.warn("Data has no EOL dates, cannot make chart")
+            warnings.warn("Data missing EOL dates, cannot make chart")
             return ""
 
-    def date_to_seconds(date_string):
+    def date_to_seconds(date_string: str) -> int:
         t = time.mktime(time.strptime(date_string, "%Y-%m-%d"))
         return int(t)
 
@@ -338,36 +339,50 @@ def _chart(data: list[dict]) -> str:
     latest_int = date_to_seconds(latest)
 
     longest_name_length = max(len(cycle["cycle"]) for cycle in data)
-    space_for_bars = 80 - 1 - longest_name_length
+    terminal_width = shutil.get_terminal_size()[0]  # falls back to 80
+    space_for_bars = terminal_width - 1 - longest_name_length - 11
     seconds_per_block = (latest_int - earliest_int) // space_for_bars
 
     # Add now
     now = int(time.time())
-    now_offset = " " * (longest_name_length + 1)
-    now_offset += " " * ((now - earliest_int) // seconds_per_block)
-    output.append(f"{now_offset}{colored('v', 'green')}")
+    now_offset = longest_name_length + 1 + ((now - earliest_int) // seconds_per_block)
+    today_str = dt.datetime.utcnow().strftime("%Y-%m-%d")
+
+    def insert_string(s: str, string_to_insert: str, index: int) -> str:
+        """Insert string_to_insert to s at index"""
+        width = len(string_to_insert)
+        return s[:index] + string_to_insert + s[index + width :]
+
+    # Add earliest, now and latest
+    out = " " * terminal_width
+    out = insert_string(out, f"v {earliest}", longest_name_length + 1)
+    out = insert_string(out, f"v {today_str}", now_offset)
+    out = insert_string(out, f"v {latest}", longest_name_length + space_for_bars)
+    output.append(out)
+    earliest_now_latest = out
 
     for cycle in data:
         release = date_to_seconds(cycle["release"])
         eol = date_to_seconds(cycle["eol"])
         a = (release - earliest_int) // seconds_per_block
         c = (latest_int - eol) // seconds_per_block
-        # Avoid rounding, ensure a nice even 80 chars
+        # Avoid rounding, ensure a nice even number of chars
         b = space_for_bars - a - c
 
         name = cycle["cycle"]
         out = name.ljust(longest_name_length) + " "
         out += " " * a
         out += "▓" * b
-        out += " " * c
+        out += " " * (c + 11)
+        # out += " " + cycle["eol"]
 
-        index = len(now_offset)
-        out = out[:index] + "|" + out[index + 1 :]
+        out = insert_string(out, "|", now_offset)
+        out = insert_string(out, cycle["eol"], longest_name_length + a + b + 2)
 
         colour = _eol_date_to_colour(cycle["eol"])
         output.append(colored(out, colour))
 
-    # Add now
-    output.append(f"{now_offset}{colored('^', 'green')}")
+    # Add earliest, now and latest
+    output.append(earliest_now_latest.replace("v", "^"))
 
     return "\n".join(output) + "\n"
