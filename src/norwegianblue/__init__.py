@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import logging
 import os
 import sys
 
@@ -22,22 +23,8 @@ USER_AGENT = f"norwegianblue/{__version__}"
 ERROR_404_TEXT = "Product not found, run 'eol all' for list"
 
 
-def _print_verbose(verbose, *args, **kwargs):
-    """Print if verbose"""
-    if verbose:
-        _print_stderr(*args, **kwargs)
-
-
-def _print_stderr(*args, **kwargs):
-    """Print to stderr"""
-    print(*args, file=sys.stderr, **kwargs)
-
-
 def norwegianblue(
-    product: str = "all",
-    format: str = "markdown",
-    color: str = "yes",
-    verbose: bool = False,
+    product: str = "all", format: str = "markdown", color: str = "yes"
 ) -> str:
     """Call the API and return result"""
     if product == "norwegianblue":
@@ -45,18 +32,17 @@ def norwegianblue(
     else:
         url = BASE_URL + product.lower() + ".json"
         cache_file = _cache.filename(url)
-        _print_verbose(verbose, f"Human URL:\thttps://endoflife.date/{product.lower()}")
-        _print_verbose(verbose, f"API URL:\t{url}")
-        _print_verbose(
-            verbose,
+        logging.info(f"Human URL:\thttps://endoflife.date/{product.lower()}")
+        logging.info(f"API URL:\t{url}")
+        logging.info(
             "Source URL:\thttps://github.com/endoflife-date/endoflife.date/"
             f"blob/master/products/{product.lower()}.md",
         )
-        _print_verbose(verbose, f"Cache file:\t{cache_file}")
+        logging.info(f"Cache file:\t{cache_file}")
 
         res = {}
         if cache_file.is_file():
-            _print_verbose(verbose, "Cache file exists")
+            logging.info("Cache file exists")
             res = _cache.load(cache_file)
 
     if res == {}:
@@ -65,7 +51,7 @@ def norwegianblue(
 
         r = httpx.get(url, follow_redirects=True, headers={"User-Agent": USER_AGENT})
 
-        _print_verbose(verbose, "HTTP status code:", r.status_code)
+        logging.info("HTTP status code:", r.status_code)
         if r.status_code == 404:
             return ERROR_404_TEXT
 
@@ -90,7 +76,7 @@ def norwegianblue(
         data = _colourify(data)
 
     output = _tabulate(data, format)
-    _print_verbose(verbose, "")
+    logging.info("")
 
     if product == "norwegianblue":
         return prefix + output

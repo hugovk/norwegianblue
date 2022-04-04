@@ -13,6 +13,7 @@ Something missing? Please contribute! https://endoflife.date/contribute
 """
 import argparse
 import atexit
+import logging
 import sys
 
 import norwegianblue
@@ -29,7 +30,7 @@ class Formatter(
 atexit.register(_cache.clear)
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=Formatter)
     parser.add_argument(
         "product",
@@ -55,7 +56,13 @@ def main():
         "--clear-cache", action="store_true", help="Clear cache before running"
     )
     parser.add_argument(
-        "-v", "--verbose", action="store_true", help="Print debug messages to stderr"
+        "-v",
+        "--verbose",
+        action="store_const",
+        dest="loglevel",
+        const=logging.INFO,
+        default=logging.WARNING,
+        help="Print extra messages to stderr",
     )
     parser.add_argument(
         "-V",
@@ -64,12 +71,14 @@ def main():
         version=f"%(prog)s {norwegianblue.__version__}",
     )
     args = parser.parse_args()
+
+    logging.basicConfig(level=args.loglevel, format="%(message)s")
     if args.clear_cache:
         _cache.clear(clear_all=True)
 
     for product in args.product:
         output = norwegianblue.norwegianblue(
-            product=product, format=args.format, color=args.color, verbose=args.verbose
+            product=product, format=args.format, color=args.color
         )
         if output == norwegianblue.ERROR_404_TEXT:
             sys.exit(output)
