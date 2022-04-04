@@ -11,6 +11,7 @@ import respx
 from freezegun import freeze_time
 
 import norwegianblue
+from norwegianblue import _cache
 
 from .data.expected_output import (
     EXPECTED_HTML,
@@ -110,15 +111,15 @@ def stub__save_cache(*args):
 class TestNorwegianBlue:
     def setup_method(self):
         # Stub caching. Caches are tested in another class.
-        self.original__cache_filename = norwegianblue._cache_filename
-        self.original__save_cache = norwegianblue._save_cache
-        norwegianblue._cache_filename = stub__cache_filename
-        norwegianblue._save_cache = stub__save_cache
+        self.original__cache_filename = _cache.filename
+        self.original__save_cache = _cache.save
+        _cache.filename = stub__cache_filename
+        _cache.save = stub__save_cache
 
     def teardown_method(self):
         # Unstub caching
-        norwegianblue._cache_filename = self.original__cache_filename
-        norwegianblue._save_cache = self.original__save_cache
+        _cache.filename = self.original__cache_filename
+        _cache.save = self.original__save_cache
 
     @respx.mock
     @pytest.mark.parametrize(

@@ -12,9 +12,11 @@ For example:
 Something missing? Please contribute! https://endoflife.date/contribute
 """
 import argparse
+import atexit
 import sys
 
 import norwegianblue
+from norwegianblue import _cache
 
 
 class Formatter(
@@ -22,6 +24,9 @@ class Formatter(
     argparse.RawDescriptionHelpFormatter,
 ):
     pass
+
+
+atexit.register(_cache.clear)
 
 
 def main():
@@ -59,13 +64,12 @@ def main():
         version=f"%(prog)s {norwegianblue.__version__}",
     )
     args = parser.parse_args()
+    if args.clear_cache:
+        _cache.clear(clear_all=True)
+
     for product in args.product:
         output = norwegianblue.norwegianblue(
-            product=product,
-            format=args.format,
-            color=args.color,
-            verbose=args.verbose,
-            clear_cache=args.clear_cache,
+            product=product, format=args.format, color=args.color, verbose=args.verbose
         )
         if output == norwegianblue.ERROR_404_TEXT:
             sys.exit(output)
