@@ -11,6 +11,7 @@ import respx
 from freezegun import freeze_time
 
 import norwegianblue
+from norwegianblue import _cache
 
 from .data.expected_output import (
     EXPECTED_HTML,
@@ -103,22 +104,22 @@ def stub__cache_filename(*args):
     return Path("/this/does/not/exist")
 
 
-def stub__save_cache(*args):
+def stub__save_cache(*args) -> None:
     pass
 
 
 class TestNorwegianBlue:
-    def setup_method(self):
+    def setup_method(self) -> None:
         # Stub caching. Caches are tested in another class.
-        self.original__cache_filename = norwegianblue._cache_filename
-        self.original__save_cache = norwegianblue._save_cache
-        norwegianblue._cache_filename = stub__cache_filename
-        norwegianblue._save_cache = stub__save_cache
+        self.original__cache_filename = _cache.filename
+        self.original__save_cache = _cache.save
+        _cache.filename = stub__cache_filename
+        _cache.save = stub__save_cache
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         # Unstub caching
-        norwegianblue._cache_filename = self.original__cache_filename
-        norwegianblue._save_cache = self.original__save_cache
+        _cache.filename = self.original__cache_filename
+        _cache.save = self.original__save_cache
 
     @respx.mock
     @pytest.mark.parametrize(
@@ -130,7 +131,7 @@ class TestNorwegianBlue:
             pytest.param("tsv", EXPECTED_TSV, id="tsv"),
         ],
     )
-    def test_norwegianblue(self, test_format, expected):
+    def test_norwegianblue(self, test_format, expected) -> None:
         # Arrange
         mocked_url = "https://endoflife.date/api/ubuntu.json"
         mocked_response = SAMPLE_RESPONSE_JSON
@@ -144,7 +145,7 @@ class TestNorwegianBlue:
 
     @mock.patch.dict(os.environ, {"NO_COLOR": "TRUE"})
     @respx.mock
-    def test_norwegianblue_no_color(self):
+    def test_norwegianblue_no_color(self) -> None:
         # Arrange
         mocked_url = "https://endoflife.date/api/ubuntu.json"
         mocked_response = SAMPLE_RESPONSE_JSON
@@ -160,7 +161,7 @@ class TestNorwegianBlue:
     @freeze_time("2021-09-13")
     @mock.patch.dict(os.environ, {"FORCE_COLOR": "TRUE"})
     @respx.mock
-    def test_norwegianblue_force_color(self):
+    def test_norwegianblue_force_color(self) -> None:
         # Arrange
         mocked_url = "https://endoflife.date/api/ubuntu.json"
         mocked_response = SAMPLE_RESPONSE_JSON
@@ -174,7 +175,7 @@ class TestNorwegianBlue:
         assert output.strip() == expected.strip()
 
     @respx.mock
-    def test_norwegianblue_json(self):
+    def test_norwegianblue_json(self) -> None:
         # Arrange
         mocked_url = "https://endoflife.date/api/ubuntu.json"
         mocked_response = SAMPLE_RESPONSE_JSON
@@ -187,7 +188,7 @@ class TestNorwegianBlue:
         assert json.loads(output) == json.loads(SAMPLE_RESPONSE_JSON)
 
     @freeze_time("2021-06-15")
-    def test__colourify(self):
+    def test__colourify(self) -> None:
         # Arrange
         data = [
             {
@@ -248,7 +249,7 @@ class TestNorwegianBlue:
         # Assert
         assert output == expected
 
-    def test__colourify_boolean_support(self):
+    def test__colourify_boolean_support(self) -> None:
         # Arrange
         data = [
             {
@@ -291,7 +292,7 @@ class TestNorwegianBlue:
         # Assert
         assert output == expected
 
-    def test__colourify_boolean_eol(self):
+    def test__colourify_boolean_eol(self) -> None:
         # Arrange
         data = [
             {"cycle": "1.15", "release": "2020-08-11", "eol": False},
@@ -310,7 +311,7 @@ class TestNorwegianBlue:
         # Assert
         assert output == expected
 
-    def test__colourify_boolean_discontinued(self):
+    def test__colourify_boolean_discontinued(self) -> None:
         # Arrange
         data = [
             {
@@ -386,15 +387,15 @@ class TestNorwegianBlue:
         assert output == expected
 
     @mock.patch.dict(os.environ, {"NO_COLOR": "TRUE"})
-    def test_no_color(self):
+    def test_no_color(self) -> None:
         assert norwegianblue._can_do_colour() is False
 
     @mock.patch.dict(os.environ, {"FORCE_COLOR": "TRUE"})
-    def test_force_color(self):
+    def test_force_color(self) -> None:
         assert norwegianblue._can_do_colour() is True
 
     @respx.mock
-    def test_all_products(self):
+    def test_all_products(self) -> None:
         # Arrange
         mocked_url = "https://endoflife.date/api/all.json"
         mocked_response = SAMPLE_RESPONSE_ALL_JSON
@@ -408,7 +409,7 @@ class TestNorwegianBlue:
         assert output == expected
 
     @respx.mock
-    def test_404(self):
+    def test_404(self) -> None:
         # Arrange
         mocked_url = "https://endoflife.date/api/this-product-not-found.json"
 
@@ -419,7 +420,7 @@ class TestNorwegianBlue:
         # Assert
         assert output.strip() == norwegianblue.ERROR_404_TEXT
 
-    def test_norwegianblue_norwegianblue(self):
+    def test_norwegianblue_norwegianblue(self) -> None:
         # Act
         output = norwegianblue.norwegianblue(product="norwegianblue")
 
@@ -427,7 +428,7 @@ class TestNorwegianBlue:
         print(output)
         assert "Norwegian Blue" in output
 
-    def test__ltsify(self):
+    def test__ltsify(self) -> None:
         # Arrange
         data = [
             {"cycle": "5.3", "eol": "2022-01-01", "lts": False},

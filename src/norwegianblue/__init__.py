@@ -5,118 +5,45 @@ https://endoflife.date/docs/api/
 """
 from __future__ import annotations
 
-import atexit
 import datetime as dt
 import json
+import logging
 import os
 import sys
-from pathlib import Path
 
 from dateutil.relativedelta import relativedelta
-from platformdirs import user_cache_dir
-from slugify import slugify
 from termcolor import colored
+
+from norwegianblue import _cache
 
 from ._version import version as __version__
 
 BASE_URL = "https://endoflife.date/api/"
-CACHE_DIR = Path(user_cache_dir("norwegianblue"))
 USER_AGENT = f"norwegianblue/{__version__}"
 ERROR_404_TEXT = "Product not found, run 'eol all' for list"
 
 
-def _print_verbose(verbose, *args, **kwargs):
-    """Print if verbose"""
-    if verbose:
-        _print_stderr(*args, **kwargs)
-
-
-def _print_stderr(*args, **kwargs):
-    """Print to stderr"""
-    print(*args, file=sys.stderr, **kwargs)
-
-
-def _cache_filename(url):
-    """yyyy-mm-dd-url-slug.json"""
-    today = dt.datetime.utcnow().strftime("%Y-%m-%d")
-    slug = slugify(url)
-    filename = CACHE_DIR / f"{today}-{slug}.json"
-
-    return filename
-
-
-def _load_cache(cache_file):
-    if not cache_file.exists():
-        return {}
-
-    with cache_file.open("r") as f:
-        try:
-            data = json.load(f)
-        except json.decoder.JSONDecodeError:
-            return {}
-
-    return data
-
-
-def _save_cache(cache_file, data):
-    try:
-        if not CACHE_DIR.exists():
-            CACHE_DIR.mkdir(parents=True)
-
-        with cache_file.open("w") as f:
-            json.dump(data, f)
-
-    except OSError:
-        pass
-
-
-def _clear_cache_now():
-    """Delete all cache files now"""
-    cache_files = CACHE_DIR.glob("**/*.json")
-    for cache_file in cache_files:
-        cache_file.unlink()
-
-
-def _clear_cache():
-    """Delete old cache files, run as last task"""
-    cache_files = CACHE_DIR.glob("**/*.json")
-    today = dt.datetime.utcnow().strftime("%Y-%m-%d")
-    for cache_file in cache_files:
-        if not cache_file.name.startswith(today):
-            cache_file.unlink()
-
-
-atexit.register(_clear_cache)
-
-
 def norwegianblue(
-    product: str = "all",
-    format: str = "markdown",
-    color: str = "yes",
-    verbose: bool = False,
-    clear_cache: bool = False,
+    product: str = "all", format: str = "markdown", color: str = "yes"
 ) -> str:
     """Call the API and return result"""
-    if clear_cache:
-        _clear_cache_now()
     if product == "norwegianblue":
         from ._data import prefix, res
     else:
         url = BASE_URL + product.lower() + ".json"
-        cache_file = _cache_filename(url)
-        _print_verbose(verbose, f"Human URL:\thttps://endoflife.date/{product.lower()}")
-        _print_verbose(verbose, f"API URL:\t{url}")
-        _print_verbose(
-            verbose,
+        cache_file = _cache.filename(url)
+        logging.info(f"Human URL:\thttps://endoflife.date/{product.lower()}")
+        logging.info(f"API URL:\t{url}")
+        logging.info(
             "Source URL:\thttps://github.com/endoflife-date/endoflife.date/"
             f"blob/master/products/{product.lower()}.md",
         )
-        _print_verbose(verbose, f"Cache file:\t{cache_file}")
+        logging.info(f"Cache file:\t{cache_file}")
 
         res = {}
         if cache_file.is_file():
-            _print_verbose(verbose, "Cache file exists")
-            res = _load_cache(cache_file)
+            logging.info("Cache file exists")
+            res = _cache.load(cache_file)
 
     if res == {}:
         # No cache, or couldn't load cache
@@ -124,7 +51,7 @@ def norwegianblue(
 
         r = httpx.get(url, follow_redirects=True, headers={"User-Agent": USER_AGENT})
 
-        _print_verbose(verbose, "HTTP status code:", r.status_code)
+        logging.info("HTTP status code:", r.status_code)
         if r.status_code == 404:
             return ERROR_404_TEXT
 
@@ -134,7 +61,7 @@ def norwegianblue(
 
         res = r.json()
 
-        _save_cache(cache_file, res)
+        _cache.save(cache_file, res)
 
     if format == "json":
         return json.dumps(res)
@@ -149,7 +76,7 @@ def norwegianblue(
         data = _colourify(data)
 
     output = _tabulate(data, format)
-    _print_verbose(verbose, "")
+    logging.info("")
 
     if product == "norwegianblue":
         return prefix + output
