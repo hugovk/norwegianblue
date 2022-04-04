@@ -6,6 +6,7 @@ For example:
 
 * `eol python` to see Python EOLs
 * `eol ubuntu` to see Ubuntu EOLs
+* `eol centos fedora` to see CentOS and Fedora EOLs
 * `eol all` to list all available products
 
 Something missing? Please contribute! https://endoflife.date/contribute
@@ -27,8 +28,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=Formatter)
     parser.add_argument(
         "product",
-        nargs="?",
-        default="all",
+        nargs="*",
+        default=["all"],
         help="Product to check, or 'all' to list all available",
     )
     parser.add_argument(
@@ -58,16 +59,18 @@ def main():
         version=f"%(prog)s {norwegianblue.__version__}",
     )
     args = parser.parse_args()
-    output = norwegianblue.norwegianblue(
-        product=args.product,
-        format=args.format,
-        color=args.color,
-        verbose=args.verbose,
-        clear_cache=args.clear_cache,
-    )
-    if output == norwegianblue.ERROR_404_TEXT:
-        sys.exit(output)
-    print(output)
+    for product in args.product:
+        output = norwegianblue.norwegianblue(
+            product=product,
+            format=args.format,
+            color=args.color,
+            verbose=args.verbose,
+            clear_cache=args.clear_cache,
+        )
+        if output == norwegianblue.ERROR_404_TEXT:
+            sys.exit(output)
+        print(output)
+        print()
 
 
 if __name__ == "__main__":
