@@ -32,13 +32,14 @@ def norwegianblue(
     else:
         url = BASE_URL + product.lower() + ".json"
         cache_file = _cache.filename(url)
-        logging.info(f"Human URL:\thttps://endoflife.date/{product.lower()}")
-        logging.info(f"API URL:\t{url}")
+        logging.info("Human URL:\thttps://endoflife.date/%s", product.lower())
+        logging.info("API URL:\t%s", url)
         logging.info(
             "Source URL:\thttps://github.com/endoflife-date/endoflife.date/"
-            f"blob/master/products/{product.lower()}.md",
+            "blob/master/products/%s.md",
+            product.lower(),
         )
-        logging.info(f"Cache file:\t{cache_file}")
+        logging.info("Cache file:\t%s", cache_file)
 
         res = {}
         if cache_file.is_file():
@@ -51,7 +52,7 @@ def norwegianblue(
 
         r = httpx.get(url, follow_redirects=True, headers={"User-Agent": USER_AGENT})
 
-        logging.info("HTTP status code:", r.status_code)
+        logging.info("HTTP status code: %d", r.status_code)
         if r.status_code == 404:
             return ERROR_404_TEXT
 
