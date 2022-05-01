@@ -6,6 +6,6 @@ prettytable==3.2.0
 pytablewriter[html]==0.64.2
 pytest==7.1.1
 pytest-cov==3.0.0
-python-slugify==6.1.1
+python-slugify==6.1.2
 respx==0.19.2
 termcolor==1.1.0
