@@ -249,6 +249,7 @@ class TestNorwegianBlue:
         # Assert
         assert output == expected
 
+    @freeze_time("2021-06-16")
     def test__colourify_boolean_support(self) -> None:
         # Arrange
         data = [
