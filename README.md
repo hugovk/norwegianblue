@@ -18,7 +18,7 @@ end-of-life dates for a number of products.
 ### From PyPI
 
 ```bash
-python -m pip install --upgrade norwegianblue
+python3 -m pip install --upgrade norwegianblue
 ```
 
 ### From source
@@ -26,7 +26,7 @@ python -m pip install --upgrade norwegianblue
 ```bash
 git clone https://github.com/hugovk/norwegianblue
 cd norwegianblue
-pip install .
+python3 -m pip install .
 ```
 
 ## Example command-line use
