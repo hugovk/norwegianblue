@@ -156,7 +156,15 @@ def _tabulate(data: list[dict], format: str = "markdown") -> str:
 
     # Put headers in preferred order, with the rest at the end
     new_headers = []
-    for preferred in ("cycle", "latest", "release", "support", "discontinued", "eol"):
+    for preferred in (
+        "cycle",
+        "releaseDate",
+        "latest",
+        "latestReleaseDate",
+        "support",
+        "discontinued",
+        "eol",
+    ):
         if preferred in headers:
             new_headers.append(preferred)
             headers.remove(preferred)
