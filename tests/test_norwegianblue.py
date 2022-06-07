@@ -23,69 +23,87 @@ from .data.expected_output import (
 
 SAMPLE_RESPONSE_JSON = """
 [
-    {
-        "cycle": "21.04",
-        "cycleShortHand": "HirsuteHippo",
-        "lts": false,
-        "release": "2021-04-22",
-        "support": "2022-01-01",
-        "eol": "2022-01-01",
-        "latest": "21.04",
-        "link": "https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/"
-    },
-    {
-        "cycle": "20.10",
-        "cycleShortHand": "GroovyGorilla",
-        "lts": false,
-        "release": "2020-10-22",
-        "support": "2021-07-07",
-        "eol": "2021-07-07",
-        "latest": "20.10",
-        "link": "https://wiki.ubuntu.com/GroovyGorilla/ReleaseNotes/"
-    },
-    {
-        "cycle": "20.04",
-        "cycleShortHand": "FocalFossa",
-        "lts": true,
-        "release": "2020-04-23",
-        "support": "2022-10-01",
-        "eol": "2025-04-02",
-        "latest": "20.04.2"
-    },
-    {
-        "cycle": "19.10",
-        "release": "2019-10-17",
-        "support": "2020-07-06",
-        "eol": "2020-07-06",
-        "latest": "19.10"
-    },
-    {
-        "cycle": "18.04",
-        "cycleShortHand": "BionicBeaver",
-        "lts": true,
-        "release": "2018-04-26",
-        "support": "2020-09-30",
-        "eol": "2023-04-02",
-        "latest": "18.04.5"
-    },
-    {
-        "cycle": "16.04",
-        "cycleShortHand": "XenialXerus",
-        "lts": true,
-        "release": "2016-04-21",
-        "support": "2018-10-01",
-        "eol": "2021-04-02",
-        "latest": "16.04.7"
-    },
-    {
-        "cycle": "14.04",
-        "cycleShortHand": "TrustyTahr",
-        "lts": true,
-        "release": "2014-04-17",
-        "support": "2016-09-30",
-        "eol": "2019-04-02",
-        "latest": "14.04.6"
-    }
+  {
+    "cycle": "22.04",
+    "codename": "Jammy Jellyfish",
+    "support": "2027-04-02",
+    "eol": "2032-04-01",
+    "lts": true,
+    "latest": "22.04",
+    "link": "https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/",
+    "releaseDate": "2022-04-21"
+  },
+  {
+    "cycle": "21.10",
+    "codename": "Impish Indri",
+    "support": "2022-07-31",
+    "eol": "2022-07-31",
+    "latest": "21.10",
+    "link": "https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/",
+    "releaseDate": "2021-10-14"
+  },
+  {
+    "cycle": "21.04",
+    "codename": "Hirsute Hippo",
+    "support": "2022-01-20",
+    "eol": "2022-01-20",
+    "latest": "21.04",
+    "link": "https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/",
+    "releaseDate": "2021-04-22"
+  },
+  {
+    "cycle": "20.10",
+    "codename": "Groovy Gorilla",
+    "support": "2021-07-22",
+    "eol": "2021-07-22",
+    "latest": "20.10",
+    "releaseDate": "2020-10-22"
+  },
+  {
+    "cycle": "20.04",
+    "codename": "Focal Fossa",
+    "lts": true,
+    "support": "2025-04-02",
+    "eol": "2030-04-01",
+    "latest": "20.04.4",
+    "releaseDate": "2020-04-23"
+  },
+  {
+    "cycle": "19.10",
+    "codename": "Karmic Koala",
+    "support": "2020-07-06",
+    "eol": "2020-07-06",
+    "latest": "19.10",
+    "releaseDate": "2019-10-17"
+  },
+  {
+    "cycle": "18.04",
+    "codename": "Bionic Beaver",
+    "lts": true,
+    "support": "2023-04-02",
+    "eol": "2028-04-01",
+    "latest": "18.04.6",
+    "link": "https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes",
+    "releaseDate": "2018-04-26"
+  },
+  {
+    "cycle": "16.04",
+    "codename": "Xenial Xerus",
+    "lts": true,
+    "support": "2021-04-02",
+    "eol": "2026-04-01",
+    "latest": "16.04.7",
+    "releaseDate": "2016-04-21"
+  },
+  {
+    "cycle": "14.04",
+    "codename": "Trusty Tahr",
+    "lts": true,
+    "support": "2019-04-02",
+    "eol": "2024-04-01",
+    "latest": "14.04.6",
+    "releaseDate": "2014-04-17"
+  }
 ]
 """
 
@@ -131,7 +149,7 @@ class TestNorwegianBlue:
             pytest.param("tsv", EXPECTED_TSV, id="tsv"),
         ],
     )
-    def test_norwegianblue(self, test_format, expected) -> None:
+    def test_norwegianblue(self, test_format: str, expected: str) -> None:
         # Arrange
         mocked_url = "https://endoflife.date/api/ubuntu.json"
         mocked_response = SAMPLE_RESPONSE_JSON
@@ -382,7 +400,6 @@ class TestNorwegianBlue:
 
         # Act
         output = norwegianblue._colourify(data)
-        print(output)
 
         # Assert
         assert output == expected
@@ -426,7 +443,6 @@ class TestNorwegianBlue:
         output = norwegianblue.norwegianblue(product="norwegianblue")
 
         # Assert
-        print(output)
         assert "Norwegian Blue" in output
 
     def test__ltsify(self) -> None:
