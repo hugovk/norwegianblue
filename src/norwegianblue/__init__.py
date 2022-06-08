@@ -147,6 +147,13 @@ def _colourify(data: list[dict]) -> list[dict]:
 def _tabulate(data: list[dict], format: str = "markdown") -> str:
     """Return data in specified format"""
 
+    # Rename some headers
+    for row in data:
+        if "releaseDate" in row:
+            row["release"] = row.pop("releaseDate")
+        if "latestReleaseDate" in row:
+            row["latest release"] = row.pop("latestReleaseDate")
+
     headers = sorted(set().union(*(d.keys() for d in data)))
 
     # Skip some headers, only used internally at https://endoflife.date
@@ -158,9 +165,9 @@ def _tabulate(data: list[dict], format: str = "markdown") -> str:
     new_headers = []
     for preferred in (
         "cycle",
-        "releaseDate",
+        "release",
         "latest",
-        "latestReleaseDate",
+        "latest release",
         "support",
         "discontinued",
         "eol",

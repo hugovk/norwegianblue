@@ -17,105 +17,17 @@ from .data.expected_output import (
     EXPECTED_HTML,
     EXPECTED_MD,
     EXPECTED_MD_COLOUR,
+    EXPECTED_MD_LOG4J,
+    EXPECTED_MD_PYTHON,
     EXPECTED_RST,
     EXPECTED_TSV,
 )
-
-SAMPLE_RESPONSE_JSON = """
-[
-  {
-    "cycle": "22.04",
-    "codename": "Jammy Jellyfish",
-    "support": "2027-04-02",
-    "eol": "2032-04-01",
-    "lts": true,
-    "latest": "22.04",
-    "link": "https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/",
-    "releaseDate": "2022-04-21"
-  },
-  {
-    "cycle": "21.10",
-    "codename": "Impish Indri",
-    "support": "2022-07-31",
-    "eol": "2022-07-31",
-    "latest": "21.10",
-    "link": "https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/",
-    "releaseDate": "2021-10-14"
-  },
-  {
-    "cycle": "21.04",
-    "codename": "Hirsute Hippo",
-    "support": "2022-01-20",
-    "eol": "2022-01-20",
-    "latest": "21.04",
-    "link": "https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/",
-    "releaseDate": "2021-04-22"
-  },
-  {
-    "cycle": "20.10",
-    "codename": "Groovy Gorilla",
-    "support": "2021-07-22",
-    "eol": "2021-07-22",
-    "latest": "20.10",
-    "releaseDate": "2020-10-22"
-  },
-  {
-    "cycle": "20.04",
-    "codename": "Focal Fossa",
-    "lts": true,
-    "support": "2025-04-02",
-    "eol": "2030-04-01",
-    "latest": "20.04.4",
-    "releaseDate": "2020-04-23"
-  },
-  {
-    "cycle": "19.10",
-    "codename": "Karmic Koala",
-    "support": "2020-07-06",
-    "eol": "2020-07-06",
-    "latest": "19.10",
-    "releaseDate": "2019-10-17"
-  },
-  {
-    "cycle": "18.04",
-    "codename": "Bionic Beaver",
-    "lts": true,
-    "support": "2023-04-02",
-    "eol": "2028-04-01",
-    "latest": "18.04.6",
-    "link": "https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes",
-    "releaseDate": "2018-04-26"
-  },
-  {
-    "cycle": "16.04",
-    "codename": "Xenial Xerus",
-    "lts": true,
-    "support": "2021-04-02",
-    "eol": "2026-04-01",
-    "latest": "16.04.7",
-    "releaseDate": "2016-04-21"
-  },
-  {
-    "cycle": "14.04",
-    "codename": "Trusty Tahr",
-    "lts": true,
-    "support": "2019-04-02",
-    "eol": "2024-04-01",
-    "latest": "14.04.6",
-    "releaseDate": "2014-04-17"
-  }
-]
-"""
-
-SAMPLE_RESPONSE_ALL_JSON = """
-[
-    "alpine",
-    "amazon-linux",
-    "android",
-    "bootstrap",
-    "centos"
-]
-"""
+from .data.sample_response import (
+    SAMPLE_RESPONSE_ALL_JSON,
+    SAMPLE_RESPONSE_JSON_LOG4J,
+    SAMPLE_RESPONSE_JSON_PYTHON,
+    SAMPLE_RESPONSE_JSON_UBUNTU,
+)
 
 
 def stub__cache_filename(*args):
@@ -149,14 +61,43 @@ class TestNorwegianBlue:
             pytest.param("tsv", EXPECTED_TSV, id="tsv"),
         ],
     )
-    def test_norwegianblue(self, test_format: str, expected: str) -> None:
+    def test_norwegianblue_formats(self, test_format: str, expected: str) -> None:
         # Arrange
         mocked_url = "https://endoflife.date/api/ubuntu.json"
-        mocked_response = SAMPLE_RESPONSE_JSON
+        mocked_response = SAMPLE_RESPONSE_JSON_UBUNTU
 
         # Act
         respx.get(mocked_url).respond(content=mocked_response)
         output = norwegianblue.norwegianblue(product="ubuntu", format=test_format)
+
+        # Assert
+        assert output.strip() == expected.strip()
+
+    @respx.mock
+    @pytest.mark.parametrize(
+        "test_product, sample_response, expected",
+        [
+            pytest.param(
+                "log4j", SAMPLE_RESPONSE_JSON_LOG4J, EXPECTED_MD_LOG4J, id="log4j"
+            ),
+            pytest.param(
+                "python", SAMPLE_RESPONSE_JSON_PYTHON, EXPECTED_MD_PYTHON, id="python"
+            ),
+        ],
+    )
+    def test_norwegianblue_products(
+        self, test_product: str, sample_response: str, expected: str
+    ) -> None:
+        """Test other headers not present in Ubuntu:
+        * rename of releaseDate and latestReleaseDate headers (Python)
+        * skip of cycleShortHand (Log4j)"""
+        # Arrange
+        mocked_url = f"https://endoflife.date/api/{test_product}.json"
+        mocked_response = sample_response
+
+        # Act
+        respx.get(mocked_url).respond(content=mocked_response)
+        output = norwegianblue.norwegianblue(product=test_product, format="markdown")
 
         # Assert
         assert output.strip() == expected.strip()
@@ -166,7 +107,7 @@ class TestNorwegianBlue:
     def test_norwegianblue_no_color(self) -> None:
         # Arrange
         mocked_url = "https://endoflife.date/api/ubuntu.json"
-        mocked_response = SAMPLE_RESPONSE_JSON
+        mocked_response = SAMPLE_RESPONSE_JSON_UBUNTU
         expected = EXPECTED_MD
 
         # Act
@@ -182,7 +123,7 @@ class TestNorwegianBlue:
     def test_norwegianblue_force_color(self) -> None:
         # Arrange
         mocked_url = "https://endoflife.date/api/ubuntu.json"
-        mocked_response = SAMPLE_RESPONSE_JSON
+        mocked_response = SAMPLE_RESPONSE_JSON_UBUNTU
         expected = EXPECTED_MD_COLOUR
 
         # Act
@@ -196,14 +137,14 @@ class TestNorwegianBlue:
     def test_norwegianblue_json(self) -> None:
         # Arrange
         mocked_url = "https://endoflife.date/api/ubuntu.json"
-        mocked_response = SAMPLE_RESPONSE_JSON
+        mocked_response = SAMPLE_RESPONSE_JSON_UBUNTU
 
         # Act
         respx.get(mocked_url).respond(content=mocked_response)
         output = norwegianblue.norwegianblue(product="ubuntu", format="json")
 
         # Assert
-        assert json.loads(output) == json.loads(SAMPLE_RESPONSE_JSON)
+        assert json.loads(output) == json.loads(SAMPLE_RESPONSE_JSON_UBUNTU)
 
     @freeze_time("2021-06-15")
     def test__colourify(self) -> None:
