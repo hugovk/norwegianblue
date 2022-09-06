@@ -62,6 +62,9 @@ eol = "norwegianblue.cli:main"
 norwegianblue = "norwegianblue.cli:main"
 
 
+[tool.black]
+target_version = ["py37"]
+
 [tool.isort]
 profile = "black"
 
