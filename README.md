@@ -5,7 +5,7 @@
 [![PyPI downloads](https://img.shields.io/pypi/dm/norwegianblue.svg)](https://pypistats.org/packages/norwegianblue)
 [![Test](https://github.com/hugovk/norwegianblue/actions/workflows/test.yml/badge.svg)](https://github.com/hugovk/norwegianblue/actions)
 [![codecov](https://codecov.io/gh/hugovk/norwegianblue/branch/main/graph/badge.svg)](https://codecov.io/gh/hugovk/norwegianblue)
-[![GitHub](https://img.shields.io/github/license/hugovk/norwegianblue.svg)](LICENSE.txt)
+[![Licence](https://img.shields.io/github/license/hugovk/norwegianblue.svg)](LICENSE.txt)
 [![Code style: Black](https://img.shields.io/badge/code%20style-Black-000000.svg)](https://github.com/psf/black)
 
 <p align="center"><img src="https://raw.githubusercontent.com/hugovk/norwegianblue/main/img/eol-python.png" width="319" height="197"></p>

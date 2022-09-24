@@ -19,5 +19,5 @@
 - [ ] Check installation:
 
 ```bash
-pip3 uninstall -y norwegianblue && pip3 install -U norwegianblue
+pip3 uninstall -y norwegianblue && pip3 install -U norwegianblue && norwegianblue --version
 ```
