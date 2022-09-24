@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 SAMPLE_RESPONSE_ALL_JSON = """
 [
     "alpine",

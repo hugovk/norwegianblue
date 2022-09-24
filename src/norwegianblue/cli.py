@@ -11,6 +11,8 @@ For example:
 
 Something missing? Please contribute! https://endoflife.date/contribute
 """
+from __future__ import annotations
+
 import argparse
 import atexit
 import logging
@@ -50,7 +52,7 @@ def main() -> None:
         "--color",
         default="auto",
         choices=("yes", "no", "auto"),
-        help="color terminal output",
+        help="Color the terminal output",
     )
     parser.add_argument(
         "--clear-cache", action="store_true", help="Clear cache before running"
