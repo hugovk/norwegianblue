@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Python interface to endoflife.date API
 https://endoflife.date/docs/api/
@@ -16,7 +15,17 @@ from termcolor import colored
 
 from norwegianblue import _cache
 
-from ._version import version as __version__
+try:
+    # Python 3.8+
+    import importlib.metadata as importlib_metadata
+except ImportError:
+    # Python 3.7 and lower
+    import importlib_metadata  # type: ignore
+
+__version__ = importlib_metadata.version(__name__)
+
+
+__all__ = ["__version__"]
 
 BASE_URL = "https://endoflife.date/api/"
 USER_AGENT = f"norwegianblue/{__version__}"
