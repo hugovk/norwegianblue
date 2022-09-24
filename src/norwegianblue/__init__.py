@@ -166,7 +166,7 @@ def _tabulate(data: list[dict], format: str = "markdown") -> str:
     headers = sorted(set().union(*(d.keys() for d in data)))
 
     # Skip some headers, only used internally at https://endoflife.date
-    for header in ("cycleShortHand", "latestShortHand"):
+    for header in ("cycleShortHand", "latestShortHand", "releaseLabel"):
         if header in headers:
             headers.remove(header)
 
