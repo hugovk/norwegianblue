@@ -203,6 +203,7 @@ class TestNorwegianBlue:
                 "eol": "\x1b[32m2023-04-02\x1b[0m",  # green
             },
         ]
+        os.environ["FORCE_COLOR"] = "1"
 
         # Act
         output = norwegianblue._colourify(data)
