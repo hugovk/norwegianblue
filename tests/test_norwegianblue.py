@@ -149,6 +149,7 @@ class TestNorwegianBlue:
         assert json.loads(output) == json.loads(SAMPLE_RESPONSE_JSON_UBUNTU)
 
     @freeze_time("2021-06-15")
+    @mock.patch.dict(os.environ, {"FORCE_COLOR": "TRUE"})
     def test__colourify(self) -> None:
         # Arrange
         data = [
@@ -203,7 +204,6 @@ class TestNorwegianBlue:
                 "eol": "\x1b[32m2023-04-02\x1b[0m",  # green
             },
         ]
-        os.environ["FORCE_COLOR"] = "1"
 
         # Act
         output = norwegianblue._colourify(data)
@@ -212,6 +212,7 @@ class TestNorwegianBlue:
         assert output == expected
 
     @freeze_time("2021-06-16")
+    @mock.patch.dict(os.environ, {"FORCE_COLOR": "TRUE"})
     def test__colourify_boolean_support(self) -> None:
         # Arrange
         data = [
@@ -255,6 +256,7 @@ class TestNorwegianBlue:
         # Assert
         assert output == expected
 
+    @mock.patch.dict(os.environ, {"FORCE_COLOR": "TRUE"})
     def test__colourify_boolean_eol(self) -> None:
         # Arrange
         data = [
@@ -274,6 +276,7 @@ class TestNorwegianBlue:
         # Assert
         assert output == expected
 
+    @mock.patch.dict(os.environ, {"FORCE_COLOR": "TRUE"})
     def test__colourify_boolean_discontinued(self) -> None:
         # Arrange
         data = [
