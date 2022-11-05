@@ -147,6 +147,19 @@ EXPECTED_RST = """
     ===========  ============  =========  ============  ============  =================  ======================================================
 """  # noqa: E501 W291
 
+EXPECTED_CSV = """
+"cycle","release","latest","support","eol","codename","link"
+"22.04 LTS","2022-04-21","22.04","2027-04-02","2032-04-01","Jammy Jellyfish","https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/"
+"21.10","2021-10-14","21.10","2022-07-31","2022-07-31","Impish Indri","https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/"
+"21.04","2021-04-22","21.04","2022-01-20","2022-01-20","Hirsute Hippo","https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/"
+"20.10","2020-10-22","20.10","2021-07-22","2021-07-22","Groovy Gorilla",
+"20.04 LTS","2020-04-23","20.04.4","2025-04-02","2030-04-01","Focal Fossa",
+"19.10","2019-10-17","19.10","2020-07-06","2020-07-06","Karmic Koala",
+"18.04 LTS","2018-04-26","18.04.6","2023-04-02","2028-04-01","Bionic Beaver","https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes"
+"16.04 LTS","2016-04-21","16.04.7","2021-04-02","2026-04-01","Xenial Xerus",
+"14.04 LTS","2014-04-17","14.04.6","2019-04-02","2024-04-01","Trusty Tahr",
+"""  # noqa: E501 W291
+
 EXPECTED_TSV = """
 "cycle"	"release"	"latest"	"support"	"eol"	"codename"	"link"
 "22.04 LTS"	"2022-04-21"	"22.04"	"2027-04-02"	"2032-04-01"	"Jammy Jellyfish"	"https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/"

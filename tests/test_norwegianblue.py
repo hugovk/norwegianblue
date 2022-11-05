@@ -16,6 +16,7 @@ import norwegianblue
 from norwegianblue import _cache
 
 from .data.expected_output import (
+    EXPECTED_CSV,
     EXPECTED_HTML,
     EXPECTED_MD,
     EXPECTED_MD_COLOUR,
@@ -57,6 +58,7 @@ class TestNorwegianBlue:
     @pytest.mark.parametrize(
         "test_format, expected",
         [
+            pytest.param("csv", EXPECTED_CSV, id="csv"),
             pytest.param("html", EXPECTED_HTML, id="html"),
             pytest.param("markdown", EXPECTED_MD, id="markdown"),
             pytest.param("rst", EXPECTED_RST, id="rst"),

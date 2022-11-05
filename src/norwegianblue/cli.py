@@ -45,7 +45,7 @@ def main() -> None:
         "-f",
         "--format",
         default="markdown",
-        choices=("html", "json", "markdown", "rst", "tsv"),
+        choices=("html", "json", "markdown", "rst", "csv", "tsv"),
         help="The format of output",
     )
     parser.add_argument(
