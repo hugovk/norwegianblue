@@ -209,6 +209,7 @@ def _prettytable(headers: list[str], data: list[dict]) -> str:
 
 def _pytablewriter(headers: list[str], data: list[dict], format: str) -> str:
     from pytablewriter import (
+        CsvTableWriter,
         HtmlTableWriter,
         RstSimpleTableWriter,
         String,
@@ -217,6 +218,7 @@ def _pytablewriter(headers: list[str], data: list[dict], format: str) -> str:
     from pytablewriter.style import Align, Style
 
     format_writers = {
+        "csv": CsvTableWriter,
         "html": HtmlTableWriter,
         "rst": RstSimpleTableWriter,
         "tsv": TsvTableWriter,
