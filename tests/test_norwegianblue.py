@@ -134,7 +134,7 @@ class TestNorwegianBlue:
 
         # Act
         respx.get(mocked_url).respond(content=mocked_response)
-        output = norwegianblue.norwegianblue(product="ubuntu", format="markdown")
+        output = norwegianblue.norwegianblue(product="ubuntu", format="md")
 
         # Assert
         assert output.strip() == expected.strip()

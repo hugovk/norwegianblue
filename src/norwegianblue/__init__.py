@@ -36,6 +36,8 @@ def norwegianblue(
     product: str = "all", format: str = "pretty", color: str = "yes"
 ) -> str:
     """Call the API and return result"""
+    if format == "md":
+        format = "markdown"
     if product == "norwegianblue":
         from ._data import prefix, res
     else:
