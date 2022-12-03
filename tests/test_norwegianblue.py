@@ -22,6 +22,7 @@ from .data.expected_output import (
     EXPECTED_MD_COLOUR,
     EXPECTED_MD_LOG4J,
     EXPECTED_MD_PYTHON,
+    EXPECTED_PRETTY,
     EXPECTED_RST,
     EXPECTED_TSV,
 )
@@ -61,6 +62,7 @@ class TestNorwegianBlue:
             pytest.param("csv", EXPECTED_CSV, id="csv"),
             pytest.param("html", EXPECTED_HTML, id="html"),
             pytest.param("markdown", EXPECTED_MD, id="markdown"),
+            pytest.param("pretty", EXPECTED_PRETTY, id="pretty"),
             pytest.param("rst", EXPECTED_RST, id="rst"),
             pytest.param("tsv", EXPECTED_TSV, id="tsv"),
         ],
@@ -116,7 +118,7 @@ class TestNorwegianBlue:
 
         # Act
         respx.get(mocked_url).respond(content=mocked_response)
-        output = norwegianblue.norwegianblue(product="ubuntu")
+        output = norwegianblue.norwegianblue(product="ubuntu", format="markdown")
 
         # Assert
         assert output.strip() == expected.strip()
@@ -132,7 +134,7 @@ class TestNorwegianBlue:
 
         # Act
         respx.get(mocked_url).respond(content=mocked_response)
-        output = norwegianblue.norwegianblue(product="ubuntu")
+        output = norwegianblue.norwegianblue(product="ubuntu", format="markdown")
 
         # Assert
         assert output.strip() == expected.strip()

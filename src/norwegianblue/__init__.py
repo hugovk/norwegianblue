@@ -33,7 +33,7 @@ ERROR_404_TEXT = "Product not found, run 'eol all' for list"
 
 
 def norwegianblue(
-    product: str = "all", format: str = "markdown", color: str = "yes"
+    product: str = "all", format: str = "pretty", color: str = "yes"
 ) -> str:
     """Call the API and return result"""
     if product == "norwegianblue":
@@ -153,7 +153,7 @@ def _colourify(data: list[dict]) -> list[dict]:
     return data
 
 
-def _tabulate(data: list[dict], format: str = "markdown") -> str:
+def _tabulate(data: list[dict], format_: str = "markdown") -> str:
     """Return data in specified format"""
 
     # Rename some headers
@@ -186,17 +186,20 @@ def _tabulate(data: list[dict], format: str = "markdown") -> str:
             headers.remove(preferred)
     headers = new_headers + headers
 
-    if format == "markdown":
-        return _prettytable(headers, data)
+    if format_ in ("markdown", "pretty"):
+        return _prettytable(headers, data, format_)
     else:
-        return _pytablewriter(headers, data, format)
+        return _pytablewriter(headers, data, format_)
 
 
-def _prettytable(headers: list[str], data: list[dict]) -> str:
-    from prettytable import MARKDOWN, PrettyTable
+def _prettytable(headers: list[str], data: list[dict], format_: str) -> str:
+    from prettytable import MARKDOWN, SINGLE_BORDER, PrettyTable
 
     x = PrettyTable()
-    x.set_style(MARKDOWN)
+    if format_ == "markdown":
+        x.set_style(MARKDOWN)
+    else:
+        x.set_style(SINGLE_BORDER)
 
     for header in headers:
         col_data = [row[header] if header in row else "" for row in data]
@@ -207,7 +210,7 @@ def _prettytable(headers: list[str], data: list[dict]) -> str:
     return x.get_string()
 
 
-def _pytablewriter(headers: list[str], data: list[dict], format: str) -> str:
+def _pytablewriter(headers: list[str], data: list[dict], format_: str) -> str:
     from pytablewriter import (
         CsvTableWriter,
         HtmlTableWriter,
@@ -224,8 +227,8 @@ def _pytablewriter(headers: list[str], data: list[dict], format: str) -> str:
         "tsv": TsvTableWriter,
     }
 
-    writer = format_writers[format]()
-    if format != "html":
+    writer = format_writers[format_]()
+    if format_ != "html":
         writer.margin = 1
 
     writer.headers = headers

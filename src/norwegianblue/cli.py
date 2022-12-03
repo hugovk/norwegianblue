@@ -44,8 +44,8 @@ def main() -> None:
     parser.add_argument(
         "-f",
         "--format",
-        default="markdown",
-        choices=("html", "json", "markdown", "rst", "csv", "tsv"),
+        default="pretty",
+        choices=("html", "json", "markdown", "pretty", "rst", "csv", "tsv"),
         help="The format of output",
     )
     parser.add_argument(
