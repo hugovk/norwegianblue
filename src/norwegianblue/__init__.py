@@ -176,6 +176,7 @@ def _tabulate(data: list[dict], format_: str = "markdown") -> str:
     new_headers = []
     for preferred in (
         "cycle",
+        "codename",
         "release",
         "latest",
         "latest release",
