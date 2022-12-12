@@ -8,7 +8,7 @@
 [![Licence](https://img.shields.io/github/license/hugovk/norwegianblue.svg)](LICENSE.txt)
 [![Code style: Black](https://img.shields.io/badge/code%20style-Black-000000.svg)](https://github.com/psf/black)
 
-<p align="center"><img src="https://raw.githubusercontent.com/hugovk/norwegianblue/main/img/eol-python.png" width="609" height="317"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/hugovk/norwegianblue/main/img/eol-python.png" width="370" height="225"></p>
 
 Python interface to [endoflife.date](https://endoflife.date/docs/api/) to show
 end-of-life dates for a number of products.
