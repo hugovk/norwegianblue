@@ -19,6 +19,7 @@ authors = [{name = "Hugo van Kemenade"}]
 requires-python = ">=3.7"
 dependencies = [
   "httpx>=0.19",
+  'importlib-metadata; python_version < "3.8"',
   "platformdirs",
   "prettytable>=2.4",
   "pytablewriter[html]>=0.63",
