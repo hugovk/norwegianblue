@@ -54,6 +54,7 @@ For example:
 * `eol ubuntu` to see Ubuntu EOLs
 * `eol centos fedora` to see CentOS and Fedora EOLs
 * `eol all` to list all available products
+- `eol` to list all available products
 
 Something missing? Please contribute! https://endoflife.date/contribute
 
