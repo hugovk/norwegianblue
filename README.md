@@ -53,7 +53,7 @@ For example:
 * `eol python` to see Python EOLs
 * `eol ubuntu` to see Ubuntu EOLs
 * `eol centos fedora` to see CentOS and Fedora EOLs
-* `eol all` to list all available products
+* `eol all` or `eol` to list all available products
 
 Something missing? Please contribute! https://endoflife.date/contribute
 
