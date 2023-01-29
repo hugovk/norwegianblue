@@ -355,14 +355,6 @@ class TestNorwegianBlue:
         # Assert
         assert output == expected
 
-    @mock.patch.dict(os.environ, {"NO_COLOR": "TRUE"})
-    def test_no_color(self) -> None:
-        assert norwegianblue._can_do_colour() is False
-
-    @mock.patch.dict(os.environ, {"FORCE_COLOR": "TRUE"})
-    def test_force_color(self) -> None:
-        assert norwegianblue._can_do_colour() is True
-
     @respx.mock
     def test_all_products(self) -> None:
         # Arrange

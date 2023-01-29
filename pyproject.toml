@@ -25,7 +25,7 @@ dependencies = [
   "pytablewriter[html]>=0.63",
   "python-dateutil",
   "python-slugify",
-  "termcolor",
+  "termcolor>=2.1",
 ]
 dynamic = [
   "version",
