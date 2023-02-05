@@ -63,7 +63,7 @@ def norwegianblue(
 
         logging.info("HTTP status code: %d", r.status_code)
         if r.status_code == 404:
-            return ERROR_404_TEXT
+            raise ValueError(ERROR_404_TEXT)
 
         # Raise if we made a bad request
         # (4XX client error or 5XX server error response)

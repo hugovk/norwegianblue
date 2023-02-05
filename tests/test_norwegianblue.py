@@ -374,12 +374,10 @@ class TestNorwegianBlue:
         # Arrange
         mocked_url = "https://endoflife.date/api/this-product-not-found.json"
 
-        # Act
+        # Act / Assert
         respx.get(mocked_url).respond(status_code=404)
-        output = norwegianblue.norwegianblue(product="this-product-not-found")
-
-        # Assert
-        assert output.strip() == norwegianblue.ERROR_404_TEXT
+        with pytest.raises(ValueError, match=norwegianblue.ERROR_404_TEXT):
+            norwegianblue.norwegianblue(product="this-product-not-found")
 
     def test_norwegianblue_norwegianblue(self) -> None:
         # Act
