@@ -17,19 +17,6 @@ keywords = [
 license = {text = "MIT"}
 authors = [{name = "Hugo van Kemenade"}]
 requires-python = ">=3.7"
-dependencies = [
-  "httpx>=0.19",
-  'importlib-metadata; python_version < "3.8"',
-  "platformdirs",
-  "prettytable>=2.4",
-  "pytablewriter[html]>=0.63",
-  "python-dateutil",
-  "python-slugify",
-  "termcolor>=2.1",
-]
-dynamic = [
-  "version",
-]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -46,6 +33,19 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
+]
+dynamic = [
+  "version",
+]
+dependencies = [
+  "httpx>=0.19",
+  'importlib-metadata; python_version < "3.8"',
+  "platformdirs",
+  "prettytable>=2.4",
+  "pytablewriter[html]>=0.63",
+  "python-dateutil",
+  "python-slugify",
+  "termcolor>=2.1",
 ]
 [project.optional-dependencies]
 tests = [
@@ -64,9 +64,6 @@ Source = "https://github.com/hugovk/norwegianblue"
 eol = "norwegianblue.cli:main"
 norwegianblue = "norwegianblue.cli:main"
 
-
-[tool.black]
-target_version = ["py37"]
 
 [tool.hatch]
 version.source = "vcs"
