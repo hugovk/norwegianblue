@@ -27,7 +27,7 @@ __all__ = ["__version__"]
 
 BASE_URL = "https://endoflife.date/api/"
 USER_AGENT = f"norwegianblue/{__version__}"
-ERROR_404_TEXT = "Product not found, run 'eol all' for list"
+ERROR_404_TEXT = "Product '{}' not found, run 'eol all' for list. Did you mean: '{}'?"
 
 
 def norwegianblue(
@@ -63,7 +63,8 @@ def norwegianblue(
 
         logging.info("HTTP status code: %d", r.status_code)
         if r.status_code == 404:
-            return ERROR_404_TEXT
+            suggestion = _suggest_product(product)
+            raise ValueError(ERROR_404_TEXT.format(product, suggestion))
 
         # Raise if we made a bad request
         # (4XX client error or 5XX server error response)
@@ -92,6 +93,22 @@ def norwegianblue(
         return prefix + output
 
     return output
+
+
+def _suggest_product(product: str) -> str:
+    import warnings
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=UserWarning)
+        from thefuzz import process
+
+    # Get all known products from the API or cache
+    all_products = norwegianblue("all").splitlines()
+
+    # Find the closest match
+    result = process.extractOne(product, all_products)
+    logging.info("Suggestion:\t%s (score: %d)", *result)
+    return result[0]
 
 
 def _ltsify(data: list[dict]) -> list[dict]:

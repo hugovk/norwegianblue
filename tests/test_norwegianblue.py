@@ -372,14 +372,20 @@ class TestNorwegianBlue:
     @respx.mock
     def test_404(self) -> None:
         # Arrange
-        mocked_url = "https://endoflife.date/api/this-product-not-found.json"
-
-        # Act
+        mocked_url = "https://endoflife.date/api/androd.json"
         respx.get(mocked_url).respond(status_code=404)
-        output = norwegianblue.norwegianblue(product="this-product-not-found")
 
-        # Assert
-        assert output.strip() == norwegianblue.ERROR_404_TEXT
+        mocked_url = "https://endoflife.date/api/all.json"
+        mocked_response = SAMPLE_RESPONSE_ALL_JSON
+        respx.get(mocked_url).respond(content=mocked_response)
+
+        # Act / Assert
+        with pytest.raises(
+            ValueError,
+            match=r"Product 'androd' not found, run 'eol all' for list\. "
+            r"Did you mean: 'android'?",
+        ):
+            norwegianblue.norwegianblue(product="androd")
 
     def test_norwegianblue_norwegianblue(self) -> None:
         # Act

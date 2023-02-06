@@ -81,11 +81,12 @@ def main() -> None:
         _cache.clear(clear_all=True)
 
     for product in args.product:
-        output = norwegianblue.norwegianblue(
-            product=product, format=args.format, color=args.color
-        )
-        if output == norwegianblue.ERROR_404_TEXT:
-            sys.exit(output)
+        try:
+            output = norwegianblue.norwegianblue(
+                product=product, format=args.format, color=args.color
+            )
+        except ValueError as e:
+            sys.exit(e)
         print(output)
         print()
 
