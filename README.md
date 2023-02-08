@@ -28,6 +28,10 @@ git clone https://github.com/hugovk/norwegianblue
 cd norwegianblue
 python3 -m pip install .
 ```
+## 🧑‍🎓 Try `eol` in your browser
+
+A dedciated and ready to use tutorial is available on [`KillerCoda`](https://killercoda.com/opt-labs/course/devops-tools/eol)
+so you can give it a try without having to install anything.
 
 ## Example command-line use
 
@@ -182,6 +186,8 @@ $ eol nodejs --format rst
 ```
 
 <!-- [[[end]]] -->
+
+
 
 ## Example programmatic use
 
