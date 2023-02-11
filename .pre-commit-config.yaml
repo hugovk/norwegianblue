@@ -9,7 +9,6 @@ repos:
     rev: 23.1.0
     hooks:
       - id: black
-        args: [--target-version=py37]
 
   - repo: https://github.com/PyCQA/isort
     rev: 5.12.0
