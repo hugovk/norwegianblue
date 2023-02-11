@@ -11,7 +11,7 @@ from freezegun import freeze_time
 from norwegianblue import _cache
 
 
-class TestNorwegianBlueCache:
+class TestCache:
     def setup_method(self) -> None:
         # Choose a new cache dir that doesn't exist
         self.original_cache_dir = _cache.CACHE_DIR
@@ -23,7 +23,7 @@ class TestNorwegianBlueCache:
         _cache.CACHE_DIR = self.original_cache_dir
 
     @freeze_time("2018-12-26")
-    def test_cache_filename(self) -> None:
+    def test__cache_filename(self) -> None:
         # Arrange
         url = "https://endoflife.date/api/python.json"
 
