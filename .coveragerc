@@ -12,5 +12,5 @@ exclude_lines =
 
 [run]
 omit =
-    src/norwegianblue/__main__.py
-    src/norwegianblue/cli.py
+    */norwegianblue/__main__.py
+    */norwegianblue/cli.py
