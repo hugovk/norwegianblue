@@ -31,7 +31,10 @@ ERROR_404_TEXT = "Product '{}' not found, run 'eol all' for list. Did you mean: 
 
 
 def norwegianblue(
-    product: str = "all", format: str = "pretty", color: str = "yes"
+    product: str = "all",
+    format: str = "pretty",
+    color: str = "yes",
+    show_title: bool = False,
 ) -> str:
     """Call the API and return result"""
     if format == "md":
@@ -86,7 +89,7 @@ def norwegianblue(
     if color != "no" and format != "html":
         data = _colourify(data)
 
-    output = _tabulate(data, format, color)
+    output = _tabulate(data, format, color, product if show_title else None)
     logging.info("")
 
     if product == "norwegianblue":
@@ -157,7 +160,9 @@ def _colourify(data: list[dict]) -> list[dict]:
     return data
 
 
-def _tabulate(data: list[dict], format_: str = "markdown", color: str = "yes") -> str:
+def _tabulate(
+    data: list[dict], format_: str = "markdown", color: str = "yes", title: str = None
+) -> str:
     """Return data in specified format"""
 
     # Rename some headers
@@ -192,32 +197,43 @@ def _tabulate(data: list[dict], format_: str = "markdown", color: str = "yes") -
     headers = new_headers + headers
 
     if format_ in ("markdown", "pretty"):
-        return _prettytable(headers, data, format_, color)
+        return _prettytable(headers, data, format_, color, title)
     else:
-        return _pytablewriter(headers, data, format_)
+        return _pytablewriter(headers, data, format_, title)
 
 
 def _prettytable(
-    headers: list[str], data: list[dict], format_: str, color: str = "yes"
+    headers: list[str],
+    data: list[dict],
+    format_: str,
+    color: str = "yes",
+    title: str = None,
 ) -> str:
     from prettytable import MARKDOWN, SINGLE_BORDER, PrettyTable
 
     x = PrettyTable()
     x.set_style(MARKDOWN if format_ == "markdown" else SINGLE_BORDER)
+    do_color = color != "no" and format_ == "pretty"
 
     for header in headers:
         col_data = [row[header] if header in row else "" for row in data]
-        if color != "no" and format_ == "pretty":
-            x.add_column(colored(header, attrs=["bold"]), col_data)
-        else:
-            x.add_column(header, col_data)
+        x.add_column(colored(header, attrs=["bold"]) if do_color else header, col_data)
         if header in ("cycle", "latest", "link"):
             x.align[header] = "l"
 
-    return x.get_string()
+    title_prefix = ""
+    if title:
+        if format_ == "pretty":
+            x.title = colored(title, attrs=["bold"]) if do_color else title
+        else:
+            title_prefix = f"## {title}\n\n"
+
+    return title_prefix + x.get_string()
 
 
-def _pytablewriter(headers: list[str], data: list[dict], format_: str) -> str:
+def _pytablewriter(
+    headers: list[str], data: list[dict], format_: str, title: str = None
+) -> str:
     from pytablewriter import (
         CsvTableWriter,
         HtmlTableWriter,
@@ -238,6 +254,7 @@ def _pytablewriter(headers: list[str], data: list[dict], format_: str) -> str:
     if format_ != "html":
         writer.margin = 1
 
+    writer.table_name = title
     writer.headers = headers
     writer.value_matrix = data
 

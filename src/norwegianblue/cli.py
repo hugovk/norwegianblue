@@ -80,10 +80,14 @@ def main() -> None:
     if args.clear_cache:
         _cache.clear(clear_all=True)
 
+    multiple_products = len(args.product) >= 2
     for product in args.product:
         try:
             output = norwegianblue.norwegianblue(
-                product=product, format=args.format, color=args.color
+                product=product,
+                format=args.format,
+                color=args.color,
+                show_title=multiple_products,
             )
         except ValueError as e:
             sys.exit(e)
