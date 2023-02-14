@@ -86,7 +86,7 @@ def norwegianblue(
         return "\n".join(data)
 
     data = _ltsify(data)
-    if color != "no" and format != "html":
+    if color != "no" and format not in ("html", "yaml"):
         data = _colourify(data)
 
     output = _tabulate(data, format, color, product if show_title else None)
@@ -240,6 +240,7 @@ def _pytablewriter(
         RstSimpleTableWriter,
         String,
         TsvTableWriter,
+        YamlTableWriter,
     )
     from pytablewriter.style import Align, Style
 
@@ -248,6 +249,7 @@ def _pytablewriter(
         "html": HtmlTableWriter,
         "rst": RstSimpleTableWriter,
         "tsv": TsvTableWriter,
+        "yaml": YamlTableWriter,
     }
 
     writer = format_writers[format_]()
