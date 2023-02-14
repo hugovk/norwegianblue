@@ -23,6 +23,7 @@ from .data.expected_output import (
     EXPECTED_MD_LOG4J,
     EXPECTED_MD_PYTHON,
     EXPECTED_PRETTY,
+    EXPECTED_PRETTY_WITH_TITLE,
     EXPECTED_RST,
     EXPECTED_TSV,
 )
@@ -32,6 +33,13 @@ from .data.sample_response import (
     SAMPLE_RESPONSE_JSON_PYTHON,
     SAMPLE_RESPONSE_JSON_UBUNTU,
 )
+
+EXPECTED_HTML_WITH_TITLE = EXPECTED_HTML.replace(
+    "<table>",
+    '<table id="ubuntu">\n    <caption>ubuntu</caption>',
+)
+EXPECTED_RST_WITH_TITLE = EXPECTED_RST.replace(".. table::", ".. table:: ubuntu")
+EXPECTED_MD_WITH_TITLE = "## ubuntu\n" + EXPECTED_MD
 
 
 def stub__cache_filename(*args):
@@ -57,24 +65,34 @@ class TestNorwegianBlue:
 
     @respx.mock
     @pytest.mark.parametrize(
-        "test_format, expected",
+        "test_format, test_show_title, expected",
         [
-            pytest.param("csv", EXPECTED_CSV, id="csv"),
-            pytest.param("html", EXPECTED_HTML, id="html"),
-            pytest.param("markdown", EXPECTED_MD, id="markdown"),
-            pytest.param("pretty", EXPECTED_PRETTY, id="pretty"),
-            pytest.param("rst", EXPECTED_RST, id="rst"),
-            pytest.param("tsv", EXPECTED_TSV, id="tsv"),
+            pytest.param("csv", False, EXPECTED_CSV, id="csv"),
+            pytest.param("csv", True, EXPECTED_CSV, id="csv"),
+            pytest.param("html", False, EXPECTED_HTML, id="html"),
+            pytest.param("html", True, EXPECTED_HTML_WITH_TITLE, id="html"),
+            pytest.param("markdown", False, EXPECTED_MD, id="markdown"),
+            pytest.param("markdown", True, EXPECTED_MD_WITH_TITLE, id="markdown"),
+            pytest.param("pretty", False, EXPECTED_PRETTY, id="pretty"),
+            pytest.param("pretty", True, EXPECTED_PRETTY_WITH_TITLE, id="pretty"),
+            pytest.param("rst", False, EXPECTED_RST, id="rst"),
+            pytest.param("rst", True, EXPECTED_RST_WITH_TITLE, id="rst"),
+            pytest.param("tsv", False, EXPECTED_TSV, id="tsv"),
+            pytest.param("tsv", True, EXPECTED_TSV, id="tsv"),
         ],
     )
-    def test_norwegianblue_formats(self, test_format: str, expected: str) -> None:
+    def test_norwegianblue_formats(
+        self, test_format: str, test_show_title: bool, expected: str
+    ) -> None:
         # Arrange
         mocked_url = "https://endoflife.date/api/ubuntu.json"
         mocked_response = SAMPLE_RESPONSE_JSON_UBUNTU
 
         # Act
         respx.get(mocked_url).respond(content=mocked_response)
-        output = norwegianblue.norwegianblue(product="ubuntu", format=test_format)
+        output = norwegianblue.norwegianblue(
+            product="ubuntu", format=test_format, show_title=test_show_title
+        )
 
         # Assert
         assert output.strip() == expected.strip()
