@@ -84,6 +84,9 @@ def main() -> None:
         version=f"%(prog)s {norwegianblue.__version__} "
         f"(Python {platform.python_version()})",
     )
+    parser.add_argument(
+        "-w", "--web", action="store_true", help="Open product page in web browser"
+    )
     args = parser.parse_args()
 
     logging.basicConfig(level=args.loglevel, format="%(message)s")
@@ -103,6 +106,10 @@ def main() -> None:
             sys.exit(e)
         print(output)
         print()
+        if args.web:
+            import webbrowser
+
+            webbrowser.open_new_tab(f"https://endoflife.date/{product.lower()}")
 
 
 if __name__ == "__main__":
