@@ -7,7 +7,7 @@ from __future__ import annotations
 import datetime as dt
 import json
 import logging
-from functools import cache
+from functools import lru_cache
 
 from dateutil.relativedelta import relativedelta
 from termcolor import colored
@@ -100,7 +100,7 @@ def norwegianblue(
     return output
 
 
-@cache
+@lru_cache(maxsize=None)
 def suggest_product(product: str) -> str:
     import warnings
 
