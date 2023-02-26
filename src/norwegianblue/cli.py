@@ -90,7 +90,16 @@ def main() -> None:
                 show_title=multiple_products,
             )
         except ValueError as e:
-            sys.exit(e)
+            answer = input(f"{e} [Y/n] ")
+            if answer not in ("", "y", "Y"):
+                sys.exit()
+            suggestion = norwegianblue.suggest_product(product)
+            output = norwegianblue.norwegianblue(
+                product=suggestion,
+                format=args.format,
+                color=args.color,
+                show_title=multiple_products,
+            )
         print(output)
         print()
 
