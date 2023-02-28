@@ -7,6 +7,7 @@ from __future__ import annotations
 import datetime as dt
 import json
 import logging
+from functools import lru_cache
 
 from dateutil.relativedelta import relativedelta
 from termcolor import colored
@@ -66,8 +67,9 @@ def norwegianblue(
 
         logging.info("HTTP status code: %d", r.status_code)
         if r.status_code == 404:
-            suggestion = _suggest_product(product)
-            raise ValueError(ERROR_404_TEXT.format(product, suggestion))
+            suggestion = suggest_product(product)
+            msg = ERROR_404_TEXT.format(product, suggestion)
+            raise ValueError(msg)
 
         # Raise if we made a bad request
         # (4XX client error or 5XX server error response)
@@ -98,7 +100,8 @@ def norwegianblue(
     return output
 
 
-def _suggest_product(product: str) -> str:
+@lru_cache(maxsize=None)
+def suggest_product(product: str) -> str:
     import warnings
 
     with warnings.catch_warnings():

@@ -19,6 +19,8 @@ import logging
 import platform
 import sys
 
+from termcolor import colored
+
 import norwegianblue
 from norwegianblue import _cache
 
@@ -103,7 +105,19 @@ def main() -> None:
                 show_title=multiple_products,
             )
         except ValueError as e:
-            sys.exit(e)
+            prompt = f"{e} [Y/n] "
+            if args.color != "no":
+                prompt = colored(prompt, "yellow")
+            answer = input(prompt)
+            if answer not in ("", "y", "Y"):
+                sys.exit()
+            suggestion = norwegianblue.suggest_product(product)
+            output = norwegianblue.norwegianblue(
+                product=suggestion,
+                format=args.format,
+                color=args.color,
+                show_title=multiple_products,
+            )
         print(output)
         print()
         if args.web:
