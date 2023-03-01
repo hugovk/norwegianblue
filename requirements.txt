@@ -6,7 +6,7 @@ prettytable==3.6.0
 pytablewriter[html]==0.64.2
 pytest==7.2.1
 pytest-cov==4.0.0
-python-slugify==8.0.0
+python-slugify==8.0.1
 respx==0.20.1
 termcolor==2.2.0
 thefuzz==0.19.0
