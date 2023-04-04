@@ -55,16 +55,13 @@ tests = [
   "pytest-cov",
   "respx>=0.11",
 ]
-
 [project.urls]
 Changelog = "https://github.com/hugovk/norwegianblue/releases"
 Homepage = "https://github.com/hugovk/norwegianblue"
 Source = "https://github.com/hugovk/norwegianblue"
-
 [project.scripts]
 eol = "norwegianblue.cli:main"
 norwegianblue = "norwegianblue.cli:main"
-
 
 [tool.hatch]
 version.source = "vcs"
