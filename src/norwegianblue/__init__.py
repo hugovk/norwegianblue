@@ -153,7 +153,9 @@ def _colourify(data: list[dict]) -> list[dict]:
             # Handle date
             date_str = cycle[property_]
             # Convert "2020-01-01" string to datetime
-            date_datetime = dt.datetime.strptime(date_str, "%Y-%m-%d")
+            date_datetime = dt.datetime.strptime(date_str, "%Y-%m-%d").replace(
+                tzinfo=dt.timezone.utc
+            )
             if date_datetime < now:
                 cycle[property_] = colored(date_str, "red")
             elif date_datetime < six_months_from_now:
