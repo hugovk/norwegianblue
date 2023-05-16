@@ -133,7 +133,7 @@ def _colourify(data: list[dict]) -> list[dict]:
     yellow: will pass in six months
     green: will pass after six months
     """
-    now = dt.datetime.utcnow()
+    now = dt.datetime.now(dt.timezone.utc)
     six_months_from_now = now + relativedelta(months=+6)
 
     for cycle in data:
