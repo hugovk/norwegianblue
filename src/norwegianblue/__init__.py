@@ -11,6 +11,7 @@ import logging
 from functools import lru_cache
 
 from dateutil.relativedelta import relativedelta
+from rich import print
 from termcolor import colored
 
 from norwegianblue import _cache
@@ -20,7 +21,8 @@ __version__ = importlib.metadata.version(__name__)
 
 __all__ = ["__version__"]
 
-BASE_URL = "https://endoflife.date/api/"
+# BASE_URL = "https://endoflife.date/api/"
+BASE_URL = "https://deploy-preview-2080--endoflife-date.netlify.app/api/v1/"
 USER_AGENT = f"norwegianblue/{__version__}"
 ERROR_404_TEXT = "Product '{}' not found, run 'eol all' for list. Did you mean: '{}'?"
 
@@ -37,7 +39,7 @@ def norwegianblue(
     if product == "norwegianblue":
         from ._data import prefix, res
     else:
-        url = BASE_URL + product.lower() + ".json"
+        url = BASE_URL + "products/" + product.lower()
         cache_file = _cache.filename(url)
         logging.info("Human URL:\thttps://endoflife.date/%s", product.lower())
         logging.info("API URL:\t%s", url)
@@ -76,7 +78,7 @@ def norwegianblue(
     if format == "json":
         return json.dumps(res)
 
-    data: list[dict] = list(res)
+    data: list[dict] = list(res["result"]["cycles"])
 
     if product == "all":
         return "\n".join(data)
@@ -171,6 +173,7 @@ def _tabulate(
         if "latestReleaseDate" in row:
             row["latest release"] = row.pop("latestReleaseDate")
 
+    print(data)
     headers = sorted(set().union(*(d.keys() for d in data)))
 
     # Skip some headers, only used internally at https://endoflife.date
@@ -181,7 +184,7 @@ def _tabulate(
     # Put headers in preferred order, with the rest at the end
     new_headers = []
     for preferred in (
-        "cycle",
+        "name",
         "codename",
         "release",
         "latest",
