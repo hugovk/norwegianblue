@@ -221,10 +221,13 @@ def _prettytable(
     do_color = color != "no" and format_ == "pretty"
 
     for header in headers:
+        left_align = header in ("cycle", "latest", "link")
+        display_header = colored(header, attrs=["bold"]) if do_color else header
         col_data = [row[header] if header in row else "" for row in data]
-        x.add_column(colored(header, attrs=["bold"]) if do_color else header, col_data)
-        if header in ("cycle", "latest", "link"):
-            x.align[header] = "l"
+        x.add_column(display_header, col_data)
+
+        if left_align:
+            x.align[display_header] = "l"
 
     title_prefix = ""
     if title:
