@@ -26,15 +26,18 @@ repos:
     rev: v1.10.0
     hooks:
       - id: python-check-blanket-noqa
+      - id: python-no-log-warn
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
-      - id: check-json
+      - id: check-case-conflict
       - id: check-merge-conflict
+      - id: check-json
       - id: check-toml
       - id: check-yaml
       - id: requirements-txt-fixer
+      - id: end-of-file-fixer
 
   - repo: https://github.com/tox-dev/pyproject-fmt
     rev: 0.10.0
