@@ -5,6 +5,7 @@ https://endoflife.date/docs/api/
 from __future__ import annotations
 
 import datetime as dt
+import importlib.metadata
 import json
 import logging
 from functools import lru_cache
@@ -14,14 +15,7 @@ from termcolor import colored
 
 from norwegianblue import _cache
 
-try:
-    # Python 3.8+
-    import importlib.metadata as importlib_metadata
-except ImportError:
-    # Python 3.7
-    import importlib_metadata  # type: ignore
-
-__version__ = importlib_metadata.version(__name__)
+__version__ = importlib.metadata.version(__name__)
 
 
 __all__ = ["__version__"]
