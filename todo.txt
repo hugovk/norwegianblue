@@ -1,0 +1,121 @@
+Delete this file before merge
+
+Fix eol all
+
+Fix tests
+
+v0: https://endoflife.date/api/python.json
+
+┌───────┬────────────┬─────────┬────────────────┬────────────┐
+│ cycle │  release   │ latest  │ latest release │    eol     │
+├───────┼────────────┼─────────┼────────────────┼────────────┤
+│ 3.11  │ 2022-10-24 │ 3.11.3  │   2023-04-04   │ 2027-10-24 │
+│ 3.10  │ 2021-10-04 │ 3.10.11 │   2023-04-04   │ 2026-10-04 │
+│ 3.9   │ 2020-10-05 │ 3.9.16  │   2022-12-06   │ 2025-10-05 │
+│ 3.8   │ 2019-10-14 │ 3.8.16  │   2022-12-06   │ 2024-10-14 │
+│ 3.7   │ 2018-06-26 │ 3.7.16  │   2022-12-06   │ 2023-06-27 │
+│ 3.6   │ 2016-12-22 │ 3.6.15  │   2021-09-03   │ 2021-12-23 │
+│ 3.5   │ 2015-09-12 │ 3.5.10  │   2020-09-05   │ 2020-09-13 │
+│ 3.4   │ 2014-03-15 │ 3.4.10  │   2019-03-18   │ 2019-03-18 │
+│ 3.3   │ 2012-09-29 │ 3.3.7   │   2017-09-19   │ 2017-09-29 │
+│ 2.7   │ 2010-07-03 │ 2.7.18  │   2020-04-19   │ 2020-01-01 │
+│ 2.6   │ 2008-10-01 │ 2.6.9   │   2013-10-29   │ 2013-10-29 │
+└───────┴────────────┴─────────┴────────────────┴────────────┘
+
+{
+"cycle": "3.10",
+"eol": "2026-10-04",
+"latest": "3.10.11",
+"latestReleaseDate": "2023-04-04",
+"releaseDate": "2021-10-04",
+"lts": false
+},
+
+
+[x] cycle -> name
+[x] eol -> eolFrom
+[x] latest -> latest.name
+[x] latestReleaseDate (shown as "latest release") -> latest.date
+[x] releaseDate (shown as "release") -> date
+
+
+
+
+
+v1: https://deploy-preview-2080--endoflife-date.netlify.app/api/v1/products/python
+
+{
+"name": "3.10",
+"codename": null,
+"label": "3.10",
+"date": "2021-10-04",
+"isLts": false,
+"ltsFrom": null,
+"isActiveSupportOver": null,
+"activeSupportUntil": null,
+"isEol": false,
+"eolFrom": "2026-10-04",
+"isDiscontinued": null,
+"discontinuedFrom": null,
+"isExtendedSupportOver": null,
+"extendedSupportUntil": null,
+"isMaintained": true,
+"latest": {
+"name": "3.10.11",
+"date": "2023-04-04",
+"link": "https://www.python.org/downloads/release/python-31011/\n"
+}
+},
+
+
+
+
+
+
+v0: https://endoflife.date/api/ubuntu.json
+
+{
+"cycle": "22.04",
+"codename": "Jammy Jellyfish",
+"lts": true,
+"releaseDate": "2022-04-21",
+"support": "2024-09-30",
+"eol": "2027-04-01",
+"extendedSupport": "2032-04-09",
+"latest": "22.04.2",
+"latestReleaseDate": "2023-02-24"
+},
+
+
+[x] cycle -> name
+[x] eol -> eolFrom
+[x] latest -> latest.name
+[x] latestReleaseDate (shown as "latest release") -> latest.date
+[x] releaseDate (shown as "release") -> date
+
+
+
+v1: https://deploy-preview-2080--endoflife-date.netlify.app/api/v1/products/ubuntu
+
+{
+"name": "22.04",
+"codename": "Jammy Jellyfish",
+"label": "22.04 'Jammy Jellyfish' (LTS)",
+"date": "2022-04-21",
+"isLts": true,
+"ltsFrom": null,
+"isActiveSupportOver": false,
+"activeSupportUntil": "2024-09-30",
+"isEol": false,
+"eolFrom": "2027-04-01",
+"isDiscontinued": null,
+"discontinuedFrom": null,
+"isExtendedSupportOver": false,
+"extendedSupportUntil": "2032-04-09",
+"isMaintained": true,
+"latest": {
+"name": "22.04.2",
+"date": "2023-02-24",
+"link": "https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/"
+}
+},

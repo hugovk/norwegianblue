@@ -83,7 +83,7 @@ def norwegianblue(
     if product == "all":
         return "\n".join(data)
 
-    data = _ltsify(data)
+    # data = _ltsify(data)  # TODO remove
     if color != "no" and format not in ("html", "yaml"):
         data = _colourify(data)
 
@@ -118,7 +118,7 @@ def _ltsify(data: list[dict]) -> list[dict]:
     for cycle in data:
         if "lts" in cycle:
             if cycle["lts"]:
-                cycle["cycle"] = f"{cycle['cycle']} LTS"
+                cycle["name"] = f"{cycle['name']} LTS"
             cycle.pop("lts")
     return data
 
@@ -129,25 +129,30 @@ def _colourify(data: list[dict]) -> list[dict]:
     yellow: will pass in six months
     green: will pass after six months
     """
+    # TODO use isActiveSupportOver and isEol etc
     now = dt.datetime.now(dt.timezone.utc)
     six_months_from_now = now + relativedelta(months=+6)
 
     for cycle in data:
-        for property_ in ("support", "eol", "discontinued"):
+        for property_ in ("activeSupportUntil", "eolFrom", "discontinuedFrom"):
             if property_ not in cycle:
                 continue
 
             # Handle Boolean
             if isinstance(cycle[property_], bool):
-                if property_ == "support":
-                    colour = "green" if cycle["support"] else "red"
-                else:  # "eol" and "discontinued"
+                if property_ == "activeSupportUntil":
+                    colour = "green" if cycle["activeSupportUntil"] else "red"
+                else:  # "eolFrom" and "discontinuedFrom"
                     colour = "red" if cycle[property_] else "green"
                 cycle[property_] = colored(cycle[property_], colour)
                 continue
 
             # Handle date
             date_str = cycle[property_]
+            if not date_str:
+                cycle[property_] = colored(date_str, "green")
+                continue
+
             # Convert "2020-01-01" string to datetime
             date_datetime = dt.datetime.strptime(date_str, "%Y-%m-%d").replace(
                 tzinfo=dt.timezone.utc
@@ -166,26 +171,60 @@ def _tabulate(
 ) -> str:
     """Return data in specified format"""
 
+    # Flatten: "latest": {"name": "x", "date": "y", "link": "z"}
+    for row in data:
+        if "latest" in row:
+            if "name" in row["latest"]:
+                row["latest.name"] = row["latest"]["name"]
+            if "date" in row["latest"]:
+                row["latest.date"] = row["latest"]["date"]
+            if "link" in row["latest"]:
+                row["latest.link"] = row["latest"]["link"]
+        row.pop("latest")
+
     # Rename some headers
     for row in data:
-        if "releaseDate" in row:
-            row["release"] = row.pop("releaseDate")
-        if "latestReleaseDate" in row:
-            row["latest release"] = row.pop("latestReleaseDate")
+        if "latest.date" in row:
+            row["latest release"] = row.pop("latest.date")
+        if "latest.name" in row:
+            row["latest"] = row.pop("latest.name")
+        if "latest.link" in row:
+            row["link"] = row.pop("latest.link")
+        if "date" in row:
+            row["release"] = row.pop("date")
+        if "eolFrom" in row:
+            row["eol"] = row.pop("eolFrom")
+        if "activeSupportUntil" in row:
+            row["support"] = row.pop("activeSupportUntil")
+        if "discontinuedFrom" in row:
+            row["discontinued"] = row.pop("discontinuedFrom")
 
     print(data)
     headers = sorted(set().union(*(d.keys() for d in data)))
 
-    # Skip some headers, only used internally at https://endoflife.date
-    for header in ("cycleShortHand", "latestShortHand", "releaseLabel"):
+    # Skip some headers (TODO some temporarily)
+    for header in (
+        "name",
+        "codename",
+        "isEol",
+        "isExtendedSupportOver",
+        "isLts",
+        "isMaintained",
+        "activeSupportUntil",
+        "discontinued",  # TODO?
+        "extendedSupportUntil",
+        "latest",
+        "isActiveSupportOver",
+        "isDiscontinued",
+        "ltsFrom",
+    ):
         if header in headers:
             headers.remove(header)
 
     # Put headers in preferred order, with the rest at the end
     new_headers = []
     for preferred in (
-        "name",
-        "codename",
+        "label",
         "release",
         "latest",
         "latest release",
@@ -218,7 +257,7 @@ def _prettytable(
     do_color = color != "no" and format_ == "pretty"
 
     for header in headers:
-        left_align = header in ("cycle", "latest", "link")
+        left_align = header in ("label", "latest", "link")
         display_header = colored(header, attrs=["bold"]) if do_color else header
         col_data = [row[header] if header in row else "" for row in data]
         x.add_column(display_header, col_data)
@@ -272,7 +311,7 @@ def _pytablewriter(
     for header in headers:
         align = Align.AUTO
         type_hint = None
-        if header in ("cycle", "latest"):
+        if header in ("name", "latest"):
             type_hint = String
         style = Style(align=align)
         column_styles.append(style)
