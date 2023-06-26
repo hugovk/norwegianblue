@@ -213,7 +213,6 @@ def _tabulate(
         "activeSupportUntil",
         "discontinued",  # TODO?
         "extendedSupportUntil",
-        "latest",
         "isActiveSupportOver",
         "isDiscontinued",
         "ltsFrom",
