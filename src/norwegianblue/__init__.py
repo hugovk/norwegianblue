@@ -96,17 +96,13 @@ def norwegianblue(
 
 @lru_cache(maxsize=None)
 def suggest_product(product: str) -> str:
-    import warnings
-
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore", category=UserWarning)
-        from thefuzz import process
+    import difflib
 
     # Get all known products from the API or cache
     all_products = norwegianblue("all").splitlines()
 
     # Find the closest match
-    result = process.extractOne(product, all_products)
+    result = difflib.get_close_matches(product, all_products, n=1)
     logging.info("Suggestion:\t%s (score: %d)", *result)
     return result[0]
 
