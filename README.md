@@ -42,7 +42,8 @@ run("eol --help")
 
 ```console
 $ eol --help
-usage: eol [-h] [-f {html,json,md,markdown,pretty,rst,csv,tsv,yaml}] [-c {yes,no,auto}] [--clear-cache] [-v] [-V]
+usage: eol [-h] [-f {html,json,md,markdown,pretty,rst,csv,tsv,yaml}] [-c {yes,no,auto}] [--clear-cache] [-v] [-V] [-w]
+           [--pretty | --md | --rst | --json | --csv | --tsv | --html | --yaml]
            [product ...]
 
 CLI to show end-of-life dates for a number of products, from https://endoflife.date
@@ -57,17 +58,29 @@ For example:
 Something missing? Please contribute! https://endoflife.date/contribute
 
 positional arguments:
-  product               Product to check, or 'all' to list all available (default: ['all'])
+  product               product to check, or 'all' to list all available (default: 'all')
 
 options:
   -h, --help            show this help message and exit
   -f {html,json,md,markdown,pretty,rst,csv,tsv,yaml}, --format {html,json,md,markdown,pretty,rst,csv,tsv,yaml}
-                        The format of output (default: pretty)
+                        deprecated: use direct options instead: --html, --json, --md, --pretty, --rst, --csv, --tsv or
+                        --yaml.
   -c {yes,no,auto}, --color {yes,no,auto}
-                        Color the terminal output (default: auto)
-  --clear-cache         Clear cache before running (default: False)
-  -v, --verbose         Print extra messages to stderr (default: 30)
+                        colour the terminal output (default: auto)
+  --clear-cache         clear cache before running
+  -v, --verbose         print extra messages to stderr
   -V, --version         show program's version number and exit
+  -w, --web             open product page in web browser
+
+formatters:
+  --pretty              output in pretty (default)
+  --md                  output in Markdown
+  --rst                 output in reStructuredText
+  --json                output in JSON
+  --csv                 output in CSV
+  --tsv                 output in TSV
+  --html                output in HTML
+  --yaml                output in YAML
 ```
 
 <!-- [[[end]]] -->
@@ -85,11 +98,11 @@ run("eol", line_limit=5)
 
 ```console
 $ eol
+alibaba-dragonwell
 almalinux
 alpine
 amazon-corretto
 amazon-eks
-amazon-linux
 ...
 ```
 
@@ -106,11 +119,11 @@ $ norwegianblue python
 ┌───────┬────────────┬─────────┬────────────────┬────────────┐
 │ cycle │  release   │ latest  │ latest release │    eol     │
 ├───────┼────────────┼─────────┼────────────────┼────────────┤
-│ 3.11  │ 2022-10-24 │ 3.11.2  │   2023-02-07   │ 2027-10-24 │
-│ 3.10  │ 2021-10-04 │ 3.10.10 │   2023-02-07   │ 2026-10-04 │
-│ 3.9   │ 2020-10-05 │ 3.9.16  │   2022-12-06   │ 2025-10-05 │
-│ 3.8   │ 2019-10-14 │ 3.8.16  │   2022-12-06   │ 2024-10-14 │
-│ 3.7   │ 2018-06-26 │ 3.7.16  │   2022-12-06   │ 2023-06-27 │
+│ 3.11  │ 2022-10-24 │ 3.11.4  │   2023-06-06   │ 2027-10-24 │
+│ 3.10  │ 2021-10-04 │ 3.10.12 │   2023-06-06   │ 2026-10-04 │
+│ 3.9   │ 2020-10-05 │ 3.9.17  │   2023-06-06   │ 2025-10-05 │
+│ 3.8   │ 2019-10-14 │ 3.8.17  │   2023-06-06   │ 2024-10-14 │
+│ 3.7   │ 2018-06-26 │ 3.7.17  │   2023-06-05   │ 2023-06-27 │
 │ 3.6   │ 2016-12-22 │ 3.6.15  │   2021-09-03   │ 2021-12-23 │
 │ 3.5   │ 2015-09-12 │ 3.5.10  │   2020-09-05   │ 2020-09-13 │
 │ 3.4   │ 2014-03-15 │ 3.4.10  │   2019-03-18   │ 2019-03-18 │
@@ -125,16 +138,16 @@ $ norwegianblue python
 You can format in Markdown, ready for pasting in GitHub issues and PRs:
 
 <!-- [[[cog
-run("eol python --format md", with_console=False)
+run("eol python --md", with_console=False)
 ]]] -->
 
 | cycle |  release   | latest  | latest release |    eol     |
 | :---- | :--------: | :------ | :------------: | :--------: |
-| 3.11  | 2022-10-24 | 3.11.2  |   2023-02-07   | 2027-10-24 |
-| 3.10  | 2021-10-04 | 3.10.10 |   2023-02-07   | 2026-10-04 |
-| 3.9   | 2020-10-05 | 3.9.16  |   2022-12-06   | 2025-10-05 |
-| 3.8   | 2019-10-14 | 3.8.16  |   2022-12-06   | 2024-10-14 |
-| 3.7   | 2018-06-26 | 3.7.16  |   2022-12-06   | 2023-06-27 |
+| 3.11  | 2022-10-24 | 3.11.4  |   2023-06-06   | 2027-10-24 |
+| 3.10  | 2021-10-04 | 3.10.12 |   2023-06-06   | 2026-10-04 |
+| 3.9   | 2020-10-05 | 3.9.17  |   2023-06-06   | 2025-10-05 |
+| 3.8   | 2019-10-14 | 3.8.17  |   2023-06-06   | 2024-10-14 |
+| 3.7   | 2018-06-26 | 3.7.17  |   2023-06-05   | 2023-06-27 |
 | 3.6   | 2016-12-22 | 3.6.15  |   2021-09-03   | 2021-12-23 |
 | 3.5   | 2015-09-12 | 3.5.10  |   2020-09-05   | 2020-09-13 |
 | 3.4   | 2014-03-15 | 3.4.10  |   2019-03-18   | 2019-03-18 |
@@ -147,22 +160,23 @@ run("eol python --format md", with_console=False)
 With options:
 
 <!-- [[[cog
-run("eol nodejs --format rst")
+run("eol nodejs --rst")
 ]]] -->
 
 ```console
-$ eol nodejs --format rst
+$ eol nodejs --rst
 .. table::
 
-    ========  ============  ==========  ================  ============  ============
-     cycle      release       latest     latest release     support         eol
-    ========  ============  ==========  ================  ============  ============
-     19        2022-10-18    19.6.0      2023-02-01        2023-04-01    2023-06-01
-     18 LTS    2022-04-19    18.14.0     2023-02-02        2023-10-18    2025-04-30
+    ========  ============  ==========  ================  ============  ============  ======================================================================================
+     cycle      release       latest     latest release     support         eol                                                link
+    ========  ============  ==========  ================  ============  ============  ======================================================================================
+     20 LTS    2023-04-18    20.5.0      2023-07-20        2024-10-22    2026-04-30
+     19        2022-10-18    19.9.0      2023-04-10        2023-04-01    2023-06-01
+     18 LTS    2022-04-19    18.17.0     2023-07-18        2023-10-18    2025-04-30
      17        2021-10-19    17.9.1      2022-06-01        2022-04-01    2022-06-01
-     16 LTS    2021-04-20    16.19.0     2022-12-13        2022-10-18    2023-09-11
+     16 LTS    2021-04-20    16.20.1     2023-06-20        2022-10-18    2023-09-11
      15        2020-10-20    15.14.0     2021-04-06        2021-04-01    2021-06-01
-     14 LTS    2020-04-21    14.21.2     2022-12-13        2021-10-19    2023-04-30
+     14 LTS    2020-04-21    14.21.3     2023-02-16        2021-10-19    2023-04-30
      13        2019-10-22    13.14.0     2020-04-29        2020-04-01    2020-06-01
      12 LTS    2019-04-23    12.22.12    2022-04-05        2020-10-20    2022-04-30
      11        2018-10-23    11.15.0     2019-04-30        2019-04-01    2019-06-30
@@ -173,10 +187,10 @@ $ eol nodejs --format rst
      6 LTS     2016-04-26    6.17.1      2019-04-03        2018-04-30    2019-04-30
      5         2015-10-30    5.12.0      2016-06-23        2016-06-30    2016-06-30
      4 LTS     2015-09-09    4.9.1       2018-03-29        2017-04-01    2018-04-30
-     3         2015-08-04    3.3.1       2015-09-15        False         True
-     2         2015-05-04    2.5.0       2015-07-28        False         True
-     1         2015-01-20    1.8.4       2015-07-09        False         True
-    ========  ============  ==========  ================  ============  ============
+     3         2015-08-04    3.3.1       2015-09-15        False         True          https://github.com/nodejs/node/blob/main/doc/changelogs/CHANGELOG_IOJS.md#__LATEST__
+     2         2015-05-04    2.5.0       2015-07-28        False         True          https://github.com/nodejs/node/blob/main/doc/changelogs/CHANGELOG_IOJS.md#__LATEST__
+     1         2015-01-20    1.8.4       2015-07-09        False         True          https://github.com/nodejs/node/blob/main/doc/changelogs/CHANGELOG_IOJS.md#__LATEST__
+    ========  ============  ==========  ================  ============  ============  ======================================================================================
 ```
 
 <!-- [[[end]]] -->

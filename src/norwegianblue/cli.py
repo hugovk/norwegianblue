@@ -24,29 +24,22 @@ from termcolor import colored
 import norwegianblue
 from norwegianblue import _cache
 
-
-class Formatter(
-    argparse.ArgumentDefaultsHelpFormatter,
-    argparse.RawDescriptionHelpFormatter,
-):
-    pass
-
-
 atexit.register(_cache.clear)
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=Formatter)
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     parser.add_argument(
         "product",
         nargs="*",
         default=["all"],
-        help="Product to check, or 'all' to list all available",
+        help="product to check, or 'all' to list all available (default: 'all')",
     )
     parser.add_argument(
         "-f",
         "--format",
-        default="pretty",
         choices=(
             "html",
             "json",
@@ -58,17 +51,18 @@ def main() -> None:
             "tsv",
             "yaml",
         ),
-        help="The format of output",
+        help="deprecated: use direct options instead: "
+        "--html, --json, --md, --pretty, --rst, --csv, --tsv or --yaml.",
     )
     parser.add_argument(
         "-c",
         "--color",
         default="auto",
         choices=("yes", "no", "auto"),
-        help="Color the terminal output",
+        help="colour the terminal output (default: auto)",
     )
     parser.add_argument(
-        "--clear-cache", action="store_true", help="Clear cache before running"
+        "--clear-cache", action="store_true", help="clear cache before running"
     )
     parser.add_argument(
         "-v",
@@ -77,7 +71,7 @@ def main() -> None:
         dest="loglevel",
         const=logging.INFO,
         default=logging.WARNING,
-        help="Print extra messages to stderr",
+        help="print extra messages to stderr",
     )
     parser.add_argument(
         "-V",
@@ -87,9 +81,43 @@ def main() -> None:
         f"(Python {platform.python_version()})",
     )
     parser.add_argument(
-        "-w", "--web", action="store_true", help="Open product page in web browser"
+        "-w", "--web", action="store_true", help="open product page in web browser"
     )
+
+    format_group = parser.add_argument_group("formatters")
+    format_group = format_group.add_mutually_exclusive_group()
+
+    for name, help_text in (
+        ("pretty", "pretty (default)"),
+        ("md", "Markdown"),
+        ("rst", "reStructuredText"),
+        ("json", "JSON"),
+        ("csv", "CSV"),
+        ("tsv", "TSV"),
+        ("html", "HTML"),
+        ("yaml", "YAML"),
+    ):
+        format_group.add_argument(
+            f"--{name}",
+            action="store_const",
+            const=name,
+            dest="formatter",
+            help=f"output in {help_text}",
+        )
+    parser.set_defaults(formatter="pretty")
+
     args = parser.parse_args()
+
+    if args.format:
+        from termcolor import cprint
+
+        cprint(
+            "The -f/--format option is deprecated, use direct options instead: "
+            "--html, --json, --md, --pretty, --rst, --csv, --tsv or --yaml.",
+            "yellow",
+            file=sys.stderr,
+        )
+        args.formatter = args.format
 
     logging.basicConfig(level=args.loglevel, format="%(message)s")
     if args.clear_cache:
@@ -100,7 +128,7 @@ def main() -> None:
         try:
             output = norwegianblue.norwegianblue(
                 product=product,
-                format=args.format,
+                format=args.formatter,
                 color=args.color,
                 show_title=multiple_products,
             )
