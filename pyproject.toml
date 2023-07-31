@@ -43,7 +43,6 @@ dependencies = [
   "python-dateutil",
   "python-slugify",
   "termcolor>=2.1",
-  "thefuzz",
 ]
 [project.optional-dependencies]
 tests = [
