@@ -59,7 +59,7 @@ def main() -> None:
         "--color",
         default="auto",
         choices=("yes", "no", "auto"),
-        help="colour the terminal output (default: auto)",
+        help="colour the output (default: auto)",
     )
     parser.add_argument(
         "--clear-cache", action="store_true", help="clear cache before running"
