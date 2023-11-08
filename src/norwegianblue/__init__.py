@@ -82,8 +82,8 @@ def norwegianblue(
         return "\n".join(data)
 
     data = _ltsify(data)
-    if color != "no" and format not in ("html", "yaml"):
-        data = _colourify(data)
+    if color != "no" and format != "yaml":
+        data = _colourify(data, is_html=format == "html")
 
     output = _tabulate(data, format, color, product if show_title else None)
     logging.info("")
@@ -117,7 +117,7 @@ def _ltsify(data: list[dict]) -> list[dict]:
     return data
 
 
-def _colourify(data: list[dict]) -> list[dict]:
+def _colourify(data: list[dict], *, is_html: bool = False) -> list[dict]:
     """Add colour to dates:
     red: in the past
     yellow: will pass in six months
@@ -137,7 +137,10 @@ def _colourify(data: list[dict]) -> list[dict]:
                     colour = "green" if cycle["support"] else "red"
                 else:  # "eol" and "discontinued"
                     colour = "red" if cycle[property_] else "green"
-                cycle[property_] = colored(cycle[property_], colour)
+
+                cycle[property_] = _apply_colour(
+                    cycle[property_], colour, is_html=is_html
+                )
                 continue
 
             # Handle date
@@ -147,12 +150,19 @@ def _colourify(data: list[dict]) -> list[dict]:
                 tzinfo=dt.timezone.utc
             )
             if date_datetime < now:
-                cycle[property_] = colored(date_str, "red")
+                cycle[property_] = _apply_colour(date_str, "red", is_html=is_html)
             elif date_datetime < six_months_from_now:
-                cycle[property_] = colored(date_str, "yellow")
+                cycle[property_] = _apply_colour(date_str, "yellow", is_html=is_html)
             else:
-                cycle[property_] = colored(date_str, "green")
+                cycle[property_] = _apply_colour(date_str, "green", is_html=is_html)
     return data
+
+
+def _apply_colour(text: str, colour: str, *, is_html: bool = False) -> str:
+    if is_html:
+        return f'<font color="{colour}">{text}</font>'
+
+    return colored(text, colour)
 
 
 def _tabulate(
