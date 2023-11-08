@@ -19,8 +19,8 @@ EXPECTED_HTML = """
             <td align="left">Jammy Jellyfish</td>
             <td align="left">2022-04-21</td>
             <td align="left">22.04</td>
-            <td align="left">2027-04-02</td>
-            <td align="left">2032-04-01</td>
+            <td align="left"><font color="green">2027-04-02</font></td>
+            <td align="left"><font color="green">2032-04-01</font></td>
             <td align="left">https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/</td>
         </tr>
         <tr>
@@ -28,8 +28,8 @@ EXPECTED_HTML = """
             <td align="left">Impish Indri</td>
             <td align="left">2021-10-14</td>
             <td align="left">21.10</td>
-            <td align="left">2022-07-31</td>
-            <td align="left">2022-07-31</td>
+            <td align="left"><font color="red">2022-07-31</font></td>
+            <td align="left"><font color="red">2022-07-31</font></td>
             <td align="left">https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/</td>
         </tr>
         <tr>
@@ -37,8 +37,8 @@ EXPECTED_HTML = """
             <td align="left">Hirsute Hippo</td>
             <td align="left">2021-04-22</td>
             <td align="left">21.04</td>
-            <td align="left">2022-01-20</td>
-            <td align="left">2022-01-20</td>
+            <td align="left"><font color="red">2022-01-20</font></td>
+            <td align="left"><font color="red">2022-01-20</font></td>
             <td align="left">https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/</td>
         </tr>
         <tr>
@@ -46,8 +46,8 @@ EXPECTED_HTML = """
             <td align="left">Groovy Gorilla</td>
             <td align="left">2020-10-22</td>
             <td align="left">20.10</td>
-            <td align="left">2021-07-22</td>
-            <td align="left">2021-07-22</td>
+            <td align="left"><font color="red">2021-07-22</font></td>
+            <td align="left"><font color="red">2021-07-22</font></td>
             <td align="left"></td>
         </tr>
         <tr>
@@ -55,8 +55,8 @@ EXPECTED_HTML = """
             <td align="left">Focal Fossa</td>
             <td align="left">2020-04-23</td>
             <td align="left">20.04.4</td>
-            <td align="left">2025-04-02</td>
-            <td align="left">2030-04-01</td>
+            <td align="left"><font color="green">2025-04-02</font></td>
+            <td align="left"><font color="green">2030-04-01</font></td>
             <td align="left"></td>
         </tr>
         <tr>
@@ -64,8 +64,8 @@ EXPECTED_HTML = """
             <td align="left">Karmic Koala</td>
             <td align="left">2019-10-17</td>
             <td align="left">19.10</td>
-            <td align="left">2020-07-06</td>
-            <td align="left">2020-07-06</td>
+            <td align="left"><font color="red">2020-07-06</font></td>
+            <td align="left"><font color="red">2020-07-06</font></td>
             <td align="left"></td>
         </tr>
         <tr>
@@ -73,8 +73,8 @@ EXPECTED_HTML = """
             <td align="left">Bionic Beaver</td>
             <td align="left">2018-04-26</td>
             <td align="left">18.04.6</td>
-            <td align="left">2023-04-02</td>
-            <td align="left">2028-04-01</td>
+            <td align="left"><font color="red">2023-04-02</font></td>
+            <td align="left"><font color="green">2028-04-01</font></td>
             <td align="left">https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes</td>
         </tr>
         <tr>
@@ -82,8 +82,8 @@ EXPECTED_HTML = """
             <td align="left">Xenial Xerus</td>
             <td align="left">2016-04-21</td>
             <td align="left">16.04.7</td>
-            <td align="left">2021-04-02</td>
-            <td align="left">2026-04-01</td>
+            <td align="left"><font color="red">2021-04-02</font></td>
+            <td align="left"><font color="green">2026-04-01</font></td>
             <td align="left"></td>
         </tr>
         <tr>
@@ -91,8 +91,8 @@ EXPECTED_HTML = """
             <td align="left">Trusty Tahr</td>
             <td align="left">2014-04-17</td>
             <td align="left">14.04.6</td>
-            <td align="left">2019-04-02</td>
-            <td align="left">2024-04-01</td>
+            <td align="left"><font color="red">2019-04-02</font></td>
+            <td align="left"><font color="yellow">2024-04-01</font></td>
             <td align="left"></td>
         </tr>
     </tbody>
@@ -188,7 +188,7 @@ EXPECTED_CSV = """
 "18.04 LTS","Bionic Beaver","2018-04-26","18.04.6","2023-04-02","2028-04-01","https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes"
 "16.04 LTS","Xenial Xerus","2016-04-21","16.04.7","2021-04-02","2026-04-01",
 "14.04 LTS","Trusty Tahr","2014-04-17","14.04.6","2019-04-02","2024-04-01",
-"""  # noqa: E501 W291
+"""
 
 EXPECTED_TSV = """
 "cycle"\t"codename"\t"release"\t"latest"\t"support"\t"eol"\t"link"
@@ -201,7 +201,7 @@ EXPECTED_TSV = """
 "18.04 LTS"\t"Bionic Beaver"\t"2018-04-26"\t"18.04.6"\t"2023-04-02"\t"2028-04-01"\t"https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes"
 "16.04 LTS"\t"Xenial Xerus"\t"2016-04-21"\t"16.04.7"\t"2021-04-02"\t"2026-04-01"\t
 "14.04 LTS"\t"Trusty Tahr"\t"2014-04-17"\t"14.04.6"\t"2019-04-02"\t"2024-04-01"\t
-"""  # noqa: E501 W291
+"""
 
 EXPECTED_MD_LOG4J = """
 | cycle |  release   | latest |    eol     |
