@@ -188,7 +188,7 @@ EXPECTED_CSV = """
 "18.04 LTS","Bionic Beaver","2018-04-26","18.04.6","2023-04-02","2028-04-01","https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes"
 "16.04 LTS","Xenial Xerus","2016-04-21","16.04.7","2021-04-02","2026-04-01",
 "14.04 LTS","Trusty Tahr","2014-04-17","14.04.6","2019-04-02","2024-04-01",
-"""  # noqa: E501 W291
+"""
 
 EXPECTED_TSV = """
 "cycle"\t"codename"\t"release"\t"latest"\t"support"\t"eol"\t"link"
@@ -201,7 +201,7 @@ EXPECTED_TSV = """
 "18.04 LTS"\t"Bionic Beaver"\t"2018-04-26"\t"18.04.6"\t"2023-04-02"\t"2028-04-01"\t"https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes"
 "16.04 LTS"\t"Xenial Xerus"\t"2016-04-21"\t"16.04.7"\t"2021-04-02"\t"2026-04-01"\t
 "14.04 LTS"\t"Trusty Tahr"\t"2014-04-17"\t"14.04.6"\t"2019-04-02"\t"2024-04-01"\t
-"""  # noqa: E501 W291
+"""
 
 EXPECTED_MD_LOG4J = """
 | cycle |  release   | latest |    eol     |
