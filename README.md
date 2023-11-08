@@ -64,7 +64,7 @@ options:
   -h, --help            show this help message and exit
   -f {html,json,md,markdown,pretty,rst,csv,tsv,yaml}, --format {html,json,md,markdown,pretty,rst,csv,tsv,yaml}
                         deprecated: use direct options instead: --html, --json, --md, --pretty, --rst, --csv, --tsv or
-                        --yaml.
+                        --yaml
   -c {yes,no,auto}, --color {yes,no,auto}
                         colour the output (default: auto)
   --clear-cache         clear cache before running
