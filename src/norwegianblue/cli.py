@@ -51,8 +51,11 @@ def main() -> None:
             "tsv",
             "yaml",
         ),
-        help="deprecated: use direct options instead: "
-        "--html, --json, --md, --pretty, --rst, --csv, --tsv or --yaml.",
+        help=colored(
+            "deprecated: use direct options instead: "
+            "--html, --json, --md, --pretty, --rst, --csv, --tsv or --yaml",
+            "yellow",
+        ),
     )
     parser.add_argument(
         "-c",
