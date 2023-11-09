@@ -21,6 +21,14 @@ end-of-life dates for a number of products.
 python3 -m pip install --upgrade norwegianblue
 ```
 
+### With [pipx][pipx]
+
+```bash
+pipx install norwegianblue
+```
+
+[pipx]: https://github.com/pypa/pipx
+
 ### From source
 
 ```bash
