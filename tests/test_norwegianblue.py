@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
+from typing import Any
 from unittest import mock
 
 import pytest
@@ -42,7 +43,7 @@ EXPECTED_RST_WITH_TITLE = EXPECTED_RST.replace(".. table::", ".. table:: ubuntu"
 EXPECTED_MD_WITH_TITLE = "## ubuntu\n" + EXPECTED_MD
 
 
-def stub__cache_filename(*args):
+def stub__cache_filename(*args: Any) -> Path:
     return Path("/this/does/not/exist")
 
 

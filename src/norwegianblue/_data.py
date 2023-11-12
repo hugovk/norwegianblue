@@ -8,7 +8,7 @@ for c in (32, 126):
         d[chr(i + c)] = chr((i + 47) % 94 + c)
 
 
-def text(s):
+def text(s: str) -> str:
     return "".join([d.get(c, c) for c in s])
 
 
