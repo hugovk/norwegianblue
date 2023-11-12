@@ -21,7 +21,7 @@ def filename(url: str) -> Path:
     return CACHE_DIR / f"{today}-{slug}.json"
 
 
-def load(cache_file):
+def load(cache_file: Path):
     """Load data from cache_file"""
     if not cache_file.exists():
         return {}

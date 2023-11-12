@@ -3,7 +3,7 @@ from __future__ import annotations
 import subprocess
 
 
-def run(command: str, with_console: bool = True, line_limit: int = None) -> None:
+def run(command: str, with_console: bool = True, line_limit: int | None = None) -> None:
     output = subprocess.run(command.split(), capture_output=True, text=True)
     print()
     if with_console:

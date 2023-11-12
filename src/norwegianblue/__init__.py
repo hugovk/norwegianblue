@@ -166,7 +166,10 @@ def _apply_colour(text: str, colour: str, *, is_html: bool = False) -> str:
 
 
 def _tabulate(
-    data: list[dict], format_: str = "markdown", color: str = "yes", title: str = None
+    data: list[dict],
+    format_: str = "markdown",
+    color: str = "yes",
+    title: str | None = None,
 ) -> str:
     """Return data in specified format"""
 
@@ -212,7 +215,7 @@ def _prettytable(
     data: list[dict],
     format_: str,
     color: str = "yes",
-    title: str = None,
+    title: str | None = None,
 ) -> str:
     from prettytable import MARKDOWN, SINGLE_BORDER, PrettyTable
 
@@ -240,7 +243,7 @@ def _prettytable(
 
 
 def _pytablewriter(
-    headers: list[str], data: list[dict], format_: str, title: str = None
+    headers: list[str], data: list[dict], format_: str, title: str | None = None
 ) -> str:
     from pytablewriter import (
         CsvTableWriter,
