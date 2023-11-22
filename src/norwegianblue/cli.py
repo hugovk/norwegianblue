@@ -145,7 +145,7 @@ def main() -> None:
             suggestion = norwegianblue.suggest_product(product)
             output = norwegianblue.norwegianblue(
                 product=suggestion,
-                format=args.format,
+                format=args.formatter,
                 color=args.color,
                 show_title=multiple_products,
             )
