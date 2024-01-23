@@ -143,10 +143,12 @@ def main() -> None:
                 prompt = colored(prompt, "yellow")
             if not suggestion:
                 print(prompt)
-                sys.exit()
+                print()
+                continue
             answer = input(prompt)
             if answer not in ("", "y", "Y"):
-                sys.exit()
+                print()
+                continue
             output = norwegianblue.norwegianblue(
                 product=suggestion,
                 format=args.formatter,
