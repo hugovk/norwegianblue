@@ -64,6 +64,7 @@ class TestNorwegianBlue:
         _cache.filename = self.original__cache_filename
         _cache.save = self.original__save_cache
 
+    @mock.patch.dict(os.environ, {"NO_COLOR": "TRUE"})
     @respx.mock
     @pytest.mark.parametrize(
         "test_format, test_show_title, expected",
@@ -98,6 +99,7 @@ class TestNorwegianBlue:
         # Assert
         assert output.strip() == expected.strip()
 
+    @mock.patch.dict(os.environ, {"NO_COLOR": "TRUE"})
     @respx.mock
     @pytest.mark.parametrize(
         "test_product, sample_response, expected",
