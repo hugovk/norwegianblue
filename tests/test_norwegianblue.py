@@ -406,6 +406,23 @@ class TestNorwegianBlue:
         ):
             norwegianblue.norwegianblue(product="androd")
 
+    @respx.mock
+    def test_404_no_suggestions(self) -> None:
+        # Arrange
+        mocked_url = "https://endoflife.date/api/julia.json"
+        respx.get(mocked_url).respond(status_code=404)
+
+        mocked_url = "https://endoflife.date/api/all.json"
+        mocked_response = SAMPLE_RESPONSE_ALL_JSON
+        respx.get(mocked_url).respond(content=mocked_response)
+
+        # Act / Assert
+        with pytest.raises(
+            ValueError,
+            match=r"Product 'julia' not found, run 'eol all' for list\.",
+        ):
+            norwegianblue.norwegianblue(product="julia")
+
     def test_norwegianblue_norwegianblue(self) -> None:
         # Act
         output = norwegianblue.norwegianblue(product="norwegianblue")
