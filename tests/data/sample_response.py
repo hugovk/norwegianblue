@@ -112,6 +112,71 @@ SAMPLE_RESPONSE_JSON_PYTHON = """
 ]
 """
 
+SAMPLE_RESPONSE_JSON_RHEL = """
+[
+  {
+    "cycle": "9",
+    "releaseDate": "2022-05-17",
+    "support": "2027-05-31",
+    "eol": "2032-05-31",
+    "lts": "2032-05-31",
+    "extendedSupport": "2035-05-31",
+    "latest": "9.3",
+    "latestReleaseDate": "2023-11-07"
+  },
+  {
+    "cycle": "8",
+    "releaseDate": "2019-05-07",
+    "support": "2024-05-31",
+    "eol": "2029-05-31",
+    "lts": "2029-05-31",
+    "extendedSupport": "2032-05-31",
+    "latest": "8.9",
+    "latestReleaseDate": "2023-11-14"
+  },
+  {
+    "cycle": "7",
+    "releaseDate": "2013-12-11",
+    "support": "2019-08-06",
+    "eol": "2024-06-30",
+    "lts": "2024-06-30",
+    "extendedSupport": "2028-06-30",
+    "latest": "7.9",
+    "latestReleaseDate": "2020-09-29"
+  },
+  {
+    "cycle": "6",
+    "releaseDate": "2010-11-09",
+    "support": "2016-05-10",
+    "eol": "2020-11-30",
+    "lts": "2020-11-30",
+    "extendedSupport": "2024-06-30",
+    "latest": "6.10",
+    "latestReleaseDate": "2018-06-19"
+  },
+  {
+    "cycle": "5",
+    "releaseDate": "2007-03-15",
+    "support": "2013-01-08",
+    "eol": "2017-03-31",
+    "lts": "2017-03-31",
+    "extendedSupport": "2020-11-30",
+    "latest": "5.11",
+    "latestReleaseDate": "2014-09-16"
+  },
+  {
+    "cycle": "4",
+    "releaseDate": "2005-02-15",
+    "support": "2009-03-31",
+    "eol": "2012-02-29",
+    "extendedSupport": "2017-03-31",
+    "latest": "4.9",
+    "latestReleaseDate": "2011-02-16",
+    "lts": false
+  }
+]
+"""
+
 SAMPLE_RESPONSE_JSON_UBUNTU = """
 [
   {

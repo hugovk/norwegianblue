@@ -132,15 +132,15 @@ def _colourify(data: list[dict], *, is_html: bool = False) -> list[dict]:
     six_months_from_now = now + relativedelta(months=+6)
 
     for cycle in data:
-        for property_ in ("support", "eol", "discontinued"):
+        for property_ in ("discontinued", "support", "eol", "extendedSupport"):
             if property_ not in cycle:
                 continue
 
             # Handle Boolean
             if isinstance(cycle[property_], bool):
-                if property_ == "support":
-                    colour = "green" if cycle["support"] else "red"
-                else:  # "eol" and "discontinued"
+                if property_ in ("support", "extendedSupport"):
+                    colour = "green" if cycle[property_] else "red"
+                else:  # "discontinued" or "eol"
                     colour = "red" if cycle[property_] else "green"
 
                 cycle[property_] = _apply_colour(
@@ -184,6 +184,8 @@ def _tabulate(
             row["release"] = row.pop("releaseDate")
         if "latestReleaseDate" in row:
             row["latest release"] = row.pop("latestReleaseDate")
+        if "extendedSupport" in row:
+            row["extended support"] = row.pop("extendedSupport")
 
     headers = sorted(set().union(*(d.keys() for d in data)))
 
@@ -200,9 +202,10 @@ def _tabulate(
         "release",
         "latest",
         "latest release",
-        "support",
         "discontinued",
+        "support",
         "eol",
+        "extended support",
     ):
         if preferred in headers:
             new_headers.append(preferred)
