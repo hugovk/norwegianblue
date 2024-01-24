@@ -205,7 +205,7 @@ def _tabulate(
         "discontinued",
         "support",
         "eol",
-        "extendedSupport",
+        "extended support",
     ):
         if preferred in headers:
             new_headers.append(preferred)

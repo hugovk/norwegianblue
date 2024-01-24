@@ -23,6 +23,7 @@ from .data.expected_output import (
     EXPECTED_MD_COLOUR,
     EXPECTED_MD_LOG4J,
     EXPECTED_MD_PYTHON,
+    EXPECTED_MD_RHEL,
     EXPECTED_PRETTY,
     EXPECTED_PRETTY_WITH_TITLE,
     EXPECTED_RST,
@@ -32,6 +33,7 @@ from .data.sample_response import (
     SAMPLE_RESPONSE_ALL_JSON,
     SAMPLE_RESPONSE_JSON_LOG4J,
     SAMPLE_RESPONSE_JSON_PYTHON,
+    SAMPLE_RESPONSE_JSON_RHEL,
     SAMPLE_RESPONSE_JSON_UBUNTU,
 )
 
@@ -109,6 +111,9 @@ class TestNorwegianBlue:
             ),
             pytest.param(
                 "python", SAMPLE_RESPONSE_JSON_PYTHON, EXPECTED_MD_PYTHON, id="python"
+            ),
+            pytest.param(
+                "rhel", SAMPLE_RESPONSE_JSON_RHEL, EXPECTED_MD_RHEL, id="rhel"
             ),
         ],
     )
