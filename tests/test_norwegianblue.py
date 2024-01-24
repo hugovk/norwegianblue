@@ -391,9 +391,20 @@ class TestNorwegianBlue:
         assert output == expected
 
     @respx.mock
-    def test_404(self) -> None:
+    @pytest.mark.parametrize(
+        "product, expected",
+        [
+            (
+                "androd",
+                r"Product 'androd' not found, run 'eol all' for list\. "
+                r"Did you mean: 'android'?",
+            ),
+            ("julia", r"Product 'julia' not found, run 'eol all' for list\."),
+        ],
+    )
+    def test_404(self, product, expected) -> None:
         # Arrange
-        mocked_url = "https://endoflife.date/api/androd.json"
+        mocked_url = f"https://endoflife.date/api/{product}.json"
         respx.get(mocked_url).respond(status_code=404)
 
         mocked_url = "https://endoflife.date/api/all.json"
@@ -401,12 +412,8 @@ class TestNorwegianBlue:
         respx.get(mocked_url).respond(content=mocked_response)
 
         # Act / Assert
-        with pytest.raises(
-            ValueError,
-            match=r"Product 'androd' not found, run 'eol all' for list\. "
-            r"Did you mean: 'android'?",
-        ):
-            norwegianblue.norwegianblue(product="androd")
+        with pytest.raises(ValueError, match=expected):
+            norwegianblue.norwegianblue(product=product)
 
     def test_norwegianblue_norwegianblue(self) -> None:
         # Act
