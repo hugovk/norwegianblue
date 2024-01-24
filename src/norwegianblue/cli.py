@@ -136,13 +136,19 @@ def main() -> None:
                 show_title=multiple_products,
             )
         except ValueError as e:
-            prompt = f"{e} [Y/n] "
+            suggestion = norwegianblue.suggest_product(product)
+
+            prompt = f"{e}{' [Y/n] ' if suggestion else ''}"
             if args.color != "no":
                 prompt = colored(prompt, "yellow")
+            if not suggestion:
+                print(prompt)
+                print()
+                continue
             answer = input(prompt)
             if answer not in ("", "y", "Y"):
-                sys.exit()
-            suggestion = norwegianblue.suggest_product(product)
+                print()
+                continue
             output = norwegianblue.norwegianblue(
                 product=suggestion,
                 format=args.formatter,

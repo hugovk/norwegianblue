@@ -22,7 +22,12 @@ __all__ = ["__version__"]
 
 BASE_URL = "https://endoflife.date/api/"
 USER_AGENT = f"norwegianblue/{__version__}"
-ERROR_404_TEXT = "Product '{}' not found, run 'eol all' for list. Did you mean: '{}'?"
+
+
+def error_404_text(product: str, suggestion: str) -> str:
+    return f"Product '{product}' not found, run 'eol all' for list." + (
+        f" Did you mean: '{suggestion}'?" if suggestion else ""
+    )
 
 
 def norwegianblue(
@@ -62,7 +67,7 @@ def norwegianblue(
         logging.info("HTTP status code: %d", r.status_code)
         if r.status_code == 404:
             suggestion = suggest_product(product)
-            msg = ERROR_404_TEXT.format(product, suggestion)
+            msg = error_404_text(product, suggestion)
             raise ValueError(msg)
 
         # Raise if we made a bad request
@@ -104,7 +109,7 @@ def suggest_product(product: str) -> str:
     # Find the closest match
     result = difflib.get_close_matches(product, all_products, n=1)
     logging.info("Suggestion:\t%s (score: %d)", *result)
-    return result[0]
+    return result[0] if result else ""
 
 
 def _ltsify(data: list[dict]) -> list[dict]:
