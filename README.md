@@ -76,6 +76,8 @@ options:
   -c {yes,no,auto}, --color {yes,no,auto}
                         colour the output (default: auto)
   --clear-cache         clear cache before running
+  --show-title {yes,no,auto}
+                        show or hide product title, 'auto' to show title only for multiple products (default: auto)
   -v, --verbose         print extra messages to stderr
   -V, --version         show program's version number and exit
   -w, --web             open product page in web browser

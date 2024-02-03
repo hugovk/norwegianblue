@@ -68,6 +68,12 @@ def main() -> None:
         "--clear-cache", action="store_true", help="clear cache before running"
     )
     parser.add_argument(
+        "--show-title",
+        default="auto",
+        choices=("yes", "no", "auto"),
+        help="show or hide product title, 'auto' to show title only for multiple products (default: auto)",
+    )
+    parser.add_argument(
         "-v",
         "--verbose",
         action="store_const",
@@ -133,7 +139,8 @@ def main() -> None:
                 product=product,
                 format=args.formatter,
                 color=args.color,
-                show_title=multiple_products,
+                show_title=(args.show_title == "yes")
+                or (multiple_products and args.show_title != "no"),
             )
         except ValueError as e:
             suggestion = norwegianblue.suggest_product(product)
