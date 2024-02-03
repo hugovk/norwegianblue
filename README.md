@@ -50,7 +50,7 @@ run("eol --help")
 
 ```console
 $ eol --help
-usage: eol [-h] [-f {html,json,md,markdown,pretty,rst,csv,tsv,yaml}] [-c {yes,no,auto}] [--clear-cache] [-v] [-V] [-w]
+usage: eol [-h] [-f {html,json,md,markdown,pretty,rst,csv,tsv,yaml}] [-c {yes,no,auto}] [--clear-cache] [--show-title {yes,no,auto}] [-v] [-V] [-w]
            [--pretty | --md | --rst | --json | --csv | --tsv | --html | --yaml]
            [product ...]
 
