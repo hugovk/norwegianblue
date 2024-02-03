@@ -71,7 +71,8 @@ def main() -> None:
         "--show-title",
         default="auto",
         choices=("yes", "no", "auto"),
-        help="show or hide product title, 'auto' to show title only for multiple products (default: auto)",
+        help="show or hide product title, 'auto' to show title "
+        "only for multiple products (default: auto)",
     )
     parser.add_argument(
         "-v",
