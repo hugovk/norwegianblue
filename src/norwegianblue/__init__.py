@@ -2,6 +2,7 @@
 Python interface to endoflife.date API
 https://endoflife.date/docs/api/
 """
+
 from __future__ import annotations
 
 import datetime as dt
