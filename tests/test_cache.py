@@ -1,6 +1,7 @@
 """
 Unit tests for norwegianblue cache
 """
+
 from __future__ import annotations
 
 import tempfile
