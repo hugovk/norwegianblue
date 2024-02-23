@@ -134,14 +134,14 @@ def main() -> None:
         _cache.clear(clear_all=True)
 
     multiple_products = len(args.product) >= 2
+    show_title = (args.show_title == "yes") or (multiple_products and args.show_title != "no")
     for product in args.product:
         try:
             output = norwegianblue.norwegianblue(
                 product=product,
                 format=args.formatter,
                 color=args.color,
-                show_title=(args.show_title == "yes")
-                or (multiple_products and args.show_title != "no"),
+                show_title=show_title,
             )
         except ValueError as e:
             suggestion = norwegianblue.suggest_product(product)
@@ -161,8 +161,7 @@ def main() -> None:
                 product=suggestion,
                 format=args.formatter,
                 color=args.color,
-                show_title=(args.show_title == "yes")
-                or (multiple_products and args.show_title != "no"),
+                show_title=show_title,
             )
         print(output)
         print()
