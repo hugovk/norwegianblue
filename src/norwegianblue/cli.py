@@ -161,7 +161,8 @@ def main() -> None:
                 product=suggestion,
                 format=args.formatter,
                 color=args.color,
-                show_title=multiple_products,
+                show_title=(args.show_title == "yes")
+                or (multiple_products and args.show_title != "no"),
             )
         print(output)
         print()
