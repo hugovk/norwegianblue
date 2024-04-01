@@ -11,7 +11,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["pypy3.10", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
+        # Will be fixed in 3.13.0a6: Tuesday, 2024-04-09
+        #   qs = bytes(qs)
+        #        ~~~~~^^^^
+        #   TypeError: cannot convert 'NoneType' object to bytes
+        python-version:
+          ["pypy3.10", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13.0-alpha.4"]
         os: [windows-latest, macos-latest, ubuntu-latest]
 
     steps:
@@ -33,6 +38,10 @@ jobs:
       - name: Tox tests
         run: |
           tox -e py
+
+      - name: Test CLI
+        run: |
+          tox -e cli
 
       - name: Tox tests (pins)
         if: matrix.python-version == '3.12' && matrix.os == 'ubuntu-latest'

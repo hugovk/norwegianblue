@@ -67,6 +67,7 @@ class TestNorwegianBlue:
         _cache.filename = self.original__cache_filename
         _cache.save = self.original__save_cache
 
+    @freeze_time("2023-11-23")
     @mock.patch.dict(os.environ, {"NO_COLOR": "TRUE"})
     @respx.mock
     @pytest.mark.parametrize(
