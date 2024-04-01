@@ -10,6 +10,7 @@ name = "norwegianblue"
 description = "CLI to show end-of-life dates for a number of products"
 readme = "README.md"
 keywords = [
+  "cli",
   "end-of-life",
   "endoflife",
   "eol",
