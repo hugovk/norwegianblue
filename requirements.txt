@@ -1,5 +1,5 @@
 # Only for testing pinned versions on the CI
-freezegun==1.4.0
+freezegun==1.5.0
 httpx==0.27.0
 platformdirs==4.2.0
 prettytable==3.10.0
