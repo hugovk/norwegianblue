@@ -96,5 +96,8 @@ extend-ignore = [
 known-first-party = ["norwegianblue"]
 required-imports = ["from __future__ import annotations"]
 
+[tool.pyproject-fmt]
+max_supported_python = "3.13"
+
 [tool.pytest.ini_options]
 addopts = "--color=yes"
