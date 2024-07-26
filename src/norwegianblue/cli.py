@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# PYTHON_ARGCOMPLETE_OK
 """
 CLI to show end-of-life dates for a number of products, from https://endoflife.date
 
