@@ -99,9 +99,11 @@ def norwegianblue(
 
     return output
 
+
 def all_products() -> list[str]:
     """Get all known products from the API or cache"""
     return norwegianblue("all").splitlines()
+
 
 @lru_cache(maxsize=None)
 def suggest_product(product: str) -> str:
@@ -112,6 +114,7 @@ def suggest_product(product: str) -> str:
     result = difflib.get_close_matches(product, all_products(), n=1)
     logging.info("Suggestion:\t%s (score: %d)", *result)
     return result[0] if result else ""
+
 
 def _ltsify(data: list[dict]) -> list[dict]:
     """If a cycle is LTS, append LTS to the cycle version and remove the LTS column"""

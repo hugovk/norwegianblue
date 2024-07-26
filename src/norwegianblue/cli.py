@@ -14,12 +14,12 @@ Something missing? Please contribute! https://endoflife.date/contribute
 from __future__ import annotations
 
 import argparse
-import argcomplete
 import atexit
 import logging
 import platform
 import sys
 
+import argcomplete
 from termcolor import colored
 
 import norwegianblue
@@ -27,9 +27,11 @@ from norwegianblue import _cache
 
 atexit.register(_cache.clear)
 
+
 def ProductCompleter(**kwargs):
     """The list of all products to feed autocompletion"""
     return norwegianblue.all_products()
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(
@@ -40,7 +42,7 @@ def main() -> None:
         nargs="*",
         default=["all"],
         help="product to check, or 'all' to list all available (default: 'all')",
-    ).completer =  ProductCompleter
+    ).completer = ProductCompleter
     parser.add_argument(
         "-f",
         "--format",

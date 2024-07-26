@@ -40,6 +40,7 @@ dynamic = [
   "version",
 ]
 dependencies = [
+  "argcomplete>=3.4",
   "httpx>=0.19",
   "platformdirs",
   "prettytable>=2.4",
@@ -47,7 +48,6 @@ dependencies = [
   "python-dateutil",
   "python-slugify",
   "termcolor>=2.1",
-  "argcomplete>=3.4"
 ]
 optional-dependencies.tests = [
   "freezegun",
