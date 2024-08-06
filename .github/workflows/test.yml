@@ -2,8 +2,12 @@ name: Test
 
 on: [push, pull_request, workflow_dispatch]
 
+permissions:
+  contents: read
+
 env:
   FORCE_COLOR: 1
+  PIP_DISABLE_PIP_VERSION_CHECK: 1
 
 jobs:
   test:
@@ -11,12 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Will be fixed in 3.13.0a6: Tuesday, 2024-04-09
-        #   qs = bytes(qs)
-        #        ~~~~~^^^^
-        #   TypeError: cannot convert 'NoneType' object to bytes
-        python-version:
-          ["pypy3.10", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13.0-alpha.4"]
+        python-version: ["pypy3.10", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
         os: [windows-latest, macos-latest, ubuntu-latest]
 
     steps:
@@ -32,7 +31,6 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install -U pip
-          python -m pip install -U wheel
           python -m pip install -U tox
 
       - name: Tox tests
