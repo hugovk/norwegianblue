@@ -40,6 +40,7 @@ dynamic = [
   "version",
 ]
 dependencies = [
+  "argcomplete>=3.4",
   "httpx>=0.19",
   "platformdirs",
   "prettytable>=2.4",
