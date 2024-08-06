@@ -6,7 +6,6 @@ https://endoflife.date/docs/api/
 from __future__ import annotations
 
 import datetime as dt
-import importlib.metadata
 import json
 import logging
 from functools import lru_cache
@@ -14,15 +13,13 @@ from functools import lru_cache
 from dateutil.relativedelta import relativedelta
 from termcolor import colored
 
-from norwegianblue import _cache
+from norwegianblue import _cache, _version
 
-__version__ = importlib.metadata.version(__name__)
-
+__version__ = _version.__version__
 
 __all__ = ["__version__"]
 
 BASE_URL = "https://endoflife.date/api/"
-USER_AGENT = f"norwegianblue/{__version__}"
 
 
 def error_404_text(product: str, suggestion: str) -> str:
@@ -63,7 +60,11 @@ def norwegianblue(
         # No cache, or couldn't load cache
         import httpx
 
-        r = httpx.get(url, follow_redirects=True, headers={"User-Agent": USER_AGENT})
+        r = httpx.get(
+            url,
+            follow_redirects=True,
+            headers={"User-Agent": f"norwegianblue/{__version__}"},
+        )
 
         logging.info("HTTP status code: %d", r.status_code)
         if r.status_code == 404:
