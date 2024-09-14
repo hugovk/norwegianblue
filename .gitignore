@@ -112,4 +112,4 @@ venv.bak/
 dmypy.json
 
 # hatch-vcs
-src/norwegianblue/_version.py
+src/*/_version.py
