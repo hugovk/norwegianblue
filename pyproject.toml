@@ -45,6 +45,7 @@ dependencies = [
   "prettytable>=2.4",
   "pytablewriter[html]>=0.63",
   "python-dateutil",
+  "python-flint",
   "python-slugify",
   "termcolor>=2.1",
 ]
