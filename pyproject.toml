@@ -98,7 +98,7 @@ filterwarnings = [
 ]
 testpaths = [ "tests" ]
 
-[dependency_groups]
+[dependency-groups]
 test = [
   "freezegun",
   "pytest",
