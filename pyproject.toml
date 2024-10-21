@@ -43,12 +43,6 @@ dependencies = [
   "python-slugify",
   "termcolor>=2.1",
 ]
-optional-dependencies.tests = [
-  "freezegun",
-  "pytest",
-  "pytest-cov",
-  "respx>=0.11",
-]
 urls.Changelog = "https://github.com/hugovk/norwegianblue/releases"
 urls.Homepage = "https://github.com/hugovk/norwegianblue"
 urls.Source = "https://github.com/hugovk/norwegianblue"
@@ -103,3 +97,11 @@ filterwarnings = [
   "ignore:sys.monitoring isn't available, using default core:coverage.exceptions.CoverageWarning",
 ]
 testpaths = [ "tests" ]
+
+[dependency_groups]
+test = [
+  "freezegun",
+  "pytest",
+  "pytest-cov",
+  "respx>=0.11",
+]
