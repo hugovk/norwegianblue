@@ -43,12 +43,6 @@ dependencies = [
   "python-slugify",
   "termcolor>=2.1",
 ]
-optional-dependencies.tests = [
-  "freezegun",
-  "pytest",
-  "pytest-cov",
-  "respx>=0.11",
-]
 urls.Changelog = "https://github.com/hugovk/norwegianblue/releases"
 urls.Homepage = "https://github.com/hugovk/norwegianblue"
 urls.Source = "https://github.com/hugovk/norwegianblue"
@@ -96,9 +90,6 @@ lint.flake8-import-conventions.banned-from = [ "datetime" ]
 lint.isort.known-first-party = [ "norwegianblue" ]
 lint.isort.required-imports = [ "from __future__ import annotations" ]
 
-[tool.pyproject-fmt]
-max_supported_python = "3.13"
-
 [tool.pytest.ini_options]
 addopts = "--color=yes"
 filterwarnings = [
@@ -106,3 +97,11 @@ filterwarnings = [
   "ignore:sys.monitoring isn't available, using default core:coverage.exceptions.CoverageWarning",
 ]
 testpaths = [ "tests" ]
+
+[dependency-groups]
+test = [
+  "freezegun",
+  "pytest",
+  "pytest-cov",
+  "respx>=0.11",
+]
