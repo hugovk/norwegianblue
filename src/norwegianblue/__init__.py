@@ -227,10 +227,12 @@ def _prettytable(
     color: str = "yes",
     title: str | None = None,
 ) -> str:
-    from prettytable import MARKDOWN, SINGLE_BORDER, PrettyTable
+    from prettytable import PrettyTable, TableStyle
 
     x = PrettyTable()
-    x.set_style(MARKDOWN if format_ == "markdown" else SINGLE_BORDER)
+    x.set_style(
+        TableStyle.MARKDOWN if format_ == "markdown" else TableStyle.SINGLE_BORDER
+    )
     do_color = color != "no" and format_ == "pretty"
 
     for header in headers:
