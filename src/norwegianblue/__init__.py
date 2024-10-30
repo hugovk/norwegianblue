@@ -229,8 +229,8 @@ def _prettytable(
 ) -> str:
     from prettytable import PrettyTable, TableStyle
 
-    x = PrettyTable()
-    x.set_style(
+    table = PrettyTable()
+    table.set_style(
         TableStyle.MARKDOWN if format_ == "markdown" else TableStyle.SINGLE_BORDER
     )
     do_color = color != "no" and format_ == "pretty"
@@ -239,19 +239,19 @@ def _prettytable(
         left_align = header in ("cycle", "latest", "link")
         display_header = colored(header, attrs=["bold"]) if do_color else header
         col_data = [row[header] if header in row else "" for row in data]
-        x.add_column(display_header, col_data)
+        table.add_column(display_header, col_data)
 
         if left_align:
-            x.align[display_header] = "l"
+            table.align[display_header] = "l"
 
     title_prefix = ""
     if title:
         if format_ == "pretty":
-            x.title = colored(title, attrs=["bold"]) if do_color else title
+            table.title = colored(title, attrs=["bold"]) if do_color else title
         else:
             title_prefix = f"## {title}\n\n"
 
-    return title_prefix + x.get_string()
+    return title_prefix + table.get_string()
 
 
 def _pytablewriter(
