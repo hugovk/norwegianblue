@@ -14,4 +14,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: hugovk/pre-commit-action-uv@v3.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - uses: tox-dev/action-pre-commit-uv@v1
