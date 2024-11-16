@@ -103,6 +103,30 @@ class TestNorwegianBlue:
         # Assert
         assert output.strip() == expected.strip()
 
+    @freeze_time("2023-11-23")
+    @respx.mock
+    def test_norwegianblue_no_format(self) -> None:
+        # Arrange
+        mocked_url = "https://endoflife.date/api/ubuntu.json"
+        mocked_response = SAMPLE_RESPONSE_JSON_UBUNTU
+        test_format = None
+
+        # Act
+        respx.get(mocked_url).respond(content=mocked_response)
+        output = norwegianblue.norwegianblue(product="ubuntu", format=test_format)
+
+        # Assert
+        assert output[0] == {
+            "cycle": "22.04",
+            "codename": "Jammy Jellyfish",
+            "support": "2027-04-02",
+            "eol": "2032-04-01",
+            "lts": True,
+            "latest": "22.04",
+            "link": "https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/",
+            "releaseDate": "2022-04-21",
+        }
+
     @mock.patch.dict(os.environ, {"NO_COLOR": "TRUE"})
     @respx.mock
     @pytest.mark.parametrize(
