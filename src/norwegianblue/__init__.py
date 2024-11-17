@@ -30,10 +30,10 @@ def error_404_text(product: str, suggestion: str) -> str:
 
 def norwegianblue(
     product: str = "all",
-    format: str = "pretty",
+    format: str | None = "pretty",
     color: str = "yes",
     show_title: bool = False,
-) -> str:
+) -> str | list[dict]:
     """Call the API and return result"""
     if format == "md":
         format = "markdown"
@@ -84,6 +84,9 @@ def norwegianblue(
         return json.dumps(res)
 
     data: list[dict] = list(res)
+
+    if format is None:
+        return data
 
     if product == "all":
         return "\n".join(data)
