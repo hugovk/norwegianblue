@@ -29,7 +29,8 @@ atexit.register(_cache.clear)
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter,
+        suggest_on_error=True,
     )
     parser.add_argument(
         "product",
