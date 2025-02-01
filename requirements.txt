@@ -2,8 +2,8 @@
 freezegun==1.5.1
 httpx==0.28.1
 platformdirs==4.3.6
-prettytable==3.12.0
-pytablewriter[html]==1.2.0
+prettytable==3.14.0
+pytablewriter[html]==1.2.1
 pytest==8.3.4
 pytest-cov==6.0.0
 python-slugify==8.0.4
