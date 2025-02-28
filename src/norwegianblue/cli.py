@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 CLI to show end-of-life dates for a number of products, from https://endoflife.date
 
@@ -11,6 +10,7 @@ For example:
 
 Something missing? Please contribute! https://endoflife.date/contribute
 """
+
 from __future__ import annotations
 
 import argparse

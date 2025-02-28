@@ -11,8 +11,7 @@ on:
       - published
   workflow_dispatch:
 
-permissions:
-  contents: read
+permissions: {}
 
 env:
   FORCE_COLOR: 1
@@ -35,14 +34,13 @@ jobs:
   release-test-pypi:
     name: Publish in-dev package to test.pypi.org
     if: |
-      github.repository_owner == 'hugovk'
+      github.event.repository.fork == false
       && github.event_name == 'push'
       && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: build-package
 
     permissions:
-      attestations: write
       id-token: write
 
     steps:
@@ -52,28 +50,21 @@ jobs:
           name: Packages
           path: dist
 
-      - name: Attest build provenance
-        uses: actions/attest-build-provenance@v2
-        with:
-          subject-path: "dist/*"
-
       - name: Upload package to Test PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          attestations: true
           repository-url: https://test.pypi.org/legacy/
 
   # Upload to real PyPI on GitHub Releases.
   release-pypi:
     name: Publish released package to pypi.org
     if: |
-      github.repository_owner == 'hugovk'
+      github.event.repository.fork == false
       && github.event.action == 'published'
     runs-on: ubuntu-latest
     needs: build-package
 
     permissions:
-      attestations: write
       id-token: write
 
     steps:
@@ -83,12 +74,5 @@ jobs:
           name: Packages
           path: dist
 
-      - name: Attest build provenance
-        uses: actions/attest-build-provenance@v2
-        with:
-          subject-path: "dist/*"
-
       - name: Upload package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          attestations: true
