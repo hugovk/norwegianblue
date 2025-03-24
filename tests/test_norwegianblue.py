@@ -332,6 +332,7 @@ class TestNorwegianBlue:
         # Assert
         assert output == expected
 
+    @freeze_time("2023-11-23")
     @mock.patch.dict(os.environ, {"FORCE_COLOR": "TRUE"})
     def test__colourify_boolean_discontinued(self) -> None:
         # Arrange
