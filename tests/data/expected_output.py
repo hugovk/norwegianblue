@@ -10,36 +10,32 @@ EXPECTED_HTML = """
             <th>latest</th>
             <th>support</th>
             <th>eol</th>
-            <th>link</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td align="left">22.04 LTS</td>
+            <td align="left"><a href="https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/">22.04 LTS</a></td>
             <td align="left">Jammy Jellyfish</td>
             <td align="left">2022-04-21</td>
             <td align="left">22.04</td>
             <td align="left"><font color="green">2027-04-02</font></td>
             <td align="left"><font color="green">2032-04-01</font></td>
-            <td align="left">https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/</td>
         </tr>
         <tr>
-            <td align="left">21.10</td>
+            <td align="left"><a href="https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/">21.10</a></td>
             <td align="left">Impish Indri</td>
             <td align="left">2021-10-14</td>
             <td align="left">21.10</td>
             <td align="left"><font color="red">2022-07-31</font></td>
             <td align="left"><font color="red">2022-07-31</font></td>
-            <td align="left">https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/</td>
         </tr>
         <tr>
-            <td align="left">21.04</td>
+            <td align="left"><a href="https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/">21.04</a></td>
             <td align="left">Hirsute Hippo</td>
             <td align="left">2021-04-22</td>
             <td align="left">21.04</td>
             <td align="left"><font color="red">2022-01-20</font></td>
             <td align="left"><font color="red">2022-01-20</font></td>
-            <td align="left">https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/</td>
         </tr>
         <tr>
             <td align="left">20.10</td>
@@ -48,7 +44,6 @@ EXPECTED_HTML = """
             <td align="left">20.10</td>
             <td align="left"><font color="red">2021-07-22</font></td>
             <td align="left"><font color="red">2021-07-22</font></td>
-            <td align="left"></td>
         </tr>
         <tr>
             <td align="left">20.04 LTS</td>
@@ -57,7 +52,6 @@ EXPECTED_HTML = """
             <td align="left">20.04.4</td>
             <td align="left"><font color="green">2025-04-02</font></td>
             <td align="left"><font color="green">2030-04-01</font></td>
-            <td align="left"></td>
         </tr>
         <tr>
             <td align="left">19.10</td>
@@ -66,16 +60,14 @@ EXPECTED_HTML = """
             <td align="left">19.10</td>
             <td align="left"><font color="red">2020-07-06</font></td>
             <td align="left"><font color="red">2020-07-06</font></td>
-            <td align="left"></td>
         </tr>
         <tr>
-            <td align="left">18.04 LTS</td>
+            <td align="left"><a href="https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes">18.04 LTS</a></td>
             <td align="left">Bionic Beaver</td>
             <td align="left">2018-04-26</td>
             <td align="left">18.04.6</td>
             <td align="left"><font color="red">2023-04-02</font></td>
             <td align="left"><font color="green">2028-04-01</font></td>
-            <td align="left">https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes</td>
         </tr>
         <tr>
             <td align="left">16.04 LTS</td>
@@ -84,7 +76,6 @@ EXPECTED_HTML = """
             <td align="left">16.04.7</td>
             <td align="left"><font color="red">2021-04-02</font></td>
             <td align="left"><font color="green">2026-04-01</font></td>
-            <td align="left"></td>
         </tr>
         <tr>
             <td align="left">14.04 LTS</td>
@@ -93,39 +84,38 @@ EXPECTED_HTML = """
             <td align="left">14.04.6</td>
             <td align="left"><font color="red">2019-04-02</font></td>
             <td align="left"><font color="yellow">2024-04-01</font></td>
-            <td align="left"></td>
         </tr>
     </tbody>
 </table>
-"""
+"""  # noqa: E501
 
 EXPECTED_MD = """
-| cycle     |     codename    |  release   | latest  |  support   |    eol     | link                                                 |
-| :---------| :-------------: | :--------: | :-------| :--------: | :--------: | :----------------------------------------------------|
-| 22.04 LTS | Jammy Jellyfish | 2022-04-21 | 22.04   | 2027-04-02 | 2032-04-01 | https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/ |
-| 21.10     |   Impish Indri  | 2021-10-14 | 21.10   | 2022-07-31 | 2022-07-31 | https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/    |
-| 21.04     |  Hirsute Hippo  | 2021-04-22 | 21.04   | 2022-01-20 | 2022-01-20 | https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/   |
-| 20.10     |  Groovy Gorilla | 2020-10-22 | 20.10   | 2021-07-22 | 2021-07-22 |                                                      |
-| 20.04 LTS |   Focal Fossa   | 2020-04-23 | 20.04.4 | 2025-04-02 | 2030-04-01 |                                                      |
-| 19.10     |   Karmic Koala  | 2019-10-17 | 19.10   | 2020-07-06 | 2020-07-06 |                                                      |
-| 18.04 LTS |  Bionic Beaver  | 2018-04-26 | 18.04.6 | 2023-04-02 | 2028-04-01 | https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes    |
-| 16.04 LTS |   Xenial Xerus  | 2016-04-21 | 16.04.7 | 2021-04-02 | 2026-04-01 |                                                      |
-| 14.04 LTS |   Trusty Tahr   | 2014-04-17 | 14.04.6 | 2019-04-02 | 2024-04-01 |                                                      |
+| cycle                                                             |     codename    |  release   | latest  |  support   |    eol     |
+| :-----------------------------------------------------------------| :-------------: | :--------: | :-------| :--------: | :--------: |
+| [22.04 LTS](https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/) | Jammy Jellyfish | 2022-04-21 | 22.04   | 2027-04-02 | 2032-04-01 |
+| [21.10](https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/)        |   Impish Indri  | 2021-10-14 | 21.10   | 2022-07-31 | 2022-07-31 |
+| [21.04](https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/)       |  Hirsute Hippo  | 2021-04-22 | 21.04   | 2022-01-20 | 2022-01-20 |
+| 20.10                                                             |  Groovy Gorilla | 2020-10-22 | 20.10   | 2021-07-22 | 2021-07-22 |
+| 20.04 LTS                                                         |   Focal Fossa   | 2020-04-23 | 20.04.4 | 2025-04-02 | 2030-04-01 |
+| 19.10                                                             |   Karmic Koala  | 2019-10-17 | 19.10   | 2020-07-06 | 2020-07-06 |
+| [18.04 LTS](https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes)    |  Bionic Beaver  | 2018-04-26 | 18.04.6 | 2023-04-02 | 2028-04-01 |
+| 16.04 LTS                                                         |   Xenial Xerus  | 2016-04-21 | 16.04.7 | 2021-04-02 | 2026-04-01 |
+| 14.04 LTS                                                         |   Trusty Tahr   | 2014-04-17 | 14.04.6 | 2019-04-02 | 2024-04-01 |
 """  # noqa: E501
 
 
 EXPECTED_MD_COLOUR = """
-| cycle     |     codename    |  release   | latest  |  support   |    eol     | link                                                 |
-| :---------| :-------------: | :--------: | :-------| :--------: | :--------: | :----------------------------------------------------|
-| 22.04 LTS | Jammy Jellyfish | 2022-04-21 | 22.04   | \x1b[32m2027-04-02\x1b[0m | \x1b[32m2032-04-01\x1b[0m | https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/ |
-| 21.10     |   Impish Indri  | 2021-10-14 | 21.10   | \x1b[32m2022-07-31\x1b[0m | \x1b[32m2022-07-31\x1b[0m | https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/    |
-| 21.04     |  Hirsute Hippo  | 2021-04-22 | 21.04   | \x1b[33m2022-01-20\x1b[0m | \x1b[33m2022-01-20\x1b[0m | https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/   |
-| 20.10     |  Groovy Gorilla | 2020-10-22 | 20.10   | \x1b[31m2021-07-22\x1b[0m | \x1b[31m2021-07-22\x1b[0m |                                                      |
-| 20.04 LTS |   Focal Fossa   | 2020-04-23 | 20.04.4 | \x1b[32m2025-04-02\x1b[0m | \x1b[32m2030-04-01\x1b[0m |                                                      |
-| 19.10     |   Karmic Koala  | 2019-10-17 | 19.10   | \x1b[31m2020-07-06\x1b[0m | \x1b[31m2020-07-06\x1b[0m |                                                      |
-| 18.04 LTS |  Bionic Beaver  | 2018-04-26 | 18.04.6 | \x1b[32m2023-04-02\x1b[0m | \x1b[32m2028-04-01\x1b[0m | https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes    |
-| 16.04 LTS |   Xenial Xerus  | 2016-04-21 | 16.04.7 | \x1b[31m2021-04-02\x1b[0m | \x1b[32m2026-04-01\x1b[0m |                                                      |
-| 14.04 LTS |   Trusty Tahr   | 2014-04-17 | 14.04.6 | \x1b[31m2019-04-02\x1b[0m | \x1b[32m2024-04-01\x1b[0m |                                                      |
+| cycle                                                             |     codename    |  release   | latest  |  support   |    eol     |
+| :-----------------------------------------------------------------| :-------------: | :--------: | :-------| :--------: | :--------: |
+| [22.04 LTS](https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/) | Jammy Jellyfish | 2022-04-21 | 22.04   | \x1b[32m2027-04-02\x1b[0m | \x1b[32m2032-04-01\x1b[0m |
+| [21.10](https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/)        |   Impish Indri  | 2021-10-14 | 21.10   | \x1b[32m2022-07-31\x1b[0m | \x1b[32m2022-07-31\x1b[0m |
+| [21.04](https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/)       |  Hirsute Hippo  | 2021-04-22 | 21.04   | \x1b[33m2022-01-20\x1b[0m | \x1b[33m2022-01-20\x1b[0m |
+| 20.10                                                             |  Groovy Gorilla | 2020-10-22 | 20.10   | \x1b[31m2021-07-22\x1b[0m | \x1b[31m2021-07-22\x1b[0m |
+| 20.04 LTS                                                         |   Focal Fossa   | 2020-04-23 | 20.04.4 | \x1b[32m2025-04-02\x1b[0m | \x1b[32m2030-04-01\x1b[0m |
+| 19.10                                                             |   Karmic Koala  | 2019-10-17 | 19.10   | \x1b[31m2020-07-06\x1b[0m | \x1b[31m2020-07-06\x1b[0m |
+| [18.04 LTS](https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes)    |  Bionic Beaver  | 2018-04-26 | 18.04.6 | \x1b[32m2023-04-02\x1b[0m | \x1b[32m2028-04-01\x1b[0m |
+| 16.04 LTS                                                         |   Xenial Xerus  | 2016-04-21 | 16.04.7 | \x1b[31m2021-04-02\x1b[0m | \x1b[32m2026-04-01\x1b[0m |
+| 14.04 LTS                                                         |   Trusty Tahr   | 2014-04-17 | 14.04.6 | \x1b[31m2019-04-02\x1b[0m | \x1b[32m2024-04-01\x1b[0m |
 """  # noqa: E501
 
 EXPECTED_PRETTY_REMAINDER = """
@@ -162,19 +152,19 @@ EXPECTED_PRETTY_WITH_TITLE = (
 EXPECTED_RST = """
 .. table::
 
-    ===========  =================  ============  =========  ============  ============  ======================================================
-       cycle         codename         release      latest      support         eol                                link                         
-    ===========  =================  ============  =========  ============  ============  ======================================================
-     22.04 LTS    Jammy Jellyfish    2022-04-21    22.04      2027-04-02    2032-04-01    https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/ 
-     21.10        Impish Indri       2021-10-14    21.10      2022-07-31    2022-07-31    https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/    
-     21.04        Hirsute Hippo      2021-04-22    21.04      2022-01-20    2022-01-20    https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/   
-     20.10        Groovy Gorilla     2020-10-22    20.10      2021-07-22    2021-07-22                                                         
-     20.04 LTS    Focal Fossa        2020-04-23    20.04.4    2025-04-02    2030-04-01                                                         
-     19.10        Karmic Koala       2019-10-17    19.10      2020-07-06    2020-07-06                                                         
-     18.04 LTS    Bionic Beaver      2018-04-26    18.04.6    2023-04-02    2028-04-01    https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes    
-     16.04 LTS    Xenial Xerus       2016-04-21    16.04.7    2021-04-02    2026-04-01                                                         
-     14.04 LTS    Trusty Tahr        2014-04-17    14.04.6    2019-04-02    2024-04-01                                                         
-    ===========  =================  ============  =========  ============  ============  ======================================================
+    ======================================================================  =================  ============  =========  ============  ============
+                                    cycle                                       codename         release      latest      support         eol     
+    ======================================================================  =================  ============  =========  ============  ============
+     `22.04 LTS <https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/>`__    Jammy Jellyfish    2022-04-21    22.04      2027-04-02    2032-04-01 
+     `21.10 <https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/>`__           Impish Indri       2021-10-14    21.10      2022-07-31    2022-07-31 
+     `21.04 <https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/>`__          Hirsute Hippo      2021-04-22    21.04      2022-01-20    2022-01-20 
+     20.10                                                                   Groovy Gorilla     2020-10-22    20.10      2021-07-22    2021-07-22 
+     20.04 LTS                                                               Focal Fossa        2020-04-23    20.04.4    2025-04-02    2030-04-01 
+     19.10                                                                   Karmic Koala       2019-10-17    19.10      2020-07-06    2020-07-06 
+     `18.04 LTS <https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes>`__       Bionic Beaver      2018-04-26    18.04.6    2023-04-02    2028-04-01 
+     16.04 LTS                                                               Xenial Xerus       2016-04-21    16.04.7    2021-04-02    2026-04-01 
+     14.04 LTS                                                               Trusty Tahr        2014-04-17    14.04.6    2019-04-02    2024-04-01 
+    ======================================================================  =================  ============  =========  ============  ============
 """  # noqa: E501 W291
 
 EXPECTED_CSV = """
