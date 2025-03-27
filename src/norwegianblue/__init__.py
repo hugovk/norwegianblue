@@ -95,6 +95,9 @@ def norwegianblue(
     if color != "no" and format != "yaml":
         data = _colourify(data, is_html=format == "html")
 
+    if format in ("pretty", "markdown", "rst", "html"):
+        data = linkify(data, format)
+
     output = _tabulate(data, format, color, product if show_title else None)
     logging.info("")
 
@@ -102,6 +105,27 @@ def norwegianblue(
         return prefix + output
 
     return output
+
+
+def linkify(data: list[dict], format_: str) -> list[dict]:
+    """If a cycle has a link, add a hyperlink and remove the link column"""
+    for cycle in data:
+        if "link" in cycle:
+            if cycle["link"]:
+                if format_ == "pretty":
+                    cycle["cycle"] = (
+                        f"\033]8;;{cycle['link']}\033\\{cycle['cycle']}\033]8;;\033\\"
+                    )
+                elif format_ == "markdown":
+                    cycle["cycle"] = f"[{cycle['cycle']}]({cycle['link']})"
+                elif format_ == "rst":
+                    cycle["cycle"] = f"`{cycle['cycle']} <{cycle['link']}>`__"
+                elif format_ == "html":
+                    cycle["cycle"] = f'<a href="{cycle["link"]}">{cycle["cycle"]}</a>'
+
+            cycle.pop("link")
+
+    return data
 
 
 @cache
