@@ -21,6 +21,8 @@ __all__ = ["__version__"]
 
 BASE_URL = "https://endoflife.date/api/"
 
+logger = logging.getLogger(__name__)
+
 
 def error_404_text(product: str, suggestion: str) -> str:
     return f"Product '{product}' not found, run 'eol all' for list." + (
@@ -42,18 +44,18 @@ def norwegianblue(
     else:
         url = BASE_URL + product.lower() + ".json"
         cache_file = _cache.filename(url)
-        logging.info("Human URL:\thttps://endoflife.date/%s", product.lower())
-        logging.info("API URL:\t%s", url)
-        logging.info(
+        logger.info("Human URL:\thttps://endoflife.date/%s", product.lower())
+        logger.info("API URL:\t%s", url)
+        logger.info(
             "Source URL:\thttps://github.com/endoflife-date/endoflife.date/"
             "blob/master/products/%s.md",
             product.lower(),
         )
-        logging.info("Cache file:\t%s", cache_file)
+        logger.info("Cache file:\t%s", cache_file)
 
         res = {}
         if cache_file.is_file():
-            logging.info("Cache file exists")
+            logger.info("Cache file exists")
             res = _cache.load(cache_file)
 
     if res == {}:
@@ -66,7 +68,7 @@ def norwegianblue(
             headers={"User-Agent": f"norwegianblue/{__version__}"},
         )
 
-        logging.info("HTTP status code: %d", r.status_code)
+        logger.info("HTTP status code: %d", r.status_code)
         if r.status_code == 404:
             suggestion = suggest_product(product)
             msg = error_404_text(product, suggestion)
@@ -99,7 +101,7 @@ def norwegianblue(
         data = linkify(data, format)
 
     output = _tabulate(data, format, color, product if show_title else None)
-    logging.info("")
+    logger.info("")
 
     if product == "norwegianblue":
         return prefix + output
@@ -137,7 +139,7 @@ def suggest_product(product: str) -> str:
 
     # Find the closest match
     result = difflib.get_close_matches(product, all_products, n=1)
-    logging.info("Suggestion:\t%s (score: %d)", *result)
+    logger.info("Suggestion:\t%s (score: %d)", *result)
     return result[0] if result else ""
 
 
