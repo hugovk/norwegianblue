@@ -5,7 +5,7 @@ platformdirs==4.4.0
 prettytable==3.16.0
 pytablewriter[html]==1.2.1
 pytest==8.4.2
-pytest-cov==6.3.0
+pytest-cov==7.0.0
 python-slugify==8.0.4
 respx==0.22.0
 termcolor==3.1.0
