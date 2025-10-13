@@ -31,8 +31,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
-    # Both added in Python 3.14
-    parser.color = "yes"
+    # Added in Python 3.14
     parser.suggest_on_error = True
     parser.add_argument(
         "product",
