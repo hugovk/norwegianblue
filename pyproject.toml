@@ -2,7 +2,7 @@
 build-backend = "hatchling.build"
 requires = [
   "hatch-vcs",
-  "hatchling",
+  "hatchling>=1.27",
 ]
 
 [project]
@@ -15,35 +15,30 @@ keywords = [
   "endoflife",
   "eol",
 ]
-license = { text = "MIT" }
-authors = [
-  { name = "Hugo van Kemenade" },
-]
-requires-python = ">=3.8"
+license = "MIT"
+license-files = [ "LICENSE.txt" ]
+authors = [ { name = "Hugo van Kemenade" } ]
+requires-python = ">=3.10"
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
   "Intended Audience :: End Users/Desktop",
-  "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dynamic = [
-  "version",
-]
+dynamic = [ "version" ]
 dependencies = [
   "argcomplete>=3.4",
   "httpx>=0.19",
   "platformdirs",
-  "prettytable>=2.4",
+  "prettytable>=3.16",
   "pytablewriter[html]>=0.63",
   "python-dateutil",
   "python-slugify",
@@ -64,6 +59,9 @@ scripts.norwegianblue = "norwegianblue.cli:main"
 [tool.hatch]
 version.source = "vcs"
 
+[tool.hatch.build.hooks.vcs]
+version-file = "src/norwegianblue/_version.py"
+
 [tool.hatch.version.raw-options]
 local_scheme = "no-local-version"
 
@@ -74,31 +72,42 @@ lint.select = [
   "C4",     # flake8-comprehensions
   "E",      # pycodestyle errors
   "EM",     # flake8-errmsg
-  "F",      # pyflakes errors
+  "F",      # pyflakes
   "I",      # isort
+  "ICN",    # flake8-import-conventions
   "ISC",    # flake8-implicit-str-concat
   "LOG",    # flake8-logging
   "PGH",    # pygrep-hooks
+  "PIE",    # flake8-pie
+  "PT",     # flake8-pytest-style
+  "PYI",    # flake8-pyi
+  "RUF022", # unsorted-dunder-all
   "RUF100", # unused noqa (yesqa)
   "UP",     # pyupgrade
   "W",      # pycodestyle warnings
   "YTT",    # flake8-2020
 ]
-lint.extend-ignore = [
-  "E203", # Whitespace before ':'
-  "E221", # Multiple spaces before operator
-  "E226", # Missing whitespace around arithmetic operator
-  "E241", # Multiple spaces after ','
+lint.ignore = [
+  "E203",   # Whitespace before ':'
+  "E221",   # Multiple spaces before operator
+  "E226",   # Missing whitespace around arithmetic operator
+  "E241",   # Multiple spaces after ','
+  "PIE790", # flake8-pie: unnecessary-placeholder
+  "UP038",  # Makes code slower and more verbose
 ]
-lint.isort.known-first-party = [
-  "norwegianblue",
-]
-lint.isort.required-imports = [
-  "from __future__ import annotations",
-]
+lint.flake8-import-conventions.aliases.datetime = "dt"
+lint.flake8-import-conventions.banned-from = [ "datetime" ]
+lint.flake8-pytest-style.parametrize-names-type = "csv"
+lint.isort.known-first-party = [ "norwegianblue" ]
+lint.isort.required-imports = [ "from __future__ import annotations" ]
 
 [tool.pyproject-fmt]
-max_supported_python = "3.13"
+max_supported_python = "3.14"
 
 [tool.pytest.ini_options]
 addopts = "--color=yes"
+filterwarnings = [
+  # Python <= 3.11
+  "ignore:sys.monitoring isn't available, using default core:coverage.exceptions.CoverageWarning",
+]
+testpaths = [ "tests" ]

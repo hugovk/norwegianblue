@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # PYTHON_ARGCOMPLETE_OK
 """
 CLI to show end-of-life dates for a number of products, from https://endoflife.date
@@ -12,6 +11,7 @@ For example:
 
 Something missing? Please contribute! https://endoflife.date/contribute
 """
+
 from __future__ import annotations
 
 import argparse
@@ -38,6 +38,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
+    # Both added in Python 3.14
+    parser.color = "yes"
+    parser.suggest_on_error = True
     parser.add_argument(
         "product",
         nargs="*",

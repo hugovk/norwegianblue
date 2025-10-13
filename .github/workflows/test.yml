@@ -2,6 +2,8 @@ name: Test
 
 on: [push, pull_request, workflow_dispatch]
 
+permissions: {}
+
 env:
   FORCE_COLOR: 1
 
@@ -11,45 +13,38 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Will be fixed in 3.13.0a6: Tuesday, 2024-04-09
-        #   qs = bytes(qs)
-        #        ~~~~~^^^^
-        #   TypeError: cannot convert 'NoneType' object to bytes
-        python-version:
-          ["pypy3.10", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13.0-alpha.4"]
+        python-version: ["pypy3.11", "3.10", "3.11", "3.12", "3.13", "3.14"]
         os: [windows-latest, macos-latest, ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: true
-          cache: pip
 
-      - name: Install dependencies
-        run: |
-          python -m pip install -U pip
-          python -m pip install -U wheel
-          python -m pip install -U tox
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
 
       - name: Tox tests
         run: |
-          tox -e py
+          uvx --with tox-uv tox -e py
 
       - name: Test CLI
         run: |
-          tox -e cli
+          uvx --with tox-uv tox -e cli
 
       - name: Tox tests (pins)
-        if: matrix.python-version == '3.12' && matrix.os == 'ubuntu-latest'
+        if: matrix.python-version == '3.13' && matrix.os == 'ubuntu-latest'
         run: |
-          tox -e pins
+          uvx --with tox-uv tox -e pins
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v3.1.5
+        uses: codecov/codecov-action@v5
         with:
           flags: ${{ matrix.os }}
           name: ${{ matrix.os }} Python ${{ matrix.python-version }}

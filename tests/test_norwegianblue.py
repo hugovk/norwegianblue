@@ -13,6 +13,7 @@ from unittest import mock
 import pytest
 import respx
 from freezegun import freeze_time
+from termcolor import termcolor
 
 import norwegianblue
 from norwegianblue import _cache
@@ -66,6 +67,11 @@ class TestNorwegianBlue:
         # Unstub caching
         _cache.filename = self.original__cache_filename
         _cache.save = self.original__save_cache
+        try:
+            # termcolor 3.1+
+            termcolor._can_do_colour.cache_clear()
+        except AttributeError:
+            pass
 
     @freeze_time("2023-11-23")
     @mock.patch.dict(os.environ, {"NO_COLOR": "TRUE"})
@@ -102,6 +108,30 @@ class TestNorwegianBlue:
 
         # Assert
         assert output.strip() == expected.strip()
+
+    @freeze_time("2023-11-23")
+    @respx.mock
+    def test_norwegianblue_no_format(self) -> None:
+        # Arrange
+        mocked_url = "https://endoflife.date/api/ubuntu.json"
+        mocked_response = SAMPLE_RESPONSE_JSON_UBUNTU
+        test_format = None
+
+        # Act
+        respx.get(mocked_url).respond(content=mocked_response)
+        output = norwegianblue.norwegianblue(product="ubuntu", format=test_format)
+
+        # Assert
+        assert output[0] == {
+            "cycle": "22.04",
+            "codename": "Jammy Jellyfish",
+            "support": "2027-04-02",
+            "eol": "2032-04-01",
+            "lts": True,
+            "latest": "22.04",
+            "link": "https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/",
+            "releaseDate": "2022-04-21",
+        }
 
     @mock.patch.dict(os.environ, {"NO_COLOR": "TRUE"})
     @respx.mock
@@ -308,6 +338,7 @@ class TestNorwegianBlue:
         # Assert
         assert output == expected
 
+    @freeze_time("2023-11-23")
     @mock.patch.dict(os.environ, {"FORCE_COLOR": "TRUE"})
     def test__colourify_boolean_discontinued(self) -> None:
         # Arrange

@@ -6,23 +6,22 @@ https://endoflife.date/docs/api/
 from __future__ import annotations
 
 import datetime as dt
-import importlib.metadata
 import json
 import logging
-from functools import lru_cache
+from functools import cache
 
 from dateutil.relativedelta import relativedelta
 from termcolor import colored
 
-from norwegianblue import _cache
+from norwegianblue import _cache, _version
 
-__version__ = importlib.metadata.version(__name__)
-
+__version__ = _version.__version__
 
 __all__ = ["__version__"]
 
 BASE_URL = "https://endoflife.date/api/"
-USER_AGENT = f"norwegianblue/{__version__}"
+
+logger = logging.getLogger(__name__)
 
 
 def error_404_text(product: str, suggestion: str) -> str:
@@ -33,10 +32,10 @@ def error_404_text(product: str, suggestion: str) -> str:
 
 def norwegianblue(
     product: str = "all",
-    format: str = "pretty",
+    format: str | None = "pretty",
     color: str = "yes",
     show_title: bool = False,
-) -> str:
+) -> str | list[dict]:
     """Call the API and return result"""
     if format == "md":
         format = "markdown"
@@ -45,27 +44,31 @@ def norwegianblue(
     else:
         url = BASE_URL + product.lower() + ".json"
         cache_file = _cache.filename(url)
-        logging.info("Human URL:\thttps://endoflife.date/%s", product.lower())
-        logging.info("API URL:\t%s", url)
-        logging.info(
+        logger.info("Human URL:\thttps://endoflife.date/%s", product.lower())
+        logger.info("API URL:\t%s", url)
+        logger.info(
             "Source URL:\thttps://github.com/endoflife-date/endoflife.date/"
             "blob/master/products/%s.md",
             product.lower(),
         )
-        logging.info("Cache file:\t%s", cache_file)
+        logger.info("Cache file:\t%s", cache_file)
 
         res = {}
         if cache_file.is_file():
-            logging.info("Cache file exists")
+            logger.info("Cache file exists")
             res = _cache.load(cache_file)
 
     if res == {}:
         # No cache, or couldn't load cache
         import httpx
 
-        r = httpx.get(url, follow_redirects=True, headers={"User-Agent": USER_AGENT})
+        r = httpx.get(
+            url,
+            follow_redirects=True,
+            headers={"User-Agent": f"norwegianblue/{__version__}"},
+        )
 
-        logging.info("HTTP status code: %d", r.status_code)
+        logger.info("HTTP status code: %d", r.status_code)
         if r.status_code == 404:
             suggestion = suggest_product(product)
             msg = error_404_text(product, suggestion)
@@ -84,6 +87,9 @@ def norwegianblue(
 
     data: list[dict] = list(res)
 
+    if format is None:
+        return data
+
     if product == "all":
         return "\n".join(data)
 
@@ -91,8 +97,11 @@ def norwegianblue(
     if color != "no" and format != "yaml":
         data = _colourify(data, is_html=format == "html")
 
+    if format in ("pretty", "markdown", "rst", "html"):
+        data = linkify(data, format)
+
     output = _tabulate(data, format, color, product if show_title else None)
-    logging.info("")
+    logger.info("")
 
     if product == "norwegianblue":
         return prefix + output
@@ -100,19 +109,40 @@ def norwegianblue(
     return output
 
 
+def linkify(data: list[dict], format_: str) -> list[dict]:
+    """If a cycle has a link, add a hyperlink and remove the link column"""
+    for cycle in data:
+        if "link" in cycle:
+            if cycle["link"]:
+                if format_ == "pretty":
+                    cycle["cycle"] = (
+                        f"\033]8;;{cycle['link']}\033\\{cycle['cycle']}\033]8;;\033\\"
+                    )
+                elif format_ == "markdown":
+                    cycle["cycle"] = f"[{cycle['cycle']}]({cycle['link']})"
+                elif format_ == "rst":
+                    cycle["cycle"] = f"`{cycle['cycle']} <{cycle['link']}>`__"
+                elif format_ == "html":
+                    cycle["cycle"] = f'<a href="{cycle["link"]}">{cycle["cycle"]}</a>'
+
+            cycle.pop("link")
+
+    return data
+
+
 def all_products() -> list[str]:
     """Get all known products from the API or cache"""
     return norwegianblue("all").splitlines()
 
 
-@lru_cache(maxsize=None)
+@cache
 def suggest_product(product: str) -> str:
     """Provide the best suggestion based on a typed product"""
     import difflib
 
     # Find the closest match
     result = difflib.get_close_matches(product, all_products(), n=1)
-    logging.info("Suggestion:\t%s (score: %d)", *result)
+    logger.info("Suggestion:\t%s (score: %d)", *result)
     return result[0] if result else ""
 
 
@@ -229,29 +259,31 @@ def _prettytable(
     color: str = "yes",
     title: str | None = None,
 ) -> str:
-    from prettytable import MARKDOWN, SINGLE_BORDER, PrettyTable
+    from prettytable import PrettyTable, TableStyle
 
-    x = PrettyTable()
-    x.set_style(MARKDOWN if format_ == "markdown" else SINGLE_BORDER)
+    table = PrettyTable()
+    table.set_style(
+        TableStyle.MARKDOWN if format_ == "markdown" else TableStyle.SINGLE_BORDER
+    )
     do_color = color != "no" and format_ == "pretty"
 
     for header in headers:
         left_align = header in ("cycle", "latest", "link")
         display_header = colored(header, attrs=["bold"]) if do_color else header
         col_data = [row[header] if header in row else "" for row in data]
-        x.add_column(display_header, col_data)
+        table.add_column(display_header, col_data)
 
         if left_align:
-            x.align[display_header] = "l"
+            table.align[display_header] = "l"
 
     title_prefix = ""
     if title:
         if format_ == "pretty":
-            x.title = colored(title, attrs=["bold"]) if do_color else title
+            table.title = colored(title, attrs=["bold"]) if do_color else title
         else:
             title_prefix = f"## {title}\n\n"
 
-    return title_prefix + x.get_string()
+    return title_prefix + table.get_string()
 
 
 def _pytablewriter(
