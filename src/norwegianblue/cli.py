@@ -1,3 +1,4 @@
+# PYTHON_ARGCOMPLETE_OK
 """
 CLI to show end-of-life dates for a number of products, from https://endoflife.date
 
@@ -21,10 +22,20 @@ import sys
 
 from termcolor import colored
 
+try:
+    import argcomplete
+except ImportError:
+    argcomplete = None
+
 import norwegianblue
 from norwegianblue import _cache
 
 atexit.register(_cache.clear)
+
+
+def product_completer(**kwargs):
+    """The list of all products to feed autocompletion"""
+    return norwegianblue.all_products()
 
 
 def main() -> None:
@@ -38,7 +49,7 @@ def main() -> None:
         nargs="*",
         default=["all"],
         help="product to check, or 'all' to list all available (default: 'all')",
-    )
+    ).completer = product_completer
     parser.add_argument(
         "-f",
         "--format",
@@ -117,7 +128,8 @@ def main() -> None:
             help=f"output in {help_text}",
         )
     parser.set_defaults(formatter="pretty")
-
+    if argcomplete:
+        argcomplete.autocomplete(parser)
     args = parser.parse_args()
 
     if args.format:

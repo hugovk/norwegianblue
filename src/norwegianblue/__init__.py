@@ -130,15 +130,18 @@ def linkify(data: list[dict], format_: str) -> list[dict]:
     return data
 
 
+def all_products() -> list[str]:
+    """Get all known products from the API or cache"""
+    return norwegianblue("all").splitlines()
+
+
 @cache
 def suggest_product(product: str) -> str:
+    """Provide the best suggestion based on a typed product"""
     import difflib
 
-    # Get all known products from the API or cache
-    all_products = norwegianblue("all").splitlines()
-
     # Find the closest match
-    result = difflib.get_close_matches(product, all_products, n=1)
+    result = difflib.get_close_matches(product, all_products(), n=1)
     logger.info("Suggestion:\t%s (score: %d)", *result)
     return result[0] if result else ""
 

@@ -37,6 +37,9 @@ cd norwegianblue
 python3 -m pip install .
 ```
 
+To install tab completion on supported Linux and macOS shells, see
+https://kislyuk.github.io/argcomplete/
+
 ## Example command-line use
 
 Run `norwegianblue` or `eol`, they do the same thing.
