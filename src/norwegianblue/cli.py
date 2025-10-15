@@ -33,7 +33,7 @@ from norwegianblue import _cache
 atexit.register(_cache.clear)
 
 
-def ProductCompleter(**kwargs):
+def product_completer(**kwargs):
     """The list of all products to feed autocompletion"""
     return norwegianblue.all_products()
 
@@ -50,7 +50,7 @@ def main() -> None:
         nargs="*",
         default=["all"],
         help="product to check, or 'all' to list all available (default: 'all')",
-    ).completer = ProductCompleter
+    ).completer = product_completer
     parser.add_argument(
         "-f",
         "--format",
