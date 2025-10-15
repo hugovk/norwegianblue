@@ -18,7 +18,6 @@ import argparse
 import atexit
 import logging
 import platform
-import sys
 
 from termcolor import colored
 
@@ -50,26 +49,6 @@ def main() -> None:
         default=["all"],
         help="product to check, or 'all' to list all available (default: 'all')",
     ).completer = product_completer
-    parser.add_argument(
-        "-f",
-        "--format",
-        choices=(
-            "html",
-            "json",
-            "md",
-            "markdown",
-            "pretty",
-            "rst",
-            "csv",
-            "tsv",
-            "yaml",
-        ),
-        help=colored(
-            "deprecated: use direct options instead: "
-            "--html, --json, --md, --pretty, --rst, --csv, --tsv or --yaml",
-            "yellow",
-        ),
-    )
     parser.add_argument(
         "-c",
         "--color",
@@ -131,17 +110,6 @@ def main() -> None:
     if argcomplete:
         argcomplete.autocomplete(parser)
     args = parser.parse_args()
-
-    if args.format:
-        from termcolor import cprint
-
-        cprint(
-            "The -f/--format option is deprecated, use direct options instead: "
-            "--html, --json, --md, --pretty, --rst, --csv, --tsv or --yaml.",
-            "yellow",
-            file=sys.stderr,
-        )
-        args.formatter = args.format
 
     logging.basicConfig(level=args.loglevel, format="%(message)s")
     if args.clear_cache:
