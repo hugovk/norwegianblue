@@ -35,7 +35,7 @@ classifiers = [
 ]
 dynamic = [ "version" ]
 dependencies = [
-  "argcomplete>=3.4",
+  "argcomplete>=3.4; platform_system!='Windows'",
   "httpx>=0.19",
   "platformdirs",
   "prettytable>=3.16",

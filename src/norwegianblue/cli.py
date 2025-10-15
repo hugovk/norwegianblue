@@ -20,8 +20,12 @@ import logging
 import platform
 import sys
 
-import argcomplete
 from termcolor import colored
+
+try:
+    import argcomplete
+except ImportError:
+    argcomplete = None
 
 import norwegianblue
 from norwegianblue import _cache
@@ -125,7 +129,8 @@ def main() -> None:
             help=f"output in {help_text}",
         )
     parser.set_defaults(formatter="pretty")
-    argcomplete.autocomplete(parser)
+    if argcomplete:
+        argcomplete.autocomplete(parser)
     args = parser.parse_args()
 
     if args.format:
