@@ -29,6 +29,32 @@ pipx install norwegianblue
 
 [pipx]: https://github.com/pypa/pipx
 
+### From [conda-forge][conda-forge]
+
+#### With [Pixi][pixi]
+
+```bash
+pixi add norwegianblue
+```
+
+#### With [conda][conda]
+
+```bash
+conda install --channel conda-forge norwegianblue
+```
+
+[conda-forge]: https://github.com/conda-forge/norwegianblue-feedstock
+[pixi]: https://pixi.sh/
+[conda]: https://docs.conda.io/projects/conda/
+
+### With [`pixi global`][pixi-global]
+
+```bash
+pixi global install norwegianblue
+```
+
+[pixi-global]: https://pixi.sh/latest/global_tools/introduction/
+
 ### From source
 
 ```bash
