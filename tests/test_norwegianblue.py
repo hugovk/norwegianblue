@@ -67,11 +67,7 @@ class TestNorwegianBlue:
         # Unstub caching
         _cache.filename = self.original__cache_filename
         _cache.save = self.original__save_cache
-        try:
-            # termcolor 3.1+
-            termcolor._can_do_colour.cache_clear()
-        except AttributeError:
-            pass
+        termcolor.can_colorize.cache_clear()
 
     @freeze_time("2023-11-23")
     @mock.patch.dict(os.environ, {"NO_COLOR": "TRUE"})
