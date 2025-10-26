@@ -11,7 +11,6 @@ from typing import Any
 from unittest import mock
 
 import pytest
-import respx
 from freezegun import freeze_time
 from termcolor import termcolor
 
@@ -55,6 +54,14 @@ def stub__save_cache(*args) -> None:
     pass
 
 
+def mock_urllib3_response(content: str, status: int = 200) -> mock.Mock:
+    """Helper to create a mock urllib3 response."""
+    response = mock.Mock()
+    response.status = status
+    response.data = content.encode()
+    return response
+
+
 class TestNorwegianBlue:
     def setup_method(self) -> None:
         # Stub caching. Caches are tested in another class.
@@ -71,7 +78,6 @@ class TestNorwegianBlue:
 
     @freeze_time("2023-11-23")
     @mock.patch.dict(os.environ, {"NO_COLOR": "TRUE"})
-    @respx.mock
     @pytest.mark.parametrize(
         "test_format, test_show_title, expected",
         [
@@ -89,15 +95,14 @@ class TestNorwegianBlue:
             pytest.param("tsv", True, EXPECTED_TSV, id="tsv"),
         ],
     )
+    @mock.patch("urllib3.request")
     def test_norwegianblue_formats(
-        self, test_format: str, test_show_title: bool, expected: str
+        self, mock_request, test_format: str, test_show_title: bool, expected: str
     ) -> None:
         # Arrange
-        mocked_url = "https://endoflife.date/api/ubuntu.json"
-        mocked_response = SAMPLE_RESPONSE_JSON_UBUNTU
+        mock_request.return_value = mock_urllib3_response(SAMPLE_RESPONSE_JSON_UBUNTU)
 
         # Act
-        respx.get(mocked_url).respond(content=mocked_response)
         output = norwegianblue.norwegianblue(
             product="ubuntu", format=test_format, show_title=test_show_title
         )
@@ -106,15 +111,13 @@ class TestNorwegianBlue:
         assert output.strip() == expected.strip()
 
     @freeze_time("2023-11-23")
-    @respx.mock
-    def test_norwegianblue_no_format(self) -> None:
+    @mock.patch("urllib3.request")
+    def test_norwegianblue_no_format(self, mock_request) -> None:
         # Arrange
-        mocked_url = "https://endoflife.date/api/ubuntu.json"
-        mocked_response = SAMPLE_RESPONSE_JSON_UBUNTU
         test_format = None
+        mock_request.return_value = mock_urllib3_response(SAMPLE_RESPONSE_JSON_UBUNTU)
 
         # Act
-        respx.get(mocked_url).respond(content=mocked_response)
         output = norwegianblue.norwegianblue(product="ubuntu", format=test_format)
 
         # Assert
@@ -130,7 +133,6 @@ class TestNorwegianBlue:
         }
 
     @mock.patch.dict(os.environ, {"NO_COLOR": "TRUE"})
-    @respx.mock
     @pytest.mark.parametrize(
         "test_product, sample_response, expected",
         [
@@ -145,33 +147,30 @@ class TestNorwegianBlue:
             ),
         ],
     )
+    @mock.patch("urllib3.request")
     def test_norwegianblue_products(
-        self, test_product: str, sample_response: str, expected: str
+        self, mock_request, test_product: str, sample_response: str, expected: str
     ) -> None:
         """Test other headers not present in Ubuntu:
         * rename of releaseDate and latestReleaseDate headers (Python)
         * skip of cycleShortHand (Log4j)"""
         # Arrange
-        mocked_url = f"https://endoflife.date/api/{test_product}.json"
-        mocked_response = sample_response
+        mock_request.return_value = mock_urllib3_response(sample_response)
 
         # Act
-        respx.get(mocked_url).respond(content=mocked_response)
         output = norwegianblue.norwegianblue(product=test_product, format="markdown")
 
         # Assert
         assert output.strip() == expected.strip()
 
     @mock.patch.dict(os.environ, {"NO_COLOR": "TRUE"})
-    @respx.mock
-    def test_norwegianblue_no_color(self) -> None:
+    @mock.patch("urllib3.request")
+    def test_norwegianblue_no_color(self, mock_request) -> None:
         # Arrange
-        mocked_url = "https://endoflife.date/api/ubuntu.json"
-        mocked_response = SAMPLE_RESPONSE_JSON_UBUNTU
         expected = EXPECTED_MD
+        mock_request.return_value = mock_urllib3_response(SAMPLE_RESPONSE_JSON_UBUNTU)
 
         # Act
-        respx.get(mocked_url).respond(content=mocked_response)
         output = norwegianblue.norwegianblue(product="ubuntu", format="markdown")
 
         # Assert
@@ -179,28 +178,24 @@ class TestNorwegianBlue:
 
     @freeze_time("2021-09-13")
     @mock.patch.dict(os.environ, {"FORCE_COLOR": "TRUE"})
-    @respx.mock
-    def test_norwegianblue_force_color(self) -> None:
+    @mock.patch("urllib3.request")
+    def test_norwegianblue_force_color(self, mock_request) -> None:
         # Arrange
-        mocked_url = "https://endoflife.date/api/ubuntu.json"
-        mocked_response = SAMPLE_RESPONSE_JSON_UBUNTU
         expected = EXPECTED_MD_COLOUR
+        mock_request.return_value = mock_urllib3_response(SAMPLE_RESPONSE_JSON_UBUNTU)
 
         # Act
-        respx.get(mocked_url).respond(content=mocked_response)
         output = norwegianblue.norwegianblue(product="ubuntu", format="md")
 
         # Assert
         assert output.strip() == expected.strip()
 
-    @respx.mock
-    def test_norwegianblue_json(self) -> None:
+    @mock.patch("urllib3.request")
+    def test_norwegianblue_json(self, mock_request) -> None:
         # Arrange
-        mocked_url = "https://endoflife.date/api/ubuntu.json"
-        mocked_response = SAMPLE_RESPONSE_JSON_UBUNTU
+        mock_request.return_value = mock_urllib3_response(SAMPLE_RESPONSE_JSON_UBUNTU)
 
         # Act
-        respx.get(mocked_url).respond(content=mocked_response)
         output = norwegianblue.norwegianblue(product="ubuntu", format="json")
 
         # Assert
@@ -410,21 +405,18 @@ class TestNorwegianBlue:
         # Assert
         assert output == expected
 
-    @respx.mock
-    def test_all_products(self) -> None:
+    @mock.patch("urllib3.request")
+    def test_all_products(self, mock_request) -> None:
         # Arrange
-        mocked_url = "https://endoflife.date/api/all.json"
-        mocked_response = SAMPLE_RESPONSE_ALL_JSON
         expected = """alpine\namazon-linux\nandroid\nbootstrap\ncentos"""
+        mock_request.return_value = mock_urllib3_response(SAMPLE_RESPONSE_ALL_JSON)
 
         # Act
-        respx.get(mocked_url).respond(content=mocked_response)
         output = norwegianblue.norwegianblue(product="all")
 
         # Assert
         assert output == expected
 
-    @respx.mock
     @pytest.mark.parametrize(
         "product, expected",
         [
@@ -436,14 +428,18 @@ class TestNorwegianBlue:
             ("julia", r"Product 'julia' not found, run 'eol all' for list\."),
         ],
     )
-    def test_404(self, product, expected) -> None:
+    @mock.patch("urllib3.request")
+    def test_404(self, mock_request, product, expected) -> None:
         # Arrange
-        mocked_url = f"https://endoflife.date/api/{product}.json"
-        respx.get(mocked_url).respond(status_code=404)
+        # First call returns 404 for the product, second call returns all products
+        mock_response_404 = mock.Mock()
+        mock_response_404.status = 404
 
-        mocked_url = "https://endoflife.date/api/all.json"
-        mocked_response = SAMPLE_RESPONSE_ALL_JSON
-        respx.get(mocked_url).respond(content=mocked_response)
+        mock_response_all = mock.Mock()
+        mock_response_all.status = 200
+        mock_response_all.data = SAMPLE_RESPONSE_ALL_JSON.encode()
+
+        mock_request.side_effect = [mock_response_404, mock_response_all]
 
         # Act / Assert
         with pytest.raises(ValueError, match=expected):
