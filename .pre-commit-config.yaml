@@ -56,9 +56,9 @@ repos:
   #            pytablewriter,
   #            pytest,
   #            python-slugify,
-  #            respx,
   #            termcolor,
   #            types-python-dateutil,
+  #            urllib3,
   #          ]
 
   - repo: https://github.com/tox-dev/pyproject-fmt
