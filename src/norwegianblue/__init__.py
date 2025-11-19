@@ -10,7 +10,6 @@ import json
 import logging
 from functools import cache
 
-from dateutil.relativedelta import relativedelta
 from termcolor import colored
 
 from norwegianblue import _cache, _version
@@ -163,7 +162,7 @@ def _colourify(data: list[dict], *, is_html: bool = False) -> list[dict]:
     green: will pass after six months
     """
     now = dt.datetime.now(dt.timezone.utc)
-    six_months_from_now = now + relativedelta(months=+6)
+    six_months_from_now = now + dt.timedelta(days=180)
 
     for cycle in data:
         for property_ in ("discontinued", "support", "eol", "extendedSupport"):
