@@ -155,17 +155,6 @@ def _ltsify(data: list[dict]) -> list[dict]:
     return data
 
 
-def _add_months(date: dt.datetime, months: int) -> dt.datetime:
-    """Add months to a datetime"""
-    import calendar
-
-    month = date.month - 1 + months
-    year = date.year + month // 12
-    month = month % 12 + 1
-    day = min(date.day, calendar.monthrange(year, month)[1])
-    return date.replace(year=year, month=month, day=day)
-
-
 def _colourify(data: list[dict], *, is_html: bool = False) -> list[dict]:
     """Add colour to dates:
     red: in the past
@@ -173,7 +162,7 @@ def _colourify(data: list[dict], *, is_html: bool = False) -> list[dict]:
     green: will pass after six months
     """
     now = dt.datetime.now(dt.timezone.utc)
-    six_months_from_now = _add_months(now, 6)
+    six_months_from_now = now + dt.timedelta(days=180)
 
     for cycle in data:
         for property_ in ("discontinued", "support", "eol", "extendedSupport"):
