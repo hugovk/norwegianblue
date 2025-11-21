@@ -60,28 +60,33 @@ def norwegianblue(
 
     if res == {}:
         # No cache, or couldn't load cache
-        import urllib3
+        import urllib.error
+        import urllib.request
 
-        r = urllib3.request(
-            "GET",
-            url,
-            headers={"User-Agent": f"norwegianblue/{__version__}"},
-            redirect=True,
+        req = urllib.request.Request(
+            url, headers={"User-Agent": f"norwegianblue/{__version__}"}
         )
+        try:
+            r = urllib.request.urlopen(req)
+            status = r.status
+            data = r.read()
+        except urllib.error.HTTPError as e:
+            status = e.code
+            data = e.read() if status < 400 else None
 
-        logger.info("HTTP status code: %d", r.status)
-        if r.status == 404:
+        logger.info("HTTP status code: %d", status)
+        if status == 404:
             suggestion = suggest_product(product)
             msg = error_404_text(product, suggestion)
             raise ValueError(msg)
 
         # Raise if we made a bad request
         # (4XX client error or 5XX server error response)
-        if r.status >= 400:
-            msg = f"HTTP {r.status} error for url: {url}"
-            raise urllib3.exceptions.HTTPError(msg)
+        if status >= 400:
+            msg = f"HTTP {status} error for url: {url}"
+            raise urllib.error.HTTPError(url, status, msg, {}, None)
 
-        res = json.loads(r.data.decode("utf-8"))
+        res = json.loads(data.decode("utf-8"))
 
         _cache.save(cache_file, res)
 

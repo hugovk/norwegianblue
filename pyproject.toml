@@ -43,7 +43,6 @@ dependencies = [
   "python-dateutil",
   "python-slugify",
   "termcolor>=2.1",
-  "urllib3>=2",
 ]
 optional-dependencies.tests = [
   "freezegun",

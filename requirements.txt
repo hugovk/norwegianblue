@@ -7,4 +7,3 @@ pytest==8.4.2
 pytest-cov==7.0.0
 python-slugify==8.0.4
 termcolor==3.2.0
-urllib3==2.3.0

@@ -54,17 +54,21 @@ def stub__save_cache(*args) -> None:
     pass
 
 
-def mock_urllib3_response(content: str, status: int = 200) -> mock.Mock:
-    """Helper to create a mock urllib3 response."""
+def mock_urllib_response(content: str, status: int = 200) -> mock.Mock:
+    """Helper to create a mock urllib response."""
     response = mock.Mock()
     response.status = status
-    response.data = content.encode()
+    response.read.return_value = content.encode()
     return response
 
 
-def assert_called_with_url(mock_request: mock.Mock, url: str) -> None:
-    """Assert that urllib3.request was called once with the given URL."""
-    mock_request.assert_called_once_with("GET", url, headers=mock.ANY, redirect=True)
+def assert_called_with_url(mock_urlopen: mock.Mock, url: str) -> None:
+    """Assert that urllib.request.urlopen was called once with the given URL."""
+    mock_urlopen.assert_called_once()
+    args = mock_urlopen.call_args[0]
+    assert len(args) == 1
+    request = args[0]
+    assert request.full_url == url
 
 
 class TestNorwegianBlue:
@@ -100,12 +104,12 @@ class TestNorwegianBlue:
             pytest.param("tsv", True, EXPECTED_TSV, id="tsv"),
         ],
     )
-    @mock.patch("urllib3.request")
+    @mock.patch("urllib.request.urlopen")
     def test_norwegianblue_formats(
-        self, mock_request, test_format: str, test_show_title: bool, expected: str
+        self, mock_urlopen, test_format: str, test_show_title: bool, expected: str
     ) -> None:
         # Arrange
-        mock_request.return_value = mock_urllib3_response(SAMPLE_RESPONSE_JSON_UBUNTU)
+        mock_urlopen.return_value = mock_urllib_response(SAMPLE_RESPONSE_JSON_UBUNTU)
 
         # Act
         output = norwegianblue.norwegianblue(
@@ -114,13 +118,13 @@ class TestNorwegianBlue:
 
         # Assert
         assert output.strip() == expected.strip()
-        assert_called_with_url(mock_request, "https://endoflife.date/api/ubuntu.json")
+        assert_called_with_url(mock_urlopen, "https://endoflife.date/api/ubuntu.json")
 
     @freeze_time("2023-11-23")
-    @mock.patch("urllib3.request")
-    def test_norwegianblue_no_format(self, mock_request) -> None:
+    @mock.patch("urllib.request.urlopen")
+    def test_norwegianblue_no_format(self, mock_urlopen) -> None:
         # Arrange
-        mock_request.return_value = mock_urllib3_response(SAMPLE_RESPONSE_JSON_UBUNTU)
+        mock_urlopen.return_value = mock_urllib_response(SAMPLE_RESPONSE_JSON_UBUNTU)
 
         # Act
         output = norwegianblue.norwegianblue(product="ubuntu", format=None)
@@ -136,7 +140,7 @@ class TestNorwegianBlue:
             "link": "https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/",
             "releaseDate": "2022-04-21",
         }
-        assert_called_with_url(mock_request, "https://endoflife.date/api/ubuntu.json")
+        assert_called_with_url(mock_urlopen, "https://endoflife.date/api/ubuntu.json")
 
     @mock.patch.dict(os.environ, {"NO_COLOR": "TRUE"})
     @pytest.mark.parametrize(
@@ -153,15 +157,15 @@ class TestNorwegianBlue:
             ),
         ],
     )
-    @mock.patch("urllib3.request")
+    @mock.patch("urllib.request.urlopen")
     def test_norwegianblue_products(
-        self, mock_request, test_product: str, sample_response: str, expected: str
+        self, mock_urlopen, test_product: str, sample_response: str, expected: str
     ) -> None:
         """Test other headers not present in Ubuntu:
         * rename of releaseDate and latestReleaseDate headers (Python)
         * skip of cycleShortHand (Log4j)"""
         # Arrange
-        mock_request.return_value = mock_urllib3_response(sample_response)
+        mock_urlopen.return_value = mock_urllib_response(sample_response)
 
         # Act
         output = norwegianblue.norwegianblue(product=test_product, format="markdown")
@@ -169,49 +173,49 @@ class TestNorwegianBlue:
         # Assert
         assert output.strip() == expected.strip()
         assert_called_with_url(
-            mock_request, f"https://endoflife.date/api/{test_product}.json"
+            mock_urlopen, f"https://endoflife.date/api/{test_product}.json"
         )
 
     @mock.patch.dict(os.environ, {"NO_COLOR": "TRUE"})
-    @mock.patch("urllib3.request")
-    def test_norwegianblue_no_color(self, mock_request) -> None:
+    @mock.patch("urllib.request.urlopen")
+    def test_norwegianblue_no_color(self, mock_urlopen) -> None:
         # Arrange
         expected = EXPECTED_MD
-        mock_request.return_value = mock_urllib3_response(SAMPLE_RESPONSE_JSON_UBUNTU)
+        mock_urlopen.return_value = mock_urllib_response(SAMPLE_RESPONSE_JSON_UBUNTU)
 
         # Act
         output = norwegianblue.norwegianblue(product="ubuntu", format="markdown")
 
         # Assert
         assert output.strip() == expected.strip()
-        assert_called_with_url(mock_request, "https://endoflife.date/api/ubuntu.json")
+        assert_called_with_url(mock_urlopen, "https://endoflife.date/api/ubuntu.json")
 
     @freeze_time("2021-09-13")
     @mock.patch.dict(os.environ, {"FORCE_COLOR": "TRUE"})
-    @mock.patch("urllib3.request")
-    def test_norwegianblue_force_color(self, mock_request) -> None:
+    @mock.patch("urllib.request.urlopen")
+    def test_norwegianblue_force_color(self, mock_urlopen) -> None:
         # Arrange
         expected = EXPECTED_MD_COLOUR
-        mock_request.return_value = mock_urllib3_response(SAMPLE_RESPONSE_JSON_UBUNTU)
+        mock_urlopen.return_value = mock_urllib_response(SAMPLE_RESPONSE_JSON_UBUNTU)
 
         # Act
         output = norwegianblue.norwegianblue(product="ubuntu", format="md")
 
         # Assert
         assert output.strip() == expected.strip()
-        assert_called_with_url(mock_request, "https://endoflife.date/api/ubuntu.json")
+        assert_called_with_url(mock_urlopen, "https://endoflife.date/api/ubuntu.json")
 
-    @mock.patch("urllib3.request")
-    def test_norwegianblue_json(self, mock_request) -> None:
+    @mock.patch("urllib.request.urlopen")
+    def test_norwegianblue_json(self, mock_urlopen) -> None:
         # Arrange
-        mock_request.return_value = mock_urllib3_response(SAMPLE_RESPONSE_JSON_UBUNTU)
+        mock_urlopen.return_value = mock_urllib_response(SAMPLE_RESPONSE_JSON_UBUNTU)
 
         # Act
         output = norwegianblue.norwegianblue(product="ubuntu", format="json")
 
         # Assert
         assert json.loads(output) == json.loads(SAMPLE_RESPONSE_JSON_UBUNTU)
-        assert_called_with_url(mock_request, "https://endoflife.date/api/ubuntu.json")
+        assert_called_with_url(mock_urlopen, "https://endoflife.date/api/ubuntu.json")
 
     @freeze_time("2021-06-15")
     @mock.patch.dict(os.environ, {"FORCE_COLOR": "TRUE"})
@@ -417,18 +421,18 @@ class TestNorwegianBlue:
         # Assert
         assert output == expected
 
-    @mock.patch("urllib3.request")
-    def test_all_products(self, mock_request) -> None:
+    @mock.patch("urllib.request.urlopen")
+    def test_all_products(self, mock_urlopen) -> None:
         # Arrange
         expected = """alpine\namazon-linux\nandroid\nbootstrap\ncentos"""
-        mock_request.return_value = mock_urllib3_response(SAMPLE_RESPONSE_ALL_JSON)
+        mock_urlopen.return_value = mock_urllib_response(SAMPLE_RESPONSE_ALL_JSON)
 
         # Act
         output = norwegianblue.norwegianblue(product="all")
 
         # Assert
         assert output == expected
-        assert_called_with_url(mock_request, "https://endoflife.date/api/all.json")
+        assert_called_with_url(mock_urlopen, "https://endoflife.date/api/all.json")
 
     @pytest.mark.parametrize(
         "product, expected",
@@ -441,27 +445,32 @@ class TestNorwegianBlue:
             ("julia", r"Product 'julia' not found, run 'eol all' for list\."),
         ],
     )
-    @mock.patch("urllib3.request")
-    def test_404(self, mock_request, product, expected) -> None:
+    @mock.patch("urllib.request.urlopen")
+    def test_404(self, mock_urlopen, product, expected) -> None:
         # Arrange
         # First call returns 404 for the product, second call returns all products
-        mock_response_404 = mock.Mock()
-        mock_response_404.status = 404
+        import urllib.error
 
         mock_response_all = mock.Mock()
         mock_response_all.status = 200
-        mock_response_all.data = SAMPLE_RESPONSE_ALL_JSON.encode()
+        mock_response_all.read.return_value = SAMPLE_RESPONSE_ALL_JSON.encode()
 
-        mock_request.side_effect = [mock_response_404, mock_response_all]
+        # HTTPError is raised for 404, second call succeeds
+        http_error = urllib.error.HTTPError(
+            f"https://endoflife.date/api/{product}.json", 404, "Not Found", {}, None
+        )
+        http_error.code = 404
+
+        mock_urlopen.side_effect = [http_error, mock_response_all]
 
         # Act / Assert
         with pytest.raises(ValueError, match=expected):
             norwegianblue.norwegianblue(product=product)
 
         # Verify both URLs were called
-        assert mock_request.call_count == 2
-        url1 = mock_request.call_args_list[0].args[1]
-        url2 = mock_request.call_args_list[1].args[1]
+        assert mock_urlopen.call_count == 2
+        url1 = mock_urlopen.call_args_list[0].args[0].full_url
+        url2 = mock_urlopen.call_args_list[1].args[0].full_url
         assert url1 == f"https://endoflife.date/api/{product}.json"
         assert url2 == "https://endoflife.date/api/all.json"
 

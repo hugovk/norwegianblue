@@ -58,7 +58,6 @@ repos:
   #            python-slugify,
   #            termcolor,
   #            types-python-dateutil,
-  #            urllib3,
   #          ]
 
   - repo: https://github.com/tox-dev/pyproject-fmt
