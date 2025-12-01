@@ -2,7 +2,7 @@
 freezegun==1.5.5
 httpx==0.28.1
 platformdirs==4.5.0
-prettytable==3.16.0
+prettytable==3.17.0
 pytablewriter[html]==1.2.1
 pytest==8.4.2
 pytest-cov==7.0.0
