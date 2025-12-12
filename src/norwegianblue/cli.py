@@ -24,7 +24,7 @@ from termcolor import colored
 try:
     import argcomplete
 except ImportError:
-    argcomplete = None
+    argcomplete = None  # type: ignore[assignment]
 
 import norwegianblue
 from norwegianblue import _cache
@@ -32,7 +32,7 @@ from norwegianblue import _cache
 atexit.register(_cache.clear)
 
 
-def product_completer(**kwargs):
+def product_completer(**kwargs) -> list[str]:
     """The list of all products to feed autocompletion"""
     return norwegianblue.all_products()
 
@@ -48,7 +48,7 @@ def main() -> None:
         nargs="*",
         default=["all"],
         help="product to check, or 'all' to list all available (default: 'all')",
-    ).completer = product_completer
+    ).completer = product_completer  # type: ignore[attr-defined]
     parser.add_argument(
         "-c",
         "--color",

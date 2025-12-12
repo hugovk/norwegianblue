@@ -52,12 +52,12 @@ def norwegianblue(
         )
         logger.info("Cache file:\t%s", cache_file)
 
-        res = {}
+        res = []
         if cache_file.is_file():
             logger.info("Cache file exists")
             res = _cache.load(cache_file)
 
-    if res == {}:
+    if not res:
         # No cache, or couldn't load cache
         import urllib3
 
@@ -93,7 +93,7 @@ def norwegianblue(
         return data
 
     if product == "all":
-        return "\n".join(data)
+        return "\n".join(data)  # type: ignore[arg-type]
 
     data = _ltsify(data)
     if color != "no" and format != "yaml":
@@ -134,7 +134,9 @@ def linkify(data: list[dict], format_: str) -> list[dict]:
 
 def all_products() -> list[str]:
     """Get all known products from the API or cache"""
-    return norwegianblue("all").splitlines()
+    result = norwegianblue("all")
+    assert isinstance(result, str)
+    return result.splitlines()
 
 
 @cache
@@ -309,11 +311,11 @@ def _pytablewriter(
         "yaml": YamlTableWriter,
     }
 
-    writer = format_writers[format_]()
+    writer = format_writers[format_]()  # type: ignore[abstract]
     if format_ != "html":
         writer.margin = 1
 
-    writer.table_name = title
+    writer.table_name = title  # type: ignore[assignment]
     writer.headers = headers
     writer.value_matrix = data
 

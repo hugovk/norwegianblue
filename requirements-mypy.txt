@@ -1,0 +1,10 @@
+argcomplete
+freezegun
+mypy==1.19.0
+platformdirs
+prettytable
+pytablewriter
+pytest
+termcolor
+types-python-slugify
+urllib3
