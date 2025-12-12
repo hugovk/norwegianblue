@@ -99,17 +99,27 @@ lint.flake8-import-conventions.banned-from = [ "datetime" ]
 lint.flake8-pytest-style.parametrize-names-type = "csv"
 lint.isort.known-first-party = [ "norwegianblue" ]
 lint.isort.required-imports = [ "from __future__ import annotations" ]
+lint.future-annotations = true
 
 [tool.pyproject-fmt]
 max_supported_python = "3.15"
 
 [tool.pytest.ini_options]
 addopts = "--color=yes"
-filterwarnings = [
-  # Python <= 3.11
-  "ignore:sys.monitoring isn't available, using default core:coverage.exceptions.CoverageWarning",
-]
 testpaths = [ "tests" ]
+
+[tool.coverage.run]
+omit = [
+  "**/__main__.py",
+  "**/cli.py",
+]
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_also = [
+  # Don't complain if non-runnable code isn't run:
+  "if __name__ == .__main__.:",
+]
 
 [tool.mypy]
 pretty = true
