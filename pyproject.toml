@@ -37,18 +37,17 @@ classifiers = [
 dynamic = [ "version" ]
 dependencies = [
   "argcomplete>=3.4; platform_system!='Windows'",
-  "httpx>=0.19",
   "platformdirs",
   "prettytable>=3.16",
   "pytablewriter[html]>=0.63",
   "python-slugify",
   "termcolor>=2.1",
+  "urllib3>=2",
 ]
 optional-dependencies.tests = [
   "freezegun",
   "pytest",
   "pytest-cov",
-  "respx>=0.11",
   "termcolor>=3.2",
 ]
 urls.Changelog = "https://github.com/hugovk/norwegianblue/releases"
