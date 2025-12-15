@@ -20,6 +20,7 @@ import logging
 import platform
 
 from termcolor import colored
+from yaspin import yaspin
 
 try:
     import argcomplete
@@ -121,12 +122,13 @@ def main() -> None:
     )
     for product in args.product:
         try:
-            output = norwegianblue.norwegianblue(
-                product=product,
-                format=args.formatter,
-                color=args.color,
-                show_title=show_title,
-            )
+            with yaspin(color="yellow"):
+                output = norwegianblue.norwegianblue(
+                    product=product,
+                    format=args.formatter,
+                    color=args.color,
+                    show_title=show_title,
+                )
         except ValueError as e:
             suggestion = norwegianblue.suggest_product(product)
 
@@ -141,12 +143,13 @@ def main() -> None:
             if answer not in ("", "y", "Y"):
                 print()
                 continue
-            output = norwegianblue.norwegianblue(
-                product=suggestion,
-                format=args.formatter,
-                color=args.color,
-                show_title=show_title,
-            )
+            with yaspin(color="yellow"):
+                output = norwegianblue.norwegianblue(
+                    product=suggestion,
+                    format=args.formatter,
+                    color=args.color,
+                    show_title=show_title,
+                )
         print(output)
         print()
         if args.web:

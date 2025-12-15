@@ -8,3 +8,4 @@ pytest-cov==7.0.0
 python-slugify==8.0.4
 termcolor==3.2.0
 urllib3==2.6.0
+yaspin==3.4.0
