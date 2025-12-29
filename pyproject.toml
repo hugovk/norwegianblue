@@ -43,6 +43,7 @@ dependencies = [
   "python-slugify",
   "termcolor>=2.1",
   "urllib3>=2",
+  "yaspin",
 ]
 optional-dependencies.tests = [
   "freezegun",
