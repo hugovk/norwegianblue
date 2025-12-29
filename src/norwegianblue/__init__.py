@@ -12,7 +12,7 @@ from functools import cache
 
 from termcolor import colored
 
-from norwegianblue import _cache, _version
+from . import _cache, _version
 
 __version__ = _version.__version__
 

@@ -1,5 +1,5 @@
 """
-Unit tests for norwegianblue cache
+Unit tests for cache
 """
 
 from __future__ import annotations
