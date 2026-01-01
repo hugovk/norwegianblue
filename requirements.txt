@@ -1,11 +1,11 @@
 # Only for testing pinned versions on the CI
 freezegun==1.5.5
-platformdirs==4.5.0
+platformdirs==4.5.1
 prettytable==3.17.0
 pytablewriter[html]==1.2.1
-pytest==9.0.1
+pytest==9.0.2
 pytest-cov==7.0.0
 python-slugify==8.0.4
-termcolor==3.2.0
-urllib3==2.6.0
+termcolor==3.3.0
+urllib3==2.6.2
 yaspin==3.4.0
