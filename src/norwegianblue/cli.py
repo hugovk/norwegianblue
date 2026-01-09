@@ -18,6 +18,7 @@ import argparse
 import atexit
 import logging
 import platform
+import sys
 
 from termcolor import colored
 from yaspin import yaspin
@@ -120,9 +121,12 @@ def main() -> None:
     show_title = (args.show_title == "yes") or (
         multiple_products and args.show_title != "no"
     )
+
+    stream = sys.stdout if sys.stdout.isatty() else sys.stderr
+
     for product in args.product:
         try:
-            with yaspin(color="yellow"):
+            with yaspin(color="yellow", stream=stream):
                 output = norwegianblue.norwegianblue(
                     product=product,
                     format=args.formatter,
@@ -143,7 +147,7 @@ def main() -> None:
             if answer not in ("", "y", "Y"):
                 print()
                 continue
-            with yaspin(color="yellow"):
+            with yaspin(color="yellow", stream=stream):
                 output = norwegianblue.norwegianblue(
                     product=suggestion,
                     format=args.formatter,
