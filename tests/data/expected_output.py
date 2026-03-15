@@ -1,89 +1,89 @@
 from __future__ import annotations
 
-EXPECTED_HTML = """
+EXPECTED_HTML = """\
 <table>
     <thead>
         <tr>
-            <th>cycle</th>
-            <th>codename</th>
-            <th>release</th>
-            <th>latest</th>
-            <th>support</th>
-            <th>eol</th>
+            <th style="padding-left: 1em; padding-right: 1em; text-align: center">cycle</th>
+            <th style="padding-left: 1em; padding-right: 1em; text-align: center">codename</th>
+            <th style="padding-left: 1em; padding-right: 1em; text-align: center">release</th>
+            <th style="padding-left: 1em; padding-right: 1em; text-align: center">latest</th>
+            <th style="padding-left: 1em; padding-right: 1em; text-align: center">support</th>
+            <th style="padding-left: 1em; padding-right: 1em; text-align: center">eol</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td align="left"><a href="https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/">22.04 LTS</a></td>
-            <td align="left">Jammy Jellyfish</td>
-            <td align="left">2022-04-21</td>
-            <td align="left">22.04</td>
-            <td align="left"><font color="green">2027-04-02</font></td>
-            <td align="left"><font color="green">2032-04-01</font></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top"><a href="https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/">22.04 LTS</a></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">Jammy Jellyfish</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2022-04-21</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">22.04</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="green">2027-04-02</font></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="green">2032-04-01</font></td>
         </tr>
         <tr>
-            <td align="left"><a href="https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/">21.10</a></td>
-            <td align="left">Impish Indri</td>
-            <td align="left">2021-10-14</td>
-            <td align="left">21.10</td>
-            <td align="left"><font color="red">2022-07-31</font></td>
-            <td align="left"><font color="red">2022-07-31</font></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top"><a href="https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/">21.10</a></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">Impish Indri</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2021-10-14</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">21.10</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="red">2022-07-31</font></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="red">2022-07-31</font></td>
         </tr>
         <tr>
-            <td align="left"><a href="https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/">21.04</a></td>
-            <td align="left">Hirsute Hippo</td>
-            <td align="left">2021-04-22</td>
-            <td align="left">21.04</td>
-            <td align="left"><font color="red">2022-01-20</font></td>
-            <td align="left"><font color="red">2022-01-20</font></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top"><a href="https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/">21.04</a></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">Hirsute Hippo</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2021-04-22</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">21.04</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="red">2022-01-20</font></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="red">2022-01-20</font></td>
         </tr>
         <tr>
-            <td align="left">20.10</td>
-            <td align="left">Groovy Gorilla</td>
-            <td align="left">2020-10-22</td>
-            <td align="left">20.10</td>
-            <td align="left"><font color="red">2021-07-22</font></td>
-            <td align="left"><font color="red">2021-07-22</font></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">20.10</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">Groovy Gorilla</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2020-10-22</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">20.10</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="red">2021-07-22</font></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="red">2021-07-22</font></td>
         </tr>
         <tr>
-            <td align="left">20.04 LTS</td>
-            <td align="left">Focal Fossa</td>
-            <td align="left">2020-04-23</td>
-            <td align="left">20.04.4</td>
-            <td align="left"><font color="green">2025-04-02</font></td>
-            <td align="left"><font color="green">2030-04-01</font></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">20.04 LTS</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">Focal Fossa</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2020-04-23</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">20.04.4</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="green">2025-04-02</font></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="green">2030-04-01</font></td>
         </tr>
         <tr>
-            <td align="left">19.10</td>
-            <td align="left">Karmic Koala</td>
-            <td align="left">2019-10-17</td>
-            <td align="left">19.10</td>
-            <td align="left"><font color="red">2020-07-06</font></td>
-            <td align="left"><font color="red">2020-07-06</font></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">19.10</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">Karmic Koala</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2019-10-17</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">19.10</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="red">2020-07-06</font></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="red">2020-07-06</font></td>
         </tr>
         <tr>
-            <td align="left"><a href="https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes">18.04 LTS</a></td>
-            <td align="left">Bionic Beaver</td>
-            <td align="left">2018-04-26</td>
-            <td align="left">18.04.6</td>
-            <td align="left"><font color="red">2023-04-02</font></td>
-            <td align="left"><font color="green">2028-04-01</font></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top"><a href="https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes">18.04 LTS</a></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">Bionic Beaver</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2018-04-26</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">18.04.6</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="red">2023-04-02</font></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="green">2028-04-01</font></td>
         </tr>
         <tr>
-            <td align="left">16.04 LTS</td>
-            <td align="left">Xenial Xerus</td>
-            <td align="left">2016-04-21</td>
-            <td align="left">16.04.7</td>
-            <td align="left"><font color="red">2021-04-02</font></td>
-            <td align="left"><font color="green">2026-04-01</font></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">16.04 LTS</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">Xenial Xerus</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2016-04-21</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">16.04.7</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="red">2021-04-02</font></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="green">2026-04-01</font></td>
         </tr>
         <tr>
-            <td align="left">14.04 LTS</td>
-            <td align="left">Trusty Tahr</td>
-            <td align="left">2014-04-17</td>
-            <td align="left">14.04.6</td>
-            <td align="left"><font color="red">2019-04-02</font></td>
-            <td align="left"><font color="yellow">2024-04-01</font></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">14.04 LTS</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">Trusty Tahr</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2014-04-17</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">14.04.6</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="red">2019-04-02</font></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="yellow">2024-04-01</font></td>
         </tr>
     </tbody>
 </table>

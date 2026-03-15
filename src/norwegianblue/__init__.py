@@ -250,7 +250,7 @@ def _tabulate(
             headers.remove(preferred)
     headers = new_headers + headers
 
-    if format_ in ("markdown", "pretty"):
+    if format_ in ("html", "markdown", "pretty"):
         return _prettytable(headers, data, format_, color, title)
     else:
         return _pytablewriter(headers, data, format_, title)
@@ -266,9 +266,12 @@ def _prettytable(
     from prettytable import PrettyTable, TableStyle
 
     table = PrettyTable()
-    table.set_style(
-        TableStyle.MARKDOWN if format_ == "markdown" else TableStyle.SINGLE_BORDER
-    )
+    if format_ == "html":
+        table.border = False
+    elif format_ == "markdown":
+        table.set_style(TableStyle.MARKDOWN)
+    else:
+        table.set_style(TableStyle.SINGLE_BORDER)
     do_color = color != "no" and format_ == "pretty"
 
     for header in headers:
@@ -279,6 +282,9 @@ def _prettytable(
 
         if left_align:
             table.align[display_header] = "l"
+
+    if format_ == "html":
+        return table.get_html_string(title=title, format=True, escape_data=False)
 
     title_prefix = ""
     if title:
@@ -295,7 +301,6 @@ def _pytablewriter(
 ) -> str:
     from pytablewriter import (
         CsvTableWriter,
-        HtmlTableWriter,
         RstSimpleTableWriter,
         String,
         TsvTableWriter,
@@ -305,15 +310,13 @@ def _pytablewriter(
 
     format_writers = {
         "csv": CsvTableWriter,
-        "html": HtmlTableWriter,
         "rst": RstSimpleTableWriter,
         "tsv": TsvTableWriter,
         "yaml": YamlTableWriter,
     }
 
     writer = format_writers[format_]()  # type: ignore[abstract]
-    if format_ != "html":
-        writer.margin = 1
+    writer.margin = 1
 
     writer.table_name = title  # type: ignore[assignment]
     writer.headers = headers

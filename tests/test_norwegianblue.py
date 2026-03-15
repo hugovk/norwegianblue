@@ -40,7 +40,7 @@ from .data.sample_response import (
 
 EXPECTED_HTML_WITH_TITLE = EXPECTED_HTML.replace(
     "<table>",
-    '<table id="ubuntu">\n    <caption>ubuntu</caption>',
+    "<table>\n    <caption>ubuntu</caption>",
 )
 EXPECTED_RST_WITH_TITLE = EXPECTED_RST.replace(".. table::", ".. table:: ubuntu")
 EXPECTED_MD_WITH_TITLE = "## ubuntu\n" + EXPECTED_MD
