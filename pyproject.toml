@@ -39,7 +39,7 @@ dependencies = [
   "argcomplete>=3.4; platform_system!='Windows'",
   "platformdirs",
   "prettytable>=3.16",
-  "pytablewriter[html]>=0.63",
+  "pytablewriter>=0.63",
   "python-slugify",
   "termcolor>=2.1",
   "urllib3>=2",
