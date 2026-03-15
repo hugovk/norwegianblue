@@ -250,7 +250,7 @@ def _tabulate(
             headers.remove(preferred)
     headers = new_headers + headers
 
-    if format_ in ("html", "markdown", "pretty"):
+    if format_ in ("csv", "html", "markdown", "pretty", "tsv"):
         return _prettytable(headers, data, format_, color, title)
     else:
         return _pytablewriter(headers, data, format_, title)
@@ -263,6 +263,8 @@ def _prettytable(
     color: str = "yes",
     title: str | None = None,
 ) -> str:
+    import csv
+
     from prettytable import PrettyTable, TableStyle
 
     table = PrettyTable()
@@ -270,7 +272,7 @@ def _prettytable(
         table.border = False
     elif format_ == "markdown":
         table.set_style(TableStyle.MARKDOWN)
-    else:
+    elif format_ not in ("csv", "tsv"):
         table.set_style(TableStyle.SINGLE_BORDER)
     do_color = color != "no" and format_ == "pretty"
 
@@ -285,6 +287,10 @@ def _prettytable(
 
     if format_ == "html":
         return table.get_html_string(title=title, format=True, escape_data=False)
+    if format_ == "csv":
+        return table.get_csv_string(quoting=csv.QUOTE_ALL)
+    if format_ == "tsv":
+        return table.get_csv_string(quoting=csv.QUOTE_ALL, delimiter="\t")
 
     title_prefix = ""
     if title:
@@ -300,18 +306,14 @@ def _pytablewriter(
     headers: list[str], data: list[dict], format_: str, title: str | None = None
 ) -> str:
     from pytablewriter import (
-        CsvTableWriter,
         RstSimpleTableWriter,
         String,
-        TsvTableWriter,
         YamlTableWriter,
     )
     from pytablewriter.style import Align, Style
 
     format_writers = {
-        "csv": CsvTableWriter,
         "rst": RstSimpleTableWriter,
-        "tsv": TsvTableWriter,
         "yaml": YamlTableWriter,
     }
 
