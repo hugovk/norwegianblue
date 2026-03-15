@@ -167,30 +167,30 @@ EXPECTED_RST = """
     ======================================================================  =================  ============  =========  ============  ============
 """  # noqa: E501 W291
 
-EXPECTED_CSV = """
-"cycle","codename","release","latest","support","eol","link"
-"22.04 LTS","Jammy Jellyfish","2022-04-21","22.04","2027-04-02","2032-04-01","https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/"
-"21.10","Impish Indri","2021-10-14","21.10","2022-07-31","2022-07-31","https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/"
-"21.04","Hirsute Hippo","2021-04-22","21.04","2022-01-20","2022-01-20","https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/"
-"20.10","Groovy Gorilla","2020-10-22","20.10","2021-07-22","2021-07-22",
-"20.04 LTS","Focal Fossa","2020-04-23","20.04.4","2025-04-02","2030-04-01",
-"19.10","Karmic Koala","2019-10-17","19.10","2020-07-06","2020-07-06",
-"18.04 LTS","Bionic Beaver","2018-04-26","18.04.6","2023-04-02","2028-04-01","https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes"
-"16.04 LTS","Xenial Xerus","2016-04-21","16.04.7","2021-04-02","2026-04-01",
-"14.04 LTS","Trusty Tahr","2014-04-17","14.04.6","2019-04-02","2024-04-01",
+EXPECTED_CSV = """\
+"cycle","codename","release","latest","support","eol","link"\r
+"22.04 LTS","Jammy Jellyfish","2022-04-21","22.04","2027-04-02","2032-04-01","https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/"\r
+"21.10","Impish Indri","2021-10-14","21.10","2022-07-31","2022-07-31","https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/"\r
+"21.04","Hirsute Hippo","2021-04-22","21.04","2022-01-20","2022-01-20","https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/"\r
+"20.10","Groovy Gorilla","2020-10-22","20.10","2021-07-22","2021-07-22",""\r
+"20.04 LTS","Focal Fossa","2020-04-23","20.04.4","2025-04-02","2030-04-01",""\r
+"19.10","Karmic Koala","2019-10-17","19.10","2020-07-06","2020-07-06",""\r
+"18.04 LTS","Bionic Beaver","2018-04-26","18.04.6","2023-04-02","2028-04-01","https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes"\r
+"16.04 LTS","Xenial Xerus","2016-04-21","16.04.7","2021-04-02","2026-04-01",""\r
+"14.04 LTS","Trusty Tahr","2014-04-17","14.04.6","2019-04-02","2024-04-01",""\r
 """
 
-EXPECTED_TSV = """
-"cycle"\t"codename"\t"release"\t"latest"\t"support"\t"eol"\t"link"
-"22.04 LTS"\t"Jammy Jellyfish"\t"2022-04-21"\t"22.04"\t"2027-04-02"\t"2032-04-01"\t"https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/"
-"21.10"\t"Impish Indri"\t"2021-10-14"\t"21.10"\t"2022-07-31"\t"2022-07-31"\t"https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/"
-"21.04"\t"Hirsute Hippo"\t"2021-04-22"\t"21.04"\t"2022-01-20"\t"2022-01-20"\t"https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/"
-"20.10"\t"Groovy Gorilla"\t"2020-10-22"\t"20.10"\t"2021-07-22"\t"2021-07-22"\t
-"20.04 LTS"\t"Focal Fossa"\t"2020-04-23"\t"20.04.4"\t"2025-04-02"\t"2030-04-01"\t
-"19.10"\t"Karmic Koala"\t"2019-10-17"\t"19.10"\t"2020-07-06"\t"2020-07-06"\t
-"18.04 LTS"\t"Bionic Beaver"\t"2018-04-26"\t"18.04.6"\t"2023-04-02"\t"2028-04-01"\t"https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes"
-"16.04 LTS"\t"Xenial Xerus"\t"2016-04-21"\t"16.04.7"\t"2021-04-02"\t"2026-04-01"\t
-"14.04 LTS"\t"Trusty Tahr"\t"2014-04-17"\t"14.04.6"\t"2019-04-02"\t"2024-04-01"\t
+EXPECTED_TSV = """\
+"cycle"\t"codename"\t"release"\t"latest"\t"support"\t"eol"\t"link"\r
+"22.04 LTS"\t"Jammy Jellyfish"\t"2022-04-21"\t"22.04"\t"2027-04-02"\t"2032-04-01"\t"https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/"\r
+"21.10"\t"Impish Indri"\t"2021-10-14"\t"21.10"\t"2022-07-31"\t"2022-07-31"\t"https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/"\r
+"21.04"\t"Hirsute Hippo"\t"2021-04-22"\t"21.04"\t"2022-01-20"\t"2022-01-20"\t"https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/"\r
+"20.10"\t"Groovy Gorilla"\t"2020-10-22"\t"20.10"\t"2021-07-22"\t"2021-07-22"\t""\r
+"20.04 LTS"\t"Focal Fossa"\t"2020-04-23"\t"20.04.4"\t"2025-04-02"\t"2030-04-01"\t""\r
+"19.10"\t"Karmic Koala"\t"2019-10-17"\t"19.10"\t"2020-07-06"\t"2020-07-06"\t""\r
+"18.04 LTS"\t"Bionic Beaver"\t"2018-04-26"\t"18.04.6"\t"2023-04-02"\t"2028-04-01"\t"https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes"\r
+"16.04 LTS"\t"Xenial Xerus"\t"2016-04-21"\t"16.04.7"\t"2021-04-02"\t"2026-04-01"\t""\r
+"14.04 LTS"\t"Trusty Tahr"\t"2014-04-17"\t"14.04.6"\t"2019-04-02"\t"2024-04-01"\t""\r
 """
 
 EXPECTED_MD_LOG4J = """
