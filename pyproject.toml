@@ -105,8 +105,9 @@ pretty = true
 show_error_codes = true
 
 [tool.pytest]
-ini_options.addopts = "--color=yes"
-ini_options.testpaths = [ "tests" ]
+minversion = "9.0"
+addopts = [ "--color=yes" ]
+testpaths = [ "tests" ]
 
 [tool.coverage]
 run.omit = [
