@@ -133,21 +133,15 @@ EXPECTED_PRETTY_REMAINDER = """
 └───────────┴─────────────────┴────────────┴─────────┴────────────┴────────────┘
 """  # noqa: E501
 
-EXPECTED_PRETTY = (
-    """
+EXPECTED_PRETTY = """
 ┌───────────┬─────────────────┬────────────┬─────────┬────────────┬────────────┐
-""".rstrip()
-    + EXPECTED_PRETTY_REMAINDER
-)
+""".rstrip() + EXPECTED_PRETTY_REMAINDER
 
-EXPECTED_PRETTY_WITH_TITLE = (
-    """
+EXPECTED_PRETTY_WITH_TITLE = """
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                    ubuntu                                    │
 ├───────────┬─────────────────┬────────────┬─────────┬────────────┬────────────┤
-""".rstrip()
-    + EXPECTED_PRETTY_REMAINDER
-)
+""".rstrip() + EXPECTED_PRETTY_REMAINDER
 
 EXPECTED_RST = """
 .. table::
