@@ -7,6 +7,7 @@ from __future__ import annotations
 import datetime as dt
 import json
 from pathlib import Path
+from typing import Any
 
 from platformdirs import user_cache_dir
 
@@ -22,7 +23,7 @@ def filename(url: str) -> Path:
     return CACHE_DIR / f"{today}-{slug}.json"
 
 
-def load(cache_file: Path):
+def load(cache_file: Path) -> dict:
     """Load data from cache_file"""
     if not cache_file.exists():
         return {}
@@ -36,7 +37,7 @@ def load(cache_file: Path):
     return data
 
 
-def save(cache_file: Path, data) -> None:
+def save(cache_file: Path, data: Any) -> None:
     """Save data to cache_file"""
     try:
         if not CACHE_DIR.exists():

@@ -105,3 +105,12 @@ class TestCache:
         # Assert
         assert not cache_file_old.exists()
         assert cache_file_new.exists()
+
+    def test_cache_clear_missing_dir(self) -> None:
+        # Arrange
+        missing_dir = _cache.CACHE_DIR / "missing"
+        _cache.CACHE_DIR = missing_dir
+        assert not missing_dir.exists()
+
+        # Act / Assert
+        _cache.clear()
