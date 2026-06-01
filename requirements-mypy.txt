@@ -1,6 +1,6 @@
 argcomplete
 freezegun
-mypy==1.20.2
+mypy==2.1.0
 platformdirs
 prettytable
 pytablewriter
