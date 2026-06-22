@@ -251,7 +251,7 @@ def _tabulate(
     headers = new_headers + headers
 
     if format_ == "yaml":
-        return _pytablewriter(headers, data, title)
+        return _yaml(headers, data, title)
     else:
         return _prettytable(headers, data, format_, color, title)
 
@@ -304,20 +304,9 @@ def _prettytable(
     return title_prefix + table.get_string()
 
 
-def _pytablewriter(
-    headers: list[str], data: list[dict], title: str | None = None
-) -> str:
-    from pytablewriter import String, YamlTableWriter
+def _yaml(headers: list[str], data: list[dict], title: str | None = None) -> str:
+    import yaml
 
-    writer = YamlTableWriter()
-    writer.margin = 1
-
-    writer.table_name = title  # type: ignore[assignment]
-    writer.headers = headers
-    writer.value_matrix = data
-
-    writer.type_hints = [
-        String if header in ("cycle", "latest") else None for header in headers
-    ]
-
-    return writer.dumps()
+    rows = [{header: row.get(header, "") for header in headers} for row in data]
+    obj = {title: rows} if title else rows
+    return yaml.dump(obj, allow_unicode=True, default_flow_style=False)
