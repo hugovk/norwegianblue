@@ -250,10 +250,10 @@ def _tabulate(
             headers.remove(preferred)
     headers = new_headers + headers
 
-    if format_ in ("csv", "html", "markdown", "pretty", "tsv"):
-        return _prettytable(headers, data, format_, color, title)
+    if format_ == "yaml":
+        return _pytablewriter(headers, data, title)
     else:
-        return _pytablewriter(headers, data, format_, title)
+        return _prettytable(headers, data, format_, color, title)
 
 
 def _prettytable(
@@ -272,8 +272,10 @@ def _prettytable(
         table.border = False
     elif format_ == "markdown":
         table.set_style(TableStyle.MARKDOWN)
-    elif format_ not in ("csv", "tsv"):
+    elif format_ == "pretty":
         table.set_style(TableStyle.SINGLE_BORDER)
+    elif format_ == "rst":
+        table.set_style(TableStyle.RST)
     do_color = color != "no" and format_ == "pretty"
 
     for header in headers:
@@ -294,50 +296,28 @@ def _prettytable(
 
     title_prefix = ""
     if title:
-        if format_ == "pretty":
-            table.title = colored(title, attrs=["bold"]) if do_color else title
-        else:
+        if format_ == "markdown":
             title_prefix = f"## {title}\n\n"
+        else:
+            table.title = colored(title, attrs=["bold"]) if do_color else title
 
     return title_prefix + table.get_string()
 
 
 def _pytablewriter(
-    headers: list[str], data: list[dict], format_: str, title: str | None = None
+    headers: list[str], data: list[dict], title: str | None = None
 ) -> str:
-    from pytablewriter import (
-        RstSimpleTableWriter,
-        String,
-        YamlTableWriter,
-    )
-    from pytablewriter.style import Align, Style
+    from pytablewriter import String, YamlTableWriter
 
-    format_writers = {
-        "rst": RstSimpleTableWriter,
-        "yaml": YamlTableWriter,
-    }
-
-    writer = format_writers[format_]()  # type: ignore[abstract]
+    writer = YamlTableWriter()
     writer.margin = 1
 
     writer.table_name = title  # type: ignore[assignment]
     writer.headers = headers
     writer.value_matrix = data
 
-    # Custom alignment and format
-    column_styles = []
-    type_hints = []
-
-    for header in headers:
-        align = Align.AUTO
-        type_hint = None
-        if header in ("cycle", "latest"):
-            type_hint = String
-        style = Style(align=align)
-        column_styles.append(style)
-        type_hints.append(type_hint)
-
-        writer.column_styles = column_styles
-        writer.type_hints = type_hints
+    writer.type_hints = [
+        String if header in ("cycle", "latest") else None for header in headers
+    ]
 
     return writer.dumps()

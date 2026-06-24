@@ -28,6 +28,7 @@ from .data.expected_output import (
     EXPECTED_PRETTY,
     EXPECTED_PRETTY_WITH_TITLE,
     EXPECTED_RST,
+    EXPECTED_RST_WITH_TITLE,
     EXPECTED_TSV,
 )
 from .data.sample_response import (
@@ -42,7 +43,6 @@ EXPECTED_HTML_WITH_TITLE = EXPECTED_HTML.replace(
     "<table>",
     "<table>\n    <caption>ubuntu</caption>",
 )
-EXPECTED_RST_WITH_TITLE = EXPECTED_RST.replace(".. table::", ".. table:: ubuntu")
 EXPECTED_MD_WITH_TITLE = "## ubuntu\n" + EXPECTED_MD
 
 

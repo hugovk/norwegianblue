@@ -38,7 +38,7 @@ dynamic = [ "version" ]
 dependencies = [
   "argcomplete>=3.4; platform_system!='Windows'",
   "platformdirs",
-  "prettytable>=3.16",
+  "prettytable>=3.18",
   "pytablewriter>=0.63",
   "python-slugify",
   "termcolor>=2.1",
