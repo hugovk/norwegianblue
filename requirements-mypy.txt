@@ -3,8 +3,8 @@ freezegun
 mypy==2.1.0
 platformdirs
 prettytable
-pytablewriter
 pytest
 termcolor
 types-python-slugify
+types-pyyaml
 urllib3

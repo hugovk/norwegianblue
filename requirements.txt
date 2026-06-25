@@ -2,10 +2,10 @@
 freezegun==1.5.5
 platformdirs==4.9.6
 prettytable==3.18.0
-pytablewriter==1.2.1
 pytest==9.0.3
 pytest-cov==7.1.0
 python-slugify==8.0.4
+pyyaml==6.0.3
 termcolor==3.3.0
 urllib3==2.7.0
 yaspin==3.4.0
