@@ -305,8 +305,8 @@ def _prettytable(
 
 
 def _yaml(headers: list[str], data: list[dict], title: str | None = None) -> str:
-    import yaml
+    import yamlrocks
 
     rows = [{header: row.get(header, "") for header in headers} for row in data]
     obj = {title: rows} if title else rows
-    return yaml.dump(obj, allow_unicode=True, default_flow_style=False)
+    return yamlrocks.dumps(obj, option=yamlrocks.OPT_SORT_KEYS).decode()

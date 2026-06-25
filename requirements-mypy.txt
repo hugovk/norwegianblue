@@ -6,5 +6,5 @@ prettytable
 pytest
 termcolor
 types-python-slugify
-types-pyyaml
 urllib3
+yamlrocks

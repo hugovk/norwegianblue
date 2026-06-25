@@ -40,9 +40,9 @@ dependencies = [
   "platformdirs",
   "prettytable>=3.18",
   "python-slugify",
-  "pyyaml",
   "termcolor>=2.1",
   "urllib3>=2",
+  "yamlrocks",
   "yaspin",
 ]
 optional-dependencies.tests = [
