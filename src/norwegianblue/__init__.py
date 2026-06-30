@@ -6,12 +6,16 @@ https://endoflife.date/docs/api/
 from __future__ import annotations
 
 import datetime as dt
-import logging
+import sys
 from functools import cache
 
 from termcolor import colored
 
 from . import _version
+
+TYPE_CHECKING = False
+if TYPE_CHECKING:
+    from typing import Any
 
 __version__ = _version.__version__
 
@@ -19,7 +23,13 @@ __all__ = ["__version__"]
 
 BASE_URL = "https://endoflife.date/api/"
 
-logger = logging.getLogger(__name__)
+_verbose = False
+
+
+def _print_verbose(*args: Any, **kwargs: Any) -> None:
+    """Print to stderr if verbose"""
+    if _verbose:
+        print(*args, file=sys.stderr, **kwargs)
 
 
 def error_404_text(product: str, suggestion: str) -> str:
@@ -44,18 +54,17 @@ def norwegianblue(
 
         url = BASE_URL + product.lower() + ".json"
         cache_file = _cache.filename(url)
-        logger.info("Human URL:\thttps://endoflife.date/%s", product.lower())
-        logger.info("API URL:\t%s", url)
-        logger.info(
+        _print_verbose(f"Human URL:\thttps://endoflife.date/{product.lower()}")
+        _print_verbose(f"API URL:\t{url}")
+        _print_verbose(
             "Source URL:\thttps://github.com/endoflife-date/endoflife.date/"
-            "blob/master/products/%s.md",
-            product.lower(),
+            f"blob/master/products/{product.lower()}.md",
         )
-        logger.info("Cache file:\t%s", cache_file)
+        _print_verbose(f"Cache file:\t{cache_file}")
 
         res = []
         if cache_file.is_file():
-            logger.info("Cache file exists")
+            _print_verbose("Cache file exists")
             res = _cache.load(cache_file)
 
     if not res:
@@ -71,7 +80,7 @@ def norwegianblue(
             redirect=True,
         )
 
-        logger.info("HTTP status code: %d", r.status)
+        _print_verbose("HTTP status code:", r.status)
         if r.status == 404:
             suggestion = suggest_product(product)
             msg = error_404_text(product, suggestion)
@@ -108,7 +117,7 @@ def norwegianblue(
         data = linkify(data, format)
 
     output = _tabulate(data, format, color, product if show_title else None)
-    logger.info("")
+    _print_verbose("")
 
     if product == "norwegianblue":
         return prefix + output
@@ -151,7 +160,7 @@ def suggest_product(product: str) -> str:
 
     # Find the closest match
     result = difflib.get_close_matches(product, all_products(), n=1)
-    logger.info("Suggestion:\t%s (score: %d)", *result)
+    _print_verbose("Suggestion:", result[0] if result else "")
     return result[0] if result else ""
 
 
