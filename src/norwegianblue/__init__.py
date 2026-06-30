@@ -6,13 +6,12 @@ https://endoflife.date/docs/api/
 from __future__ import annotations
 
 import datetime as dt
-import json
 import logging
 from functools import cache
 
 from termcolor import colored
 
-from . import _cache, _version
+from . import _version
 
 __version__ = _version.__version__
 
@@ -41,6 +40,8 @@ def norwegianblue(
     if product == "norwegianblue":
         from ._data import prefix, res
     else:
+        from . import _cache
+
         url = BASE_URL + product.lower() + ".json"
         cache_file = _cache.filename(url)
         logger.info("Human URL:\thttps://endoflife.date/%s", product.lower())
@@ -59,6 +60,8 @@ def norwegianblue(
 
     if not res:
         # No cache, or couldn't load cache
+        import json
+
         import urllib3
 
         r = urllib3.request(
@@ -85,6 +88,8 @@ def norwegianblue(
         _cache.save(cache_file, res)
 
     if format == "json":
+        import json
+
         return json.dumps(res)
 
     data: list[dict] = list(res)
