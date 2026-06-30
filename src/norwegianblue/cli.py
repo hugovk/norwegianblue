@@ -16,7 +16,6 @@ from __future__ import annotations
 
 import argparse
 import atexit
-import logging
 import platform
 import sys
 
@@ -71,10 +70,7 @@ def main() -> None:
     parser.add_argument(
         "-v",
         "--verbose",
-        action="store_const",
-        dest="loglevel",
-        const=logging.INFO,
-        default=logging.WARNING,
+        action="store_true",
         help="print extra messages to stderr",
     )
     parser.add_argument(
@@ -113,7 +109,7 @@ def main() -> None:
         argcomplete.autocomplete(parser)
     args = parser.parse_args()
 
-    logging.basicConfig(level=args.loglevel, format="%(message)s")
+    norwegianblue._verbose = args.verbose
     if args.clear_cache:
         _cache.clear(clear_all=True)
 

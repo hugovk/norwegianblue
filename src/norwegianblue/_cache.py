@@ -5,7 +5,6 @@ Cache functions
 from __future__ import annotations
 
 import datetime as dt
-import json
 from pathlib import Path
 
 from platformdirs import user_cache_dir
@@ -27,6 +26,8 @@ def load(cache_file: Path):
     if not cache_file.exists():
         return {}
 
+    import json
+
     with cache_file.open("r") as f:
         try:
             data = json.load(f)
@@ -38,6 +39,8 @@ def load(cache_file: Path):
 
 def save(cache_file: Path, data) -> None:
     """Save data to cache_file"""
+    import json
+
     try:
         if not CACHE_DIR.exists():
             CACHE_DIR.mkdir(parents=True)
