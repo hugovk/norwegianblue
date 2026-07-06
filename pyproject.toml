@@ -105,8 +105,8 @@ pretty = true
 show_error_codes = true
 
 [tool.pytest]
-minversion = "9.0"
 addopts = [ "--color=yes" ]
+minversion = "9.0"
 testpaths = [ "tests" ]
 
 [tool.coverage]
