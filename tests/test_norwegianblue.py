@@ -245,25 +245,25 @@ class TestNorwegianBlue:
         ]
         expected = [
             {
-                "cycle": "21.04 LTS",
+                "cycle": "\x1b[32m21.04 LTS\x1b[0m",  # green
                 "release": "2021-04-22",
                 "support": "\x1b[32m2022-01-01\x1b[0m",  # green
                 "eol": "\x1b[32m2022-01-01\x1b[0m",  # green
             },
             {
-                "cycle": "20.10 LTS",
+                "cycle": "\x1b[33m20.10 LTS\x1b[0m",  # yellow
                 "release": "2020-10-22",
                 "support": "\x1b[33m2021-07-07\x1b[0m",  # yellow
                 "eol": "\x1b[33m2021-07-07\x1b[0m",  # yellow
             },
             {
-                "cycle": "19.10",
+                "cycle": "\x1b[31m19.10\x1b[0m",  # red
                 "release": "2019-10-17",
                 "support": "\x1b[31m2020-07-06\x1b[0m",  # red
                 "eol": "\x1b[31m2020-07-06\x1b[0m",  # red
             },
             {
-                "cycle": "18.04 LTS",
+                "cycle": "\x1b[32m18.04 LTS\x1b[0m",  # green
                 "release": "2018-04-26",
                 "support": "\x1b[31m2020-09-30\x1b[0m",  # red
                 "eol": "\x1b[32m2023-04-02\x1b[0m",  # green
@@ -299,17 +299,17 @@ class TestNorwegianBlue:
         ]
         expected = [
             {
-                "cycle": "5.x",
+                "cycle": "\x1b[32m5.x\x1b[0m",  # green
                 "eol": "\x1b[32mFalse\x1b[0m",  # green
                 "support": "\x1b[32mTrue\x1b[0m",  # green
             },
             {
-                "cycle": "4.x",
+                "cycle": "\x1b[32m4.x\x1b[0m",  # green
                 "eol": "\x1b[32m2022-11-01\x1b[0m",  # green
                 "support": "\x1b[31mFalse\x1b[0m",  # red
             },
             {
-                "cycle": "3.x",
+                "cycle": "\x1b[31m3.x\x1b[0m",  # red
                 "eol": "\x1b[31m2019-07-24\x1b[0m",  # red
                 "support": "\x1b[31mFalse\x1b[0m",  # red
             },
@@ -330,9 +330,17 @@ class TestNorwegianBlue:
         ]
         expected = [
             # green
-            {"cycle": "1.15", "release": "2020-08-11", "eol": "\x1b[32mFalse\x1b[0m"},
+            {
+                "cycle": "\x1b[32m1.15\x1b[0m",
+                "release": "2020-08-11",
+                "eol": "\x1b[32mFalse\x1b[0m",
+            },
             # red
-            {"cycle": "1.14", "release": "2020-02-25", "eol": "\x1b[31mTrue\x1b[0m"},
+            {
+                "cycle": "\x1b[31m1.14\x1b[0m",
+                "release": "2020-02-25",
+                "eol": "\x1b[31mTrue\x1b[0m",
+            },
         ]
 
         # Act
@@ -380,32 +388,32 @@ class TestNorwegianBlue:
 
         expected = [
             {
-                "cycle": "iPhone 5C",
+                "cycle": "\x1b[31miPhone 5C\x1b[0m",  # red
                 "discontinued": "\x1b[32m2025-09-09\x1b[0m",  # green
                 "eol": "\x1b[31mTrue\x1b[0m",  # red
             },
             {
-                "cycle": "iPhone 5S",
+                "cycle": "\x1b[31miPhone 5S\x1b[0m",  # red
                 "discontinued": "\x1b[31m2016-03-21\x1b[0m",  # red
                 "eol": "\x1b[31mTrue\x1b[0m",  # red
             },
             {
-                "cycle": "iPhone 6S / 6S Plus",
+                "cycle": "\x1b[32miPhone 6S / 6S Plus\x1b[0m",  # green
                 "discontinued": "\x1b[31m2018-09-12\x1b[0m",  # red
                 "eol": "\x1b[32mFalse\x1b[0m",  # green
             },
             {
-                "cycle": "iPhone XR",
+                "cycle": "\x1b[32miPhone XR\x1b[0m",  # green
                 "discontinued": "\x1b[32mFalse\x1b[0m",  # red
                 "eol": "\x1b[32mFalse\x1b[0m",  # green
             },
             {
-                "cycle": "iPhone 11 Pro / 11 Pro Max",
+                "cycle": "\x1b[32miPhone 11 Pro / 11 Pro Max\x1b[0m",  # green
                 "discontinued": "\x1b[31m2020-10-13\x1b[0m",  # red
                 "eol": "\x1b[32mFalse\x1b[0m",  # green
             },
             {
-                "cycle": "iPhone 12 Mini / 12 Pro Max",
+                "cycle": "\x1b[32miPhone 12 Mini / 12 Pro Max\x1b[0m",  # green
                 "discontinued": "\x1b[31mTrue\x1b[0m",  # red
                 "eol": "\x1b[32mFalse\x1b[0m",  # green
             },

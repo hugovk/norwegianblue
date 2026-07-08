@@ -180,6 +180,8 @@ def _colourify(data: list[dict], *, is_html: bool = False) -> list[dict]:
     red: in the past
     yellow: will pass in six months
     green: will pass after six months
+
+    The cycle name is coloured to match the eol column.
     """
     now = dt.datetime.now(dt.timezone.utc)
     six_months_from_now = now + dt.timedelta(days=180)
@@ -195,24 +197,22 @@ def _colourify(data: list[dict], *, is_html: bool = False) -> list[dict]:
                     colour = "green" if cycle[property_] else "red"
                 else:  # "discontinued" or "eol"
                     colour = "red" if cycle[property_] else "green"
-
-                cycle[property_] = _apply_colour(
-                    cycle[property_], colour, is_html=is_html
-                )
-                continue
-
-            # Handle date
-            date_str = cycle[property_]
-            # Convert "2020-01-01" string to datetime
-            date_datetime = dt.datetime.strptime(date_str, "%Y-%m-%d").replace(
-                tzinfo=dt.timezone.utc
-            )
-            if date_datetime < now:
-                cycle[property_] = _apply_colour(date_str, "red", is_html=is_html)
-            elif date_datetime < six_months_from_now:
-                cycle[property_] = _apply_colour(date_str, "yellow", is_html=is_html)
             else:
-                cycle[property_] = _apply_colour(date_str, "green", is_html=is_html)
+                # Handle date
+                # Convert "2020-01-01" string to datetime
+                date_datetime = dt.datetime.strptime(
+                    cycle[property_], "%Y-%m-%d"
+                ).replace(tzinfo=dt.timezone.utc)
+                if date_datetime < now:
+                    colour = "red"
+                elif date_datetime < six_months_from_now:
+                    colour = "yellow"
+                else:
+                    colour = "green"
+
+            cycle[property_] = _apply_colour(cycle[property_], colour, is_html=is_html)
+            if property_ == "eol":
+                cycle["cycle"] = _apply_colour(cycle["cycle"], colour, is_html=is_html)
     return data
 
 
