@@ -159,9 +159,10 @@ def suggest_product(product: str) -> str:
     import difflib
 
     # Find the closest match
-    result = difflib.get_close_matches(product, all_products(), n=1)
-    _print_verbose("Suggestion:", result[0] if result else "")
-    return result[0] if result else ""
+    matches = difflib.get_close_matches(product, all_products(), n=1)
+    result = matches[0] if matches else ""
+    _print_verbose("Suggestion:", result)
+    return result
 
 
 def _ltsify(data: list[dict]) -> list[dict]:
