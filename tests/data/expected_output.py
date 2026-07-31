@@ -14,7 +14,7 @@ EXPECTED_HTML = """\
     </thead>
     <tbody>
         <tr>
-            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top"><a href="https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/">22.04 LTS</a></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top"><a href="https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/"><font color="green">22.04 LTS</font></a></td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">Jammy Jellyfish</td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2022-04-21</td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">22.04</td>
@@ -22,7 +22,7 @@ EXPECTED_HTML = """\
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="green">2032-04-01</font></td>
         </tr>
         <tr>
-            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top"><a href="https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/">21.10</a></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top"><a href="https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/"><font color="red">21.10</font></a></td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">Impish Indri</td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2021-10-14</td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">21.10</td>
@@ -30,7 +30,7 @@ EXPECTED_HTML = """\
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="red">2022-07-31</font></td>
         </tr>
         <tr>
-            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top"><a href="https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/">21.04</a></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top"><a href="https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/"><font color="red">21.04</font></a></td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">Hirsute Hippo</td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2021-04-22</td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">21.04</td>
@@ -38,7 +38,7 @@ EXPECTED_HTML = """\
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="red">2022-01-20</font></td>
         </tr>
         <tr>
-            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">20.10</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top"><font color="red">20.10</font></td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">Groovy Gorilla</td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2020-10-22</td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">20.10</td>
@@ -46,7 +46,7 @@ EXPECTED_HTML = """\
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="red">2021-07-22</font></td>
         </tr>
         <tr>
-            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">20.04 LTS</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top"><font color="green">20.04 LTS</font></td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">Focal Fossa</td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2020-04-23</td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">20.04.4</td>
@@ -54,7 +54,7 @@ EXPECTED_HTML = """\
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="green">2030-04-01</font></td>
         </tr>
         <tr>
-            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">19.10</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top"><font color="red">19.10</font></td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">Karmic Koala</td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2019-10-17</td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">19.10</td>
@@ -62,7 +62,7 @@ EXPECTED_HTML = """\
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="red">2020-07-06</font></td>
         </tr>
         <tr>
-            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top"><a href="https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes">18.04 LTS</a></td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top"><a href="https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes"><font color="green">18.04 LTS</font></a></td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">Bionic Beaver</td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2018-04-26</td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">18.04.6</td>
@@ -70,7 +70,7 @@ EXPECTED_HTML = """\
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="green">2028-04-01</font></td>
         </tr>
         <tr>
-            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">16.04 LTS</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top"><font color="green">16.04 LTS</font></td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">Xenial Xerus</td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2016-04-21</td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">16.04.7</td>
@@ -78,7 +78,7 @@ EXPECTED_HTML = """\
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top"><font color="green">2026-04-01</font></td>
         </tr>
         <tr>
-            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">14.04 LTS</td>
+            <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top"><font color="yellow">14.04 LTS</font></td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">Trusty Tahr</td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: center; vertical-align: top">2014-04-17</td>
             <td style="padding-left: 1em; padding-right: 1em; text-align: left; vertical-align: top">14.04.6</td>
@@ -107,15 +107,15 @@ EXPECTED_MD = """
 EXPECTED_MD_COLOUR = """
 | cycle                                                             |     codename    |  release   | latest  |  support   |    eol     |
 | :-----------------------------------------------------------------| :-------------: | :--------: | :-------| :--------: | :--------: |
-| [22.04 LTS](https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/) | Jammy Jellyfish | 2022-04-21 | 22.04   | \x1b[32m2027-04-02\x1b[0m | \x1b[32m2032-04-01\x1b[0m |
-| [21.10](https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/)        |   Impish Indri  | 2021-10-14 | 21.10   | \x1b[32m2022-07-31\x1b[0m | \x1b[32m2022-07-31\x1b[0m |
-| [21.04](https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/)       |  Hirsute Hippo  | 2021-04-22 | 21.04   | \x1b[33m2022-01-20\x1b[0m | \x1b[33m2022-01-20\x1b[0m |
-| 20.10                                                             |  Groovy Gorilla | 2020-10-22 | 20.10   | \x1b[31m2021-07-22\x1b[0m | \x1b[31m2021-07-22\x1b[0m |
-| 20.04 LTS                                                         |   Focal Fossa   | 2020-04-23 | 20.04.4 | \x1b[32m2025-04-02\x1b[0m | \x1b[32m2030-04-01\x1b[0m |
-| 19.10                                                             |   Karmic Koala  | 2019-10-17 | 19.10   | \x1b[31m2020-07-06\x1b[0m | \x1b[31m2020-07-06\x1b[0m |
-| [18.04 LTS](https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes)    |  Bionic Beaver  | 2018-04-26 | 18.04.6 | \x1b[32m2023-04-02\x1b[0m | \x1b[32m2028-04-01\x1b[0m |
-| 16.04 LTS                                                         |   Xenial Xerus  | 2016-04-21 | 16.04.7 | \x1b[31m2021-04-02\x1b[0m | \x1b[32m2026-04-01\x1b[0m |
-| 14.04 LTS                                                         |   Trusty Tahr   | 2014-04-17 | 14.04.6 | \x1b[31m2019-04-02\x1b[0m | \x1b[32m2024-04-01\x1b[0m |
+| [\x1b[32m22.04 LTS\x1b[0m](https://wiki.ubuntu.com/JammyJellyfish/ReleaseNotes/) | Jammy Jellyfish | 2022-04-21 | 22.04   | \x1b[32m2027-04-02\x1b[0m | \x1b[32m2032-04-01\x1b[0m |
+| [\x1b[32m21.10\x1b[0m](https://wiki.ubuntu.com/ImpishIndri/ReleaseNotes/)        |   Impish Indri  | 2021-10-14 | 21.10   | \x1b[32m2022-07-31\x1b[0m | \x1b[32m2022-07-31\x1b[0m |
+| [\x1b[33m21.04\x1b[0m](https://wiki.ubuntu.com/HirsuteHippo/ReleaseNotes/)       |  Hirsute Hippo  | 2021-04-22 | 21.04   | \x1b[33m2022-01-20\x1b[0m | \x1b[33m2022-01-20\x1b[0m |
+| \x1b[31m20.10\x1b[0m                                                             |  Groovy Gorilla | 2020-10-22 | 20.10   | \x1b[31m2021-07-22\x1b[0m | \x1b[31m2021-07-22\x1b[0m |
+| \x1b[32m20.04 LTS\x1b[0m                                                         |   Focal Fossa   | 2020-04-23 | 20.04.4 | \x1b[32m2025-04-02\x1b[0m | \x1b[32m2030-04-01\x1b[0m |
+| \x1b[31m19.10\x1b[0m                                                             |   Karmic Koala  | 2019-10-17 | 19.10   | \x1b[31m2020-07-06\x1b[0m | \x1b[31m2020-07-06\x1b[0m |
+| [\x1b[32m18.04 LTS\x1b[0m](https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes)    |  Bionic Beaver  | 2018-04-26 | 18.04.6 | \x1b[32m2023-04-02\x1b[0m | \x1b[32m2028-04-01\x1b[0m |
+| \x1b[32m16.04 LTS\x1b[0m                                                         |   Xenial Xerus  | 2016-04-21 | 16.04.7 | \x1b[31m2021-04-02\x1b[0m | \x1b[32m2026-04-01\x1b[0m |
+| \x1b[32m14.04 LTS\x1b[0m                                                         |   Trusty Tahr   | 2014-04-17 | 14.04.6 | \x1b[31m2019-04-02\x1b[0m | \x1b[32m2024-04-01\x1b[0m |
 """  # noqa: E501
 
 EXPECTED_PRETTY_REMAINDER = """
