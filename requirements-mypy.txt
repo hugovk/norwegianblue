@@ -1,6 +1,6 @@
 argcomplete
 freezegun
-mypy==2.3.0
+mypy==2.3.1
 platformdirs
 prettytable
 pytest
