@@ -66,9 +66,12 @@ jobs:
           name: ${{ matrix.os }} Python ${{ matrix.python-version }}
 
   success:
+    if: always()
     needs: test
     runs-on: ubuntu-latest
     name: Test successful
     steps:
       - name: Success
-        run: echo Test successful
+        env:
+          TEST_RESULT: ${{ needs.test.result }}
+        run: test "$TEST_RESULT" = "success"
