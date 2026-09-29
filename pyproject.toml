@@ -47,7 +47,7 @@ dependencies = [
 ]
 optional-dependencies.tests = [
   "freezegun",
-  "pytest",
+  "pytest>=9",
   "pytest-cov",
   "termcolor>=3.2",
 ]
@@ -103,6 +103,7 @@ max_supported_python = "3.15"
 
 [tool.mypy]
 pretty = true
+num_workers = 4
 show_error_codes = true
 
 [tool.pytest]
@@ -115,6 +116,8 @@ run.omit = [
   "**/__main__.py",
   "**/cli.py",
 ]
+run.disable_warnings = [ "no-sysmon" ]  # 3.11
+run.core = "sysmon"  # default for 3.14+, available for 3.12+
 # Regexes for lines to exclude from consideration
 report.exclude_also = [
   # Don't complain if non-runnable code isn't run:
