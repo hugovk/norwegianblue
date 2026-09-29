@@ -296,7 +296,7 @@ def _prettytable(
     for header in headers:
         left_align = header in ("cycle", "latest", "link")
         display_header = colored(header, attrs=["bold"]) if do_color else header
-        col_data = [row[header] if header in row else "" for row in data]
+        col_data = [row.get(header, "") for row in data]
         table.add_column(display_header, col_data)
 
         if left_align:
