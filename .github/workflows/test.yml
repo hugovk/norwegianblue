@@ -6,6 +6,7 @@ permissions: {}
 
 env:
   FORCE_COLOR: 1
+  PIP_DISABLE_PIP_VERSION_CHECK: 1
 
 jobs:
   test:
@@ -13,7 +14,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["pypy3.11", "3.10", "3.11", "3.12", "3.13", "3.14", "3.15"]
+        python-version:
+          - "pypy3.12"
+          - "pypy3.11"
+          - "3.15t"
+          - "3.15"
+          - "3.14t"
+          - "3.14"
+          - "3.13"
+          - "3.12"
+          - "3.11"
+          - "3.10"
         os: [windows-latest, macos-latest, ubuntu-latest]
 
     steps:
@@ -27,21 +38,26 @@ jobs:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: true
 
+      - name: Set PYTHON_GIL
+        if: endsWith(matrix.python-version, 't')
+        run: |
+          echo "PYTHON_GIL=0" >> "$GITHUB_ENV"
+
       - name: Install uv
         uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
 
       - name: Tox tests
         run: |
-          uvx --with tox-uv tox -e py
+          uvx --python ${{ matrix.python-version }} --with tox-uv tox -e py
 
       - name: Test CLI
         run: |
-          uvx --with tox-uv tox -e cli
+          uvx --python ${{ matrix.python-version }} --with tox-uv tox -e cli
 
       - name: Tox tests (pins)
         if: matrix.python-version == '3.13' && matrix.os == 'ubuntu-latest'
         run: |
-          uvx --with tox-uv tox -e pins
+          uvx --python ${{ matrix.python-version }} --with tox-uv tox -e pins
 
       - name: Upload coverage
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
@@ -50,9 +66,12 @@ jobs:
           name: ${{ matrix.os }} Python ${{ matrix.python-version }}
 
   success:
+    if: always()
     needs: test
     runs-on: ubuntu-latest
     name: Test successful
     steps:
       - name: Success
-        run: echo Test successful
+        env:
+          TEST_RESULT: ${{ needs.test.result }}
+        run: test "$TEST_RESULT" = "success"
