@@ -443,8 +443,10 @@ class TestNorwegianBlue:
         [
             (
                 "androd",
-                r"Product 'androd' not found, run 'eol all' for list\. "
-                r"Did you mean: 'android'?",
+                (
+                    r"Product 'androd' not found, run 'eol all' for list\. "
+                    r"Did you mean: 'android'?"
+                ),
             ),
             ("julia", r"Product 'julia' not found, run 'eol all' for list\."),
         ],

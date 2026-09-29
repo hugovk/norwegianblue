@@ -183,7 +183,7 @@ def _colourify(data: list[dict], *, is_html: bool = False) -> list[dict]:
 
     The cycle name is coloured to match the eol column.
     """
-    now = dt.datetime.now(dt.timezone.utc)
+    now = dt.datetime.now(dt.UTC)
     six_months_from_now = now + dt.timedelta(days=180)
 
     for cycle in data:
@@ -202,7 +202,7 @@ def _colourify(data: list[dict], *, is_html: bool = False) -> list[dict]:
                 # Convert "2020-01-01" string to datetime
                 date_datetime = dt.datetime.strptime(
                     cycle[property_], "%Y-%m-%d"
-                ).replace(tzinfo=dt.timezone.utc)
+                ).replace(tzinfo=dt.UTC)
                 if date_datetime < now:
                     colour = "red"
                 elif date_datetime < six_months_from_now:
@@ -296,7 +296,7 @@ def _prettytable(
     for header in headers:
         left_align = header in ("cycle", "latest", "link")
         display_header = colored(header, attrs=["bold"]) if do_color else header
-        col_data = [row[header] if header in row else "" for row in data]
+        col_data = [row.get(header, "") for row in data]
         table.add_column(display_header, col_data)
 
         if left_align:
