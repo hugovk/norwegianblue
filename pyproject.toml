@@ -51,6 +51,7 @@ optional-dependencies.tests = [
   "pytest-cov",
   "termcolor>=3.2",
 ]
+urls."Issue tracker" = "https://github.com/hugovk/norwegianblue/issues"
 urls.Changelog = "https://github.com/hugovk/norwegianblue/releases"
 urls.Homepage = "https://github.com/hugovk/norwegianblue"
 urls.Source = "https://github.com/hugovk/norwegianblue"
