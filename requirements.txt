@@ -7,5 +7,5 @@ pytest-cov==7.1.0
 python-slugify==8.0.4
 pyyaml==6.0.3
 termcolor==3.3.0
-urllib3==2.7.0
+urllib3==2.8.0
 yaspin==3.5.1
