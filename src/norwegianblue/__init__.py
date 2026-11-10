@@ -106,7 +106,7 @@ def norwegianblue(
     if format is None:
         return data
 
-    if product == "all":
+    if product.lower() == "all":
         return "\n".join(data)  # type: ignore[arg-type]
 
     data = _ltsify(data)

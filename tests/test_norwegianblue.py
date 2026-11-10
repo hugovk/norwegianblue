@@ -438,6 +438,22 @@ class TestNorwegianBlue:
         assert output == expected
         assert_called_with_url(mock_request, "https://endoflife.date/api/all.json")
 
+    @pytest.mark.parametrize("test_product", ["ALL", "All", "aLl"])
+    @mock.patch("urllib3.request")
+    def test_all_products_case_insensitive(
+        self, mock_request, test_product: str
+    ) -> None:
+        # Arrange
+        expected = """alpine\namazon-linux\nandroid\nbootstrap\ncentos"""
+        mock_request.return_value = mock_urllib3_response(SAMPLE_RESPONSE_ALL_JSON)
+
+        # Act
+        output = norwegianblue.norwegianblue(product=test_product)
+
+        # Assert
+        assert output == expected
+        assert_called_with_url(mock_request, "https://endoflife.date/api/all.json")
+
     @pytest.mark.parametrize(
         "product, expected",
         [
