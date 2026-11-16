@@ -17,16 +17,12 @@ from __future__ import annotations
 import argparse
 import atexit
 import contextlib
+import os
 import platform
 import sys
 
 from termcolor import colored
 from yaspin import yaspin
-
-try:
-    import argcomplete
-except ImportError:
-    argcomplete = None  # type: ignore[assignment]
 
 import norwegianblue
 from norwegianblue import _cache
@@ -114,8 +110,13 @@ def main() -> None:
             help=f"output in {help_text}",
         )
     parser.set_defaults(formatter="pretty")
-    if argcomplete:
-        argcomplete.autocomplete(parser)
+    # argcomplete sets this when the shell is asking for completions,
+    # so skip the import on normal runs
+    if "_ARGCOMPLETE" in os.environ:
+        with contextlib.suppress(ImportError):
+            import argcomplete
+
+            argcomplete.autocomplete(parser)
     args = parser.parse_args()
 
     norwegianblue._verbose = args.verbose
