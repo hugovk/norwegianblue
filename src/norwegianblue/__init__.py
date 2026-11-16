@@ -298,8 +298,6 @@ def _prettytable(
     color: str = "yes",
     title: str | None = None,
 ) -> str:
-    import csv
-
     from prettytable import PrettyTable, TableStyle
 
     table = PrettyTable()
@@ -324,10 +322,11 @@ def _prettytable(
 
     if format_ == "html":
         return table.get_html_string(title=title, format=True, escape_data=False)
-    if format_ == "csv":
-        return table.get_csv_string(quoting=csv.QUOTE_ALL)
-    if format_ == "tsv":
-        return table.get_csv_string(quoting=csv.QUOTE_ALL, delimiter="\t")
+    if format_ in ("csv", "tsv"):
+        import csv
+
+        delimiter = "\t" if format_ == "tsv" else ","
+        return table.get_csv_string(quoting=csv.QUOTE_ALL, delimiter=delimiter)
 
     title_prefix = ""
     if title:
