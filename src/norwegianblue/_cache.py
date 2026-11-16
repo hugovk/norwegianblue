@@ -12,13 +12,17 @@ from platformdirs import user_cache_dir
 CACHE_DIR = Path(user_cache_dir("norwegianblue"))
 
 
-def filename(url: str) -> Path:
-    """yyyy-mm-dd-url-slug.json"""
-    from slugify import slugify
+def _slugify(text: str) -> str:
+    """Lowercase, replace runs of non-alphanumerics with a dash, trim dashes"""
+    import re
 
+    return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
+
+
+def filename(product: str) -> Path:
+    """yyyy-mm-dd-product.json"""
     today = dt.datetime.now(dt.UTC).strftime("%Y-%m-%d")
-    slug = slugify(url)
-    return CACHE_DIR / f"{today}-{slug}.json"
+    return CACHE_DIR / f"{today}-{_slugify(product)}.json"
 
 
 def load(cache_file: Path):

@@ -53,7 +53,7 @@ def norwegianblue(
         from . import _cache
 
         url = BASE_URL + product.lower() + ".json"
-        cache_file = _cache.filename(url)
+        cache_file = _cache.filename(product)
         _print_verbose(f"Human URL:\thttps://endoflife.date/{product.lower()}")
         _print_verbose(f"API URL:\t{url}")
         _print_verbose(
