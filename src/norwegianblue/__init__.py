@@ -220,12 +220,12 @@ def _colourify(data: list[dict], *, is_html: bool = False) -> list[dict]:
             else:
                 # Handle date
                 # Convert "2020-01-01" string to datetime
-                date_datetime = dt.datetime.strptime(
-                    cycle[property_], "%Y-%m-%d"
-                ).replace(tzinfo=dt.UTC)
-                if date_datetime < now:
+                when = dt.datetime.fromisoformat(cycle[property_]).replace(
+                    tzinfo=dt.UTC
+                )
+                if when < now:
                     colour = "red"
-                elif date_datetime < six_months_from_now:
+                elif when < six_months_from_now:
                     colour = "yellow"
                 else:
                     colour = "green"
