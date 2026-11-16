@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import atexit
+import contextlib
 import platform
 import sys
 
@@ -36,6 +37,14 @@ atexit.register(_cache.clear)
 def product_completer(**kwargs) -> list[str]:
     """The list of all products to feed autocompletion"""
     return norwegianblue.all_products()
+
+
+def _spinner() -> contextlib.AbstractContextManager:
+    """Return a spinner if we have a TTY to draw it on, else a no-op."""
+    stream = sys.stdout if sys.stdout.isatty() else sys.stderr
+    if stream.isatty():
+        return yaspin(color="yellow", stream=stream)
+    return contextlib.nullcontext()
 
 
 def main() -> None:
@@ -118,11 +127,9 @@ def main() -> None:
         multiple_products and args.show_title != "no"
     )
 
-    stream = sys.stdout if sys.stdout.isatty() else sys.stderr
-
     for product in args.product:
         try:
-            with yaspin(color="yellow", stream=stream):
+            with _spinner():
                 output = norwegianblue.norwegianblue(
                     product=product,
                     format=args.formatter,
@@ -143,7 +150,7 @@ def main() -> None:
             if answer not in ("", "y", "Y"):
                 print()
                 continue
-            with yaspin(color="yellow", stream=stream):
+            with _spinner():
                 output = norwegianblue.norwegianblue(
                     product=suggestion,
                     format=args.formatter,
