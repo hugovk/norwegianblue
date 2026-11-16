@@ -7,6 +7,7 @@ from __future__ import annotations
 import tempfile
 from pathlib import Path
 
+import pytest
 from freezegun import freeze_time
 
 from norwegianblue import _cache
@@ -23,16 +24,31 @@ class TestCache:
         # Reset original
         _cache.CACHE_DIR = self.original_cache_dir
 
+    @pytest.mark.parametrize(
+        "text, expected",
+        [
+            (
+                "https://endoflife.date/api/python.json",
+                "https-endoflife-date-api-python-json",
+            ),
+            (
+                "https://endoflife.date/api/Alpine-Linux.json",
+                "https-endoflife-date-api-alpine-linux-json",
+            ),
+            ("  --Hello,  World!--  ", "hello-world"),
+            ("", ""),
+        ],
+    )
+    def test__slugify(self, text: str, expected: str) -> None:
+        assert _cache._slugify(text) == expected
+
     @freeze_time("2018-12-26")
     def test__cache_filename(self) -> None:
-        # Arrange
-        url = "https://endoflife.date/api/python.json"
-
         # Act
-        out = _cache.filename(url)
+        out = _cache.filename("python")
 
         # Assert
-        assert str(out).endswith("2018-12-26-https-endoflife-date-api-python-json.json")
+        assert out.name == "2018-12-26-python.json"
 
     def test_load_cache_not_exist(self) -> None:
         # Arrange
