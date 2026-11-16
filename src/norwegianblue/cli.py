@@ -22,7 +22,6 @@ import platform
 import sys
 
 from termcolor import colored
-from yaspin import yaspin
 
 import norwegianblue
 from norwegianblue import _cache
@@ -39,6 +38,8 @@ def _spinner() -> contextlib.AbstractContextManager:
     """Return a spinner if we have a TTY to draw it on, else a no-op."""
     stream = sys.stdout if sys.stdout.isatty() else sys.stderr
     if stream.isatty():
+        from yaspin import yaspin
+
         return yaspin(color="yellow", stream=stream)
     return contextlib.nullcontext()
 
