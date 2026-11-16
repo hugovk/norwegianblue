@@ -18,7 +18,6 @@ import argparse
 import atexit
 import contextlib
 import os
-import platform
 import sys
 
 from termcolor import colored
@@ -84,7 +83,7 @@ def main() -> None:
         "--version",
         action="version",
         version=f"%(prog)s {norwegianblue.__version__} "
-        f"(Python {platform.python_version()})",
+        f"(Python {sys.version.split()[0]})",
     )
     parser.add_argument(
         "-w", "--web", action="store_true", help="open product page in web browser"
