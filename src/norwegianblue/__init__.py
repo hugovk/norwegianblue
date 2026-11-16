@@ -125,23 +125,43 @@ def norwegianblue(
     return output
 
 
+def _hyperlink(text: str, url: str, format_: str) -> str:
+    """Return text as a hyperlink in the given format"""
+    if format_ == "pretty":
+        # OSC 8 terminal hyperlink
+        return f"\033]8;;{url}\033\\{text}\033]8;;\033\\"
+    if format_ == "markdown":
+        return f"[{text}]({url})"
+    if format_ == "rst":
+        return f"`{text} <{url}>`__"
+    if format_ == "html":
+        return f'<a href="{url}">{text}</a>'
+    return text
+
+
+def _pep_link(pep: str) -> tuple[str, str] | None:
+    """For a PEP reference like 'PEP-0790', return ('PEP 790', its URL)"""
+    import re
+
+    match = re.fullmatch(r"PEP[- ]?(\d+)", pep.strip(), flags=re.IGNORECASE)
+    if not match:
+        return None
+
+    number = int(match[1])
+    return f"PEP {number}", f"https://peps.python.org/pep-{number:04d}/"
+
+
 def linkify(data: list[dict], format_: str) -> list[dict]:
-    """If a cycle has a link, add a hyperlink and remove the link column"""
+    """Add hyperlinks: the cycle links to its 'link' (then remove the link column),
+    and a 'pep' like PEP-0790 is shown as PEP 790 linking to peps.python.org"""
     for cycle in data:
         if "link" in cycle:
             if cycle["link"]:
-                if format_ == "pretty":
-                    cycle["cycle"] = (
-                        f"\033]8;;{cycle['link']}\033\\{cycle['cycle']}\033]8;;\033\\"
-                    )
-                elif format_ == "markdown":
-                    cycle["cycle"] = f"[{cycle['cycle']}]({cycle['link']})"
-                elif format_ == "rst":
-                    cycle["cycle"] = f"`{cycle['cycle']} <{cycle['link']}>`__"
-                elif format_ == "html":
-                    cycle["cycle"] = f'<a href="{cycle["link"]}">{cycle["cycle"]}</a>'
-
+                cycle["cycle"] = _hyperlink(cycle["cycle"], cycle["link"], format_)
             cycle.pop("link")
+
+        if isinstance(cycle.get("pep"), str) and (link := _pep_link(cycle["pep"])):
+            cycle["pep"] = _hyperlink(*link, format_)
 
     return data
 

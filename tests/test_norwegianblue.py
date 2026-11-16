@@ -482,6 +482,65 @@ class TestNorwegianBlue:
         # Assert
         assert "Norwegian Blue" in output
 
+    @pytest.mark.parametrize(
+        "format_, expected_cycle, expected_pep",
+        [
+            (
+                "pretty",
+                "\033]8;;https://example.com/3.15\033\\3.15\033]8;;\033\\",
+                "\033]8;;https://peps.python.org/pep-0790/\033\\PEP 790\033]8;;\033\\",
+            ),
+            (
+                "markdown",
+                "[3.15](https://example.com/3.15)",
+                "[PEP 790](https://peps.python.org/pep-0790/)",
+            ),
+            (
+                "rst",
+                "`3.15 <https://example.com/3.15>`__",
+                "`PEP 790 <https://peps.python.org/pep-0790/>`__",
+            ),
+            (
+                "html",
+                '<a href="https://example.com/3.15">3.15</a>',
+                '<a href="https://peps.python.org/pep-0790/">PEP 790</a>',
+            ),
+        ],
+    )
+    def test_linkify(
+        self, format_: str, expected_cycle: str, expected_pep: str
+    ) -> None:
+        # Arrange
+        data = [
+            {"cycle": "3.15", "link": "https://example.com/3.15", "pep": "PEP-0790"},
+            {"cycle": "3.14", "link": "", "pep": "not a pep"},
+            {"cycle": "3.13", "link": None, "pep": None},
+        ]
+
+        # Act
+        output = norwegianblue.linkify(data, format_)
+
+        # Assert
+        assert output == [
+            {"cycle": expected_cycle, "pep": expected_pep},
+            {"cycle": "3.14", "pep": "not a pep"},
+            {"cycle": "3.13", "pep": None},
+        ]
+
+    @pytest.mark.parametrize(
+        "pep, expected",
+        [
+            ("PEP-0790", ("PEP 790", "https://peps.python.org/pep-0790/")),
+            ("PEP 790", ("PEP 790", "https://peps.python.org/pep-0790/")),
+            ("pep790", ("PEP 790", "https://peps.python.org/pep-0790/")),
+            ("PEP-8", ("PEP 8", "https://peps.python.org/pep-0008/")),
+            ("790", None),
+            ("", None),
+        ],
+    )
+    def test__pep_link(self, pep: str, expected: tuple[str, str] | None) -> None:
+        assert norwegianblue._pep_link(pep) == expected
+
     def test__ltsify(self) -> None:
         # Arrange
         data = [
