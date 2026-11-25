@@ -4,6 +4,8 @@ Cache functions
 
 from __future__ import annotations
 
+__lazy_modules__ = {"datetime", "pathlib"}
+
 import datetime as dt
 from functools import cache
 from pathlib import Path

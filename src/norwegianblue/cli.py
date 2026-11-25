@@ -14,6 +14,8 @@ Something missing? Please contribute! https://endoflife.date/contribute
 
 from __future__ import annotations
 
+__lazy_modules__ = {"argparse", "atexit", "contextlib", "norwegianblue", "termcolor"}
+
 import argparse
 import atexit
 import contextlib

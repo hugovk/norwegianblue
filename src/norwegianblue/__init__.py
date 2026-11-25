@@ -5,6 +5,8 @@ https://endoflife.date/docs/api/
 
 from __future__ import annotations
 
+__lazy_modules__ = {"datetime", "termcolor"}
+
 import datetime as dt
 import sys
 from functools import cache
