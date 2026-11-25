@@ -505,6 +505,7 @@ class TestNorwegianBlue:
                 '<a href="https://example.com/3.15">3.15</a>',
                 '<a href="https://peps.python.org/pep-0790/">PEP 790</a>',
             ),
+            ("text", "3.15", "PEP 790"),
         ],
     )
     def test_linkify(
@@ -526,6 +527,42 @@ class TestNorwegianBlue:
             {"cycle": "3.14", "pep": "not a pep"},
             {"cycle": "3.13", "pep": None},
         ]
+
+    @pytest.mark.parametrize(
+        "env, color, expect_links",
+        [
+            pytest.param({"FORCE_COLOR": "TRUE"}, "auto", True, id="auto-force-env"),
+            pytest.param({"NO_COLOR": "TRUE"}, "auto", False, id="auto-no-color-env"),
+            pytest.param({}, "yes", False, id="yes-but-not-a-tty"),
+            pytest.param({"FORCE_COLOR": "TRUE"}, "no", False, id="no-beats-force-env"),
+        ],
+    )
+    @mock.patch("urllib3.request")
+    def test_pretty_terminal_links(
+        self, mock_request, env: dict[str, str], color: str, expect_links: bool
+    ) -> None:
+        """OSC 8 hyperlinks in pretty output follow the same rules as colour:
+        'no' suppresses them, otherwise the environment and TTY decide"""
+        # Arrange
+        mock_request.return_value = mock_urllib3_response(SAMPLE_RESPONSE_JSON_UBUNTU)
+        clean_env = {
+            "FORCE_COLOR": "",
+            "NO_COLOR": "",
+            "ANSI_COLORS_DISABLED": "",
+            **env,
+        }
+        termcolor.can_colorize.cache_clear()
+
+        # Act
+        with mock.patch.dict(os.environ, clean_env):
+            output = norwegianblue.norwegianblue(
+                product="ubuntu", format="pretty", color=color
+            )
+        termcolor.can_colorize.cache_clear()
+
+        # Assert
+        assert ("\x1b]8;;" in output) is expect_links
+        assert "22.04 LTS" in output
 
     @pytest.mark.parametrize(
         "pep, expected",

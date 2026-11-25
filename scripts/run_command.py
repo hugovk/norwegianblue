@@ -1,11 +1,15 @@
 from __future__ import annotations
 
+import os
 import subprocess
 
 
 def run(command: str, with_console: bool = True, line_limit: int | None = None) -> None:
+    # Use a fixed terminal width for consistent output
+    env = os.environ.copy()
+    env["COLUMNS"] = "88"
     output = subprocess.run(
-        command.split(), capture_output=True, text=True, check=False
+        command.split(), capture_output=True, text=True, env=env, check=True
     )
     print()
     if with_console:

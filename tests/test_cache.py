@@ -16,13 +16,14 @@ from norwegianblue import _cache
 class TestCache:
     def setup_method(self) -> None:
         # Choose a new cache dir that doesn't exist
-        self.original_cache_dir = _cache.CACHE_DIR
+        self.original_cache_dir = _cache.cache_dir
         self.temp_dir = tempfile.TemporaryDirectory()
-        _cache.CACHE_DIR = Path(self.temp_dir.name) / "norwegianblue"
+        self.cache_dir = Path(self.temp_dir.name) / "norwegianblue"
+        _cache.cache_dir = lambda: self.cache_dir
 
     def teardown_method(self) -> None:
         # Reset original
-        _cache.CACHE_DIR = self.original_cache_dir
+        _cache.cache_dir = self.original_cache_dir
 
     @pytest.mark.parametrize(
         "text, expected",
@@ -73,7 +74,7 @@ class TestCache:
 
     def test_cache_round_trip(self) -> None:
         # Arrange
-        filename = _cache.CACHE_DIR / "test_cache_round_trip.json"
+        filename = self.cache_dir / "test_cache_round_trip.json"
         data = "test data"
 
         # Act
@@ -86,12 +87,35 @@ class TestCache:
         # Assert
         assert new_data == data
 
+    def test_cache_clear_no_cache_dir(self) -> None:
+        # Arrange
+        assert not self.cache_dir.exists()
+
+        # Act / Assert: no error when there is nothing to clear
+        _cache.clear()
+        _cache.clear(clear_all=True)
+
+    @freeze_time("2021-10-25")
+    def test_cache_clear_keeps_non_json(self) -> None:
+        # Arrange
+        cache_file_old = self.cache_dir / "2021-10-24-old-cache-file.json"
+        _cache.save(cache_file_old, data={})
+        other_file = self.cache_dir / "notes.txt"
+        other_file.write_text("keep me")
+
+        # Act
+        _cache.clear(clear_all=True)
+
+        # Assert
+        assert not cache_file_old.exists()
+        assert other_file.exists()
+
     @freeze_time("2021-10-25")
     def test_cache_clear_all(self) -> None:
         # Arrange
         # Create old cache file
-        cache_file_old = _cache.CACHE_DIR / "2021-10-24-old-cache-file.json"
-        cache_file_new = _cache.CACHE_DIR / "2021-10-25-new-cache-file.json"
+        cache_file_old = self.cache_dir / "2021-10-24-old-cache-file.json"
+        cache_file_new = self.cache_dir / "2021-10-25-new-cache-file.json"
         _cache.save(cache_file_old, data={})
         _cache.save(cache_file_new, data={})
         assert cache_file_new.exists()
@@ -108,8 +132,8 @@ class TestCache:
     def test_cache_clear(self) -> None:
         # Arrange
         # Create old cache file
-        cache_file_old = _cache.CACHE_DIR / "2021-10-24-old-cache-file.json"
-        cache_file_new = _cache.CACHE_DIR / "2021-10-25-new-cache-file.json"
+        cache_file_old = self.cache_dir / "2021-10-24-old-cache-file.json"
+        cache_file_new = self.cache_dir / "2021-10-25-new-cache-file.json"
         _cache.save(cache_file_old, data={})
         _cache.save(cache_file_new, data={})
         assert cache_file_new.exists()

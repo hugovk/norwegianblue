@@ -40,7 +40,7 @@ dependencies = [
   "platformdirs",
   "prettytable>=3.18",
   "pyyaml",
-  "termcolor>=2.1",
+  "termcolor>=3.2",
   "urllib3>=2",
   "yaspin",
 ]
@@ -48,7 +48,6 @@ optional-dependencies.tests = [
   "freezegun",
   "pytest>=9",
   "pytest-cov",
-  "termcolor>=3.2",
 ]
 urls."Issue tracker" = "https://github.com/hugovk/norwegianblue/issues"
 urls.Changelog = "https://github.com/hugovk/norwegianblue/releases"

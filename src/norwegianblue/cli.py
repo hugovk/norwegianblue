@@ -14,24 +14,18 @@ Something missing? Please contribute! https://endoflife.date/contribute
 
 from __future__ import annotations
 
+__lazy_modules__ = {"argparse", "atexit", "contextlib", "norwegianblue", "termcolor"}
+
 import argparse
 import atexit
 import contextlib
-import platform
+import os
 import sys
 
 from termcolor import colored
-from yaspin import yaspin
-
-try:
-    import argcomplete
-except ImportError:
-    argcomplete = None  # type: ignore[assignment]
 
 import norwegianblue
 from norwegianblue import _cache
-
-atexit.register(_cache.clear)
 
 
 def product_completer(**kwargs) -> list[str]:
@@ -43,6 +37,8 @@ def _spinner() -> contextlib.AbstractContextManager:
     """Return a spinner if we have a TTY to draw it on, else a no-op."""
     stream = sys.stdout if sys.stdout.isatty() else sys.stderr
     if stream.isatty():
+        from yaspin import yaspin
+
         return yaspin(color="yellow", stream=stream)
     return contextlib.nullcontext()
 
@@ -87,7 +83,7 @@ def main() -> None:
         "--version",
         action="version",
         version=f"%(prog)s {norwegianblue.__version__} "
-        f"(Python {platform.python_version()})",
+        f"(Python {sys.version.split()[0]})",
     )
     parser.add_argument(
         "-w", "--web", action="store_true", help="open product page in web browser"
@@ -114,9 +110,15 @@ def main() -> None:
             help=f"output in {help_text}",
         )
     parser.set_defaults(formatter="pretty")
-    if argcomplete:
-        argcomplete.autocomplete(parser)
+    # argcomplete sets this when the shell is asking for completions,
+    # so skip the import on normal runs
+    if "_ARGCOMPLETE" in os.environ:
+        with contextlib.suppress(ImportError):
+            import argcomplete
+
+            argcomplete.autocomplete(parser)
     args = parser.parse_args()
+    atexit.register(_cache.clear)
 
     norwegianblue._verbose = args.verbose
     if args.clear_cache:

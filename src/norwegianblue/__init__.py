@@ -5,11 +5,13 @@ https://endoflife.date/docs/api/
 
 from __future__ import annotations
 
+__lazy_modules__ = {"datetime", "termcolor"}
+
 import datetime as dt
 import sys
 from functools import cache
 
-from termcolor import colored
+from termcolor import can_colorize, colored
 
 from . import _version
 
@@ -114,7 +116,12 @@ def norwegianblue(
         data = _colourify(data, is_html=format == "html")
 
     if format in ("pretty", "markdown", "rst", "html"):
-        data = linkify(data, format)
+        link_format = format
+        if format == "pretty" and not can_colorize(no_color=color == "no"):
+            # OSC 8 terminal hyperlinks are escape sequences like colours: only emit
+            # them when colour would be, so piped or redirected output stays plain text
+            link_format = "text"
+        data = linkify(data, link_format)
 
     output = _tabulate(data, format, color, product if show_title else None)
     _print_verbose("")
@@ -126,7 +133,7 @@ def norwegianblue(
 
 
 def _hyperlink(text: str, url: str, format_: str) -> str:
-    """Return text as a hyperlink in the given format"""
+    """Return text as a hyperlink in the given format, or plain for other formats"""
     if format_ == "pretty":
         # OSC 8 terminal hyperlink
         return f"\033]8;;{url}\033\\{text}\033]8;;\033\\"
@@ -220,12 +227,12 @@ def _colourify(data: list[dict], *, is_html: bool = False) -> list[dict]:
             else:
                 # Handle date
                 # Convert "2020-01-01" string to datetime
-                date_datetime = dt.datetime.strptime(
-                    cycle[property_], "%Y-%m-%d"
-                ).replace(tzinfo=dt.UTC)
-                if date_datetime < now:
+                when = dt.datetime.fromisoformat(cycle[property_]).replace(
+                    tzinfo=dt.UTC
+                )
+                if when < now:
                     colour = "red"
-                elif date_datetime < six_months_from_now:
+                elif when < six_months_from_now:
                     colour = "yellow"
                 else:
                     colour = "green"
@@ -298,8 +305,6 @@ def _prettytable(
     color: str = "yes",
     title: str | None = None,
 ) -> str:
-    import csv
-
     from prettytable import PrettyTable, TableStyle
 
     table = PrettyTable()
@@ -324,10 +329,11 @@ def _prettytable(
 
     if format_ == "html":
         return table.get_html_string(title=title, format=True, escape_data=False)
-    if format_ == "csv":
-        return table.get_csv_string(quoting=csv.QUOTE_ALL)
-    if format_ == "tsv":
-        return table.get_csv_string(quoting=csv.QUOTE_ALL, delimiter="\t")
+    if format_ in ("csv", "tsv"):
+        import csv
+
+        delimiter = "\t" if format_ == "tsv" else ","
+        return table.get_csv_string(quoting=csv.QUOTE_ALL, delimiter=delimiter)
 
     title_prefix = ""
     if title:
