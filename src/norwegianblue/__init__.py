@@ -9,7 +9,7 @@ import datetime as dt
 import sys
 from functools import cache
 
-from termcolor import colored
+from termcolor import can_colorize, colored
 
 from . import _version
 
@@ -114,7 +114,12 @@ def norwegianblue(
         data = _colourify(data, is_html=format == "html")
 
     if format in ("pretty", "markdown", "rst", "html"):
-        data = linkify(data, format)
+        link_format = format
+        if format == "pretty" and not can_colorize(no_color=color == "no"):
+            # OSC 8 terminal hyperlinks are escape sequences like colours: only emit
+            # them when colour would be, so piped or redirected output stays plain text
+            link_format = "text"
+        data = linkify(data, link_format)
 
     output = _tabulate(data, format, color, product if show_title else None)
     _print_verbose("")
@@ -126,7 +131,7 @@ def norwegianblue(
 
 
 def _hyperlink(text: str, url: str, format_: str) -> str:
-    """Return text as a hyperlink in the given format"""
+    """Return text as a hyperlink in the given format, or plain for other formats"""
     if format_ == "pretty":
         # OSC 8 terminal hyperlink
         return f"\033]8;;{url}\033\\{text}\033]8;;\033\\"
