@@ -5,11 +5,15 @@ Cache functions
 from __future__ import annotations
 
 import datetime as dt
+from functools import cache
 from pathlib import Path
 
-from platformdirs import user_cache_dir
 
-CACHE_DIR = Path(user_cache_dir("norwegianblue"))
+@cache
+def cache_dir() -> Path:
+    from platformdirs import user_cache_dir
+
+    return Path(user_cache_dir("norwegianblue"))
 
 
 def _slugify(text: str) -> str:
@@ -22,7 +26,7 @@ def _slugify(text: str) -> str:
 def filename(product: str) -> Path:
     """yyyy-mm-dd-product.json"""
     today = dt.datetime.now(dt.UTC).strftime("%Y-%m-%d")
-    return CACHE_DIR / f"{today}-{_slugify(product)}.json"
+    return cache_dir() / f"{today}-{_slugify(product)}.json"
 
 
 def load(cache_file: Path):
@@ -46,8 +50,7 @@ def save(cache_file: Path, data) -> None:
     import json
 
     try:
-        if not CACHE_DIR.exists():
-            CACHE_DIR.mkdir(parents=True)
+        cache_dir().mkdir(parents=True, exist_ok=True)
 
         with cache_file.open("w") as f:
             json.dump(data, f)
@@ -58,11 +61,11 @@ def save(cache_file: Path, data) -> None:
 
 def clear(clear_all: bool = False) -> None:
     """Delete all or old cache files"""
-    if not CACHE_DIR.is_dir():
+    if not cache_dir().is_dir():
         return
     # Flat directory: iterdir() avoids importing glob (~3 ms) on every run
     today = dt.datetime.now(dt.UTC).strftime("%Y-%m-%d")
-    for cache_file in CACHE_DIR.iterdir():
+    for cache_file in cache_dir().iterdir():
         if cache_file.suffix != ".json":
             continue
         if clear_all or not cache_file.name.startswith(today):

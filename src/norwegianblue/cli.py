@@ -25,8 +25,6 @@ from termcolor import colored
 import norwegianblue
 from norwegianblue import _cache
 
-atexit.register(_cache.clear)
-
 
 def product_completer(**kwargs) -> list[str]:
     """The list of all products to feed autocompletion"""
@@ -118,6 +116,7 @@ def main() -> None:
 
             argcomplete.autocomplete(parser)
     args = parser.parse_args()
+    atexit.register(_cache.clear)
 
     norwegianblue._verbose = args.verbose
     if args.clear_cache:
