@@ -86,6 +86,29 @@ class TestCache:
         # Assert
         assert new_data == data
 
+    def test_cache_clear_no_cache_dir(self) -> None:
+        # Arrange
+        assert not _cache.CACHE_DIR.exists()
+
+        # Act / Assert: no error when there is nothing to clear
+        _cache.clear()
+        _cache.clear(clear_all=True)
+
+    @freeze_time("2021-10-25")
+    def test_cache_clear_keeps_non_json(self) -> None:
+        # Arrange
+        cache_file_old = _cache.CACHE_DIR / "2021-10-24-old-cache-file.json"
+        _cache.save(cache_file_old, data={})
+        other_file = _cache.CACHE_DIR / "notes.txt"
+        other_file.write_text("keep me")
+
+        # Act
+        _cache.clear(clear_all=True)
+
+        # Assert
+        assert not cache_file_old.exists()
+        assert other_file.exists()
+
     @freeze_time("2021-10-25")
     def test_cache_clear_all(self) -> None:
         # Arrange

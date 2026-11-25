@@ -58,8 +58,12 @@ def save(cache_file: Path, data) -> None:
 
 def clear(clear_all: bool = False) -> None:
     """Delete all or old cache files"""
-    cache_files = CACHE_DIR.glob("**/*.json")
+    if not CACHE_DIR.is_dir():
+        return
+    # Flat directory: iterdir() avoids importing glob (~3 ms) on every run
     today = dt.datetime.now(dt.UTC).strftime("%Y-%m-%d")
-    for cache_file in cache_files:
+    for cache_file in CACHE_DIR.iterdir():
+        if cache_file.suffix != ".json":
+            continue
         if clear_all or not cache_file.name.startswith(today):
             cache_file.unlink()
